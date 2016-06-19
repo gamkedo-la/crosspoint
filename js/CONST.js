@@ -1,0 +1,79 @@
+
+// ##################################
+// Global Variables
+// ##################################
+
+
+// ------------------
+// Shape Constants
+// ------------------
+
+
+// Lyne
+const LYNE_STROKEWIDTH = 8;
+const LYNE_START_RAD = 6;
+const LYNE_END_RAD = 8;
+const LYNE_END_STROKEWIDTH = 5;
+const LYNE_HOVER_GROWTH = 1;
+
+// Polygon
+const POLY_STROKEWIDTH = 2;
+const POLY_HOVER_GROWTH = 0;
+const POLY_MOVING_OPACITY = 0.5;
+
+// Buttons
+const CROSS_BTN_WIDTH = 40;
+const CROSS_BTN_HEIGHT = 20;
+
+// Boxes
+const BOX_STROKEWIDTH = 3;
+const BOX_HOVER_STROKEWIDTH = 5;
+const BOX_WIDTH = 75;
+const BOX_HEIGHT = 50;
+const BOX_PADDING = 10;
+const BOX_MOVE_TIME = 1000; // ms
+const BOX_FONTSIZE = 20
+
+const BOXLYNE_WIDTH = 50;
+const BOXLYNE_HEIGHT = BOX_HEIGHT;
+const BOXLYNE_PADDING = BOX_PADDING;
+const BOXLYNE_MOVE_TIME = BOX_MOVE_TIME;
+const BOXLYNE_FONTSIZE = BOX_FONTSIZE;
+
+// NumberBalls
+const NUMBER_BALL_RAD = 15;
+const NUMBER_BALL_HOVER_GROWTH = 1;
+const NUMBER_BALL_MOVING_OPACITY = 0.8;
+const NUMBER_BALL_RETURN_TIME = 500; // ms
+const NUMBER_BALL_PADDING = 8;
+const NUMBER_BALL_MOVE_TIME = BOX_MOVE_TIME;
+const NUMBER_BALL_FONTSIZE = 18;
+
+// Dropping Objects
+const DROPPING_OPACITY = 0.3;
+
+// Shadows
+const SHADOW_OPACITY = 0.3;
+
+// ------------------
+// Main Colors
+// ------------------
+
+// make 3xN grid of hex colors
+
+const BACKGROUND_COLOR = "white";
+const FOREGROUND_LINE_COLOR = "black";
+
+const SHADOW_COLOR = "gray";
+const BUTTON_COLOR = "black";
+const NUMBER_BALL_COLOR = "black";
+
+const PURPLE_LT = '#CCB7E0';
+const PURPLE_MD = '#BCA9CF';
+const PURPLE_DK = '#64427A';
+
+
+
+
+
+
