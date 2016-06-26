@@ -54,7 +54,7 @@ function loadGame() {
     var shad1 = new Shadow(solpoints);
     var sol1 = new SolutionManager([solpoints])
 
-    var pieces = [shad1,sol1, box1a,box1c,box1d, ball1b,ball1c, box2b,box2c ];
+    var pieces = [shad1,sol1, box1a,box1b,box1c,box1d, ball1b,ball1c, box2b,box2c ];
     currentLevel = Level.init({}, pieces);
 }
 

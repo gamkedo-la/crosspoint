@@ -55,6 +55,10 @@ const DROPPING_OPACITY = 0.3;
 // Shadows
 const SHADOW_OPACITY = 0.3;
 
+
+// Level Editor
+const EDIT_ARROW_HEIGHT = 15 //pixels
+
 // ------------------
 // Main Colors
 // ------------------
