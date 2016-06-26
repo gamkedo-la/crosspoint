@@ -19,8 +19,9 @@ var hex_dark = PURPLE_DK;
 
 window.onload = function() {
     var framesPerSecond = 30;
-    
+    loadImages();
     loadGame();
+    
     
     setInterval(function() {
             currentLevel.tick();  
