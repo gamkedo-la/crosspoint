@@ -18,7 +18,7 @@ function loadImages() {
 
     // LIST ALL IMAGES HERE (don't forget to create the variable)
     var imageList = [
-        {varName: board_purple, fileName: "img/grid_400_400_purple.png"},
+        {varName: board_purple, fileName: "grid_400_400_purple.png"},
     ];
 
     for(var i=0; i < imageList.length; i++) {
