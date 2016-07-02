@@ -24,6 +24,11 @@ function Level()
     this.levelImages = [];
     this.boardImage = null;
 
+    // Piece management
+    this.allPieces = [];
+    this.nextPieceID = 1;
+    this.selectedPiece = null;
+
     // Solution Manager (Win conditions)
     this.solutionManager = null
 
@@ -82,6 +87,10 @@ Level.prototype.tick = function()
         this.renderCanvasRequired = false;
     }
 }
+
+// ##################################
+// Board
+// ##################################
 
 /**
  * Load board objects
@@ -264,6 +273,17 @@ Level.prototype.updateBoard = function()
     console.log("updateBoard");
 }
 
+
+// ##################################
+// Pieces
+// ##################################
+
+Level.prototype.getNextPieceID = function()
+{
+    this.nextPieceID += 1;
+    return (this.nextPieceID - 1);
+}
+
 /**
  * Bring piece to front
  *
@@ -341,7 +361,13 @@ Level.prototype.addPiece = function(_piece)
     {
         this.shadows.push(_piece);
     }
-    else if (_piece.type === "temporary")
+    else if (_piece.type === "temporary" ||
+             _piece.type === "editBoxLyne" ||
+             _piece.type === "editBoxBall" ||
+             _piece.type === "editBoxArea" ||
+             _piece.type === "editBoxLyne" ||
+             _piece.type === "editArrow"
+            )
     {
         this.temporary.push(_piece);
     }
@@ -352,6 +378,7 @@ Level.prototype.addPiece = function(_piece)
     }
 
     canvas.add(_piece);
+    this.allPieces.push(_piece);
     this.updateBoard();
 }
 
@@ -426,6 +453,17 @@ Level.prototype.removePiece = function(_piece)
     }
 
     canvas.remove(_piece);
+}
+
+
+// ##################################
+// Delete Level
+// ##################################
+
+Level.prototype.deleteAll = function()
+{   
+    // TODO
+    return;
 }
 
 

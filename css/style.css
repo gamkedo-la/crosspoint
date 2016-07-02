@@ -1,3 +1,48 @@
 canvas {
     border: 1px solid #ccc;
 }
+
+textarea {
+    resize: none;
+}
+
+
+/* LEVEL EDITOR BUTTONS */
+#lyneTextfield {
+    background-color : #ccccff;
+}
+
+#lyneButton {
+    background-color : #000080;
+    color: #ffffff;
+}
+
+#areaTextfield {
+    background-color : #CCFFCC;
+}
+
+#areaButton {
+    background-color : #008000;
+    color: #ffffff;
+}
+
+#numberTextfield {
+    background-color : #ffcccc;
+}
+
+#numberButton {
+    background-color : #800000;
+    color: #ffffff;
+}
+
+#polyTextfield {
+    background-color : #ffccff;
+}
+
+#polyButton {
+    background-color : #800080;
+    color: #ffffff;
+}
+
+
+

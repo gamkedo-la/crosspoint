@@ -57,7 +57,11 @@ const SHADOW_OPACITY = 0.3;
 
 
 // Level Editor
-const EDIT_ARROW_HEIGHT = 15 //pixels
+const EDIT_ARROW_WIDTH = BOXLYNE_WIDTH; //pixels
+const EDIT_ARROW_HEIGHT = 15; //pixels
+const EDIT_LYNE_MAX = 10;
+const EDIT_AREA_MAX = 10;
+const EDIT_BALL_MAX = 10;
 
 // ------------------
 // Main Colors

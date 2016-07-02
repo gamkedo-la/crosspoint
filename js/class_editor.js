@@ -12,7 +12,7 @@
 // BoxArea
 // BoxShape
 
-var Box = fabric.util.createClass(fabric.Group, 
+var EditBox = fabric.util.createClass(fabric.Group, 
     {
         initialize: function() {
 
@@ -41,27 +41,29 @@ var Box = fabric.util.createClass(fabric.Group,
             );
             this.addWithUpdate(this.box);
 
-            // Draw up arrow
-            var gridPoints = [  {x: this.box.left - this.box.width/2, y: this.box.top - this.box.height/2},
-                                {x: this.box.left, y: this.box.top - this.box.height/2 - EDIT_ARROW_HEIGHT},
-                                {x: this.box.left + this.box.width/2, y: this.box.top - this.box.height/2}   ];
-            this.upArrow = new this.polygon = new fabric.Polygon(gridPointsToCoords(gridPoints),
-                {
-                    fill: FOREGROUND_LINE_COLOR, 
-                }
-            );
-            this.addWithUpdate(this.upArrow);
+            // OLD CODE - Erik 2016
 
-            // Draw down arrow
-            var gridPoints = [  {x: this.box.left - this.box.width/2, y: this.box.top + this.box.height/2},
-                                {x: this.box.left, y: this.box.top + this.box.height/2 + EDIT_ARROW_HEIGHT},
-                                {x: this.box.left + this.box.width/2, y: this.box.top + this.box.height/2}   ];
-            this.downArrow = new this.polygon = new fabric.Polygon(gridPointsToCoords(gridPoints),
-                {
-                    fill: FOREGROUND_LINE_COLOR, 
-                }
-            );
-            this.addWithUpdate(this.upArrow);
+            // // Draw up arrow
+            // var gridPoints = [  {x: this.box.left - this.box.width/2, y: this.box.top - this.box.height/2},
+            //                     {x: this.box.left, y: this.box.top - this.box.height/2 - EDIT_ARROW_HEIGHT},
+            //                     {x: this.box.left + this.box.width/2, y: this.box.top - this.box.height/2}   ];
+            // this.upArrow = new this.polygon = new fabric.Polygon(gridPointsToCoords(gridPoints),
+            //     {
+            //         fill: FOREGROUND_LINE_COLOR, 
+            //     }
+            // );
+            // this.addWithUpdate(this.upArrow);
+
+            // // Draw down arrow
+            // var gridPoints = [  {x: this.box.left - this.box.width/2, y: this.box.top + this.box.height/2},
+            //                     {x: this.box.left, y: this.box.top + this.box.height/2 + EDIT_ARROW_HEIGHT},
+            //                     {x: this.box.left + this.box.width/2, y: this.box.top + this.box.height/2}   ];
+            // this.downArrow = new this.polygon = new fabric.Polygon(gridPointsToCoords(gridPoints),
+            //     {
+            //         fill: FOREGROUND_LINE_COLOR, 
+            //     }
+            // );
+            // this.addWithUpdate(this.upArrow);
 
         },
 
@@ -85,19 +87,33 @@ var Box = fabric.util.createClass(fabric.Group,
     }
 );
 
-var BoxLyne = fabric.util.createClass(Box, 
+var EditBoxLyne = fabric.util.createClass(EditBox, 
     {
         initialize: function(gridWidth, gridHeight) {
 
             this.callSuper('initialize');
 
-            this.type = "boxLyne";
+            this.type = "editBoxLyne";
             this.gridWidth = Math.round(gridWidth);
             this.gridHeight = gridHeight ? Math.round(gridHeight) : null;
 
             // override box settings
             this.box.set({width: 50});
+        },
 
+        increase: function() {
+            this.gridWidth += 1;
+            this.gridWidth % EDIT_LYNE_MAX;
+            this.updateLength();
+        },
+
+        decrease: function() {
+            this.gridWidth -= 1;
+            this.gridWidth % EDIT_LYNE_MAX;
+            this.updateLength();
+        },
+
+        updateLength: function() {
             // calculate length
             if (this.gridHeight)
             {
@@ -108,8 +124,41 @@ var BoxLyne = fabric.util.createClass(Box,
             }
             this.lyneString = this.lyneLength.toString(); // getLyneString; //String
 
-            // add to box
+            // remove old textbox
+            if (this.lyneStringTextbox) {
+                this.removeWithUpdate(this.lyneStringTextbox);
+            }
+
+            // add textbox
             this.lyneStringTextbox = new fabric.Text(this.lyneString, 
+                {   
+                    originX: 'center',
+                    originY: 'center',
+                    left: this.left, 
+                    top: this.top,
+                    fontSize: BOXLYNE_FONTSIZE,
+                });
+
+            this.addWithUpdate(this.lyneStringTextbox);
+        },
+    }
+);
+
+var EditBoxBall = fabric.util.createClass(EditBox, 
+    {
+        initialize: function(number) {
+
+            this.callSuper('initialize');
+
+            this.type = "editBoxBall";
+            this.number = number;
+            this.numberString = this.numberString.toString(); 
+
+            // override box settings
+            this.box.set({width: 50});
+
+            // add to box
+            this.numberStringTextbox = new fabric.Text(this.numberString, 
                 {   
                     originX: 'center',
                     originY: 'center',
@@ -118,34 +167,39 @@ var BoxLyne = fabric.util.createClass(Box,
                     fontSize: BOXLYNE_FONTSIZE,
                 });
 
-            this.addWithUpdate(this.lyneStringTextbox);
+            this.addWithUpdate(this.numberStringTextbox);
 
+        },
+
+        increment: function(val) {
+            this.number += val;
+            this.number %= EDIT_BALL_MAX;
         },
     }
 );
 
-var BoxPoly = fabric.util.createClass(Box, 
-    {
-        initialize: function(gridPoints) {
+// var EditBoxPoly = fabric.util.createClass(EditBox, 
+//     {
+//         initialize: function(gridPoints) {
 
-            this.callSuper('initialize');
+//             this.callSuper('initialize');
 
-            this.type = "boxPoly";
-            this.gridPoints = gridPoints;
+//             this.type = "boxPoly";
+//             this.gridPoints = gridPoints;
 
-            // Create shape in miniature, fit into box
-            // Shape will have secondary color
-        },
-    }
-);
+//             // Create shape in miniature, fit into box
+//             // Shape will have secondary color
+//         },
+//     }
+// );
 
-var BoxArea = fabric.util.createClass(Box, 
+var EditBoxArea = fabric.util.createClass(EditBox, 
     {
         initialize: function(gridArea) {
 
             this.callSuper('initialize');
 
-            this.type = "boxArea";
+            this.type = "editBoxArea";
             this.gridArea = Math.round(gridArea);
 
             this.areaString = this.gridArea.toString(); // getLyneString; //String
@@ -163,234 +217,24 @@ var BoxArea = fabric.util.createClass(Box,
             this.addWithUpdate(this.areaStringTextbox);
 
         },
-    }
-);
 
-var BoxShape = fabric.util.createClass(Box, 
-    {
-        initialize: function(img) {
-
-            this.callSuper('initialize');
-
-            this.type = "boxShape";
-            this.img = img;
-
+        increment: function(val) {
+            this.number += val;
+            this.number %= EDIT_BALL_MAX;
         },
     }
 );
 
-
-// ----------------------------------
-// Dropping Objects
-// ----------------------------------
-
-
-// For user interface when creating Lyne objects
-var DropLyne = fabric.util.createClass( 
-    {
-        initialize: function(gridPoint, gridWidth, gridHeight) {
-
-            this.type = "dropLyne";
-
-            this.gridWidth = gridWidth;
-            this.gridHeight = gridHeight;
-            this.startGridPoint = gridPoint;
-            this.startPoint = gridPointsToCoords(this.startGridPoint);    
-            this.endPoint = null;
-
-            this.startCircle = new fabric.Circle(
-                { left: this.startPoint.x, 
-                top:  this.startPoint.y, 
-                radius: LYNE_START_RAD, 
-                fill: hex_dark, 
-                originX: 'center', 
-                originY: 'center',
-                selectable: false,
-                }
-            );
-
-            canvas.add(this.startCircle);
-
-            this.lyne = null;
-            this.indx = null;
-
-            // Calculate angle ranges with corresponding coordinate points
-            var validGridPoints = getValidGridPoints(gridWidth, gridHeight);
-            this.points = validGridPoints.points;
-            this.angles = validGridPoints.angles;
-
-
-        },
-
-        update: function(mouse_e) {
-
-            // Check if this is first update
-            if(!this.lyne){
-                canvas.remove(this.startCircle);
-            }
-
-            // Calculate new angle
-            var angle = getAngleFromPoints(this.startPoint, {x: mouse_e.offsetX, y: mouse_e.offsetY});
-            var newIndx = 0;
-
-            // If angle falls in new category, create new line
-            for (var i = 0; i < this.angles.length; i++) {
-                if ( angleInRange(angle, this.angles[i], this.angles[(i+1)%(this.angles.length)]) ) {
-                    newIndx = i;
-                    break;
-                }
-            }
-
-            // Exit if index does not change
-            if (newIndx === this.indx) {return;}
-            
-            // Remove old line from canvas
-            if (this.lyne) {canvas.remove(this.lyne);}
-
-            // Save new index and point
-            this.indx = newIndx;
-            this.endPoint = {x: (this.startGridPoint.x + this.points[newIndx].x),
-                             y: (this.startGridPoint.y + this.points[newIndx].y)};
-
-            // Add new Lyne to group
-            var newLyne = new Lyne([this.startGridPoint, this.endPoint]);
-            this.lyne = newLyne;
-            canvas.add(this.lyne);
-
-            currentLevel.updateBoard();
-        },
-        
-        addToLevel: function() {
-            canvas.remove(this.lyne); 
-            currentLevel.addPiece(this.lyne);
-            currentLevel.joinLynes(this.lyne);
-            currentLevel.markCrossLynes();
-        },
-        
-        removeFromLevel: function() {
-            canvas.remove(this.startCircle); 
-        },
-    }
-);
-
-
-
-// For user interface when creating Lyne objects
-var DropArea = fabric.util.createClass( 
-    {
-        initialize: function(gridPoint, gridArea) {
-
-            this.type = "dropArea";
-
-            this.gridArea = Math.round(gridArea);
-            this.startGridPoint = gridPoint;
-            this.startPoint = gridPointsToCoords(this.startGridPoint); 
-
-            this.rectangle = null;
-            this.indx = null;
-            
-            this.startBox = new fabric.Rect({
-                    originX: 'center', 
-                    originY: 'center',
-                    left: this.startPoint.x, 
-                    top:  this.startPoint.y, 
-                    width : GRID_PIXEL_SIZE,
-                    height : GRID_PIXEL_SIZE,
-                    fill: hex_dark, 
-                    opacity: DROPPING_OPACITY,
-                    selectable: false,
-                
-            });
-            this.startBox.type = "temporary";
-            if (gridArea > 1) {
-                currentLevel.addPiece(this.startBox);
-            } else if (gridArea === 1) { 
-                // Automatically add piece to level
-                this.rectangle = new PolyGroup([{x: gridPoint.x - 0.5, y: gridPoint.y - 0.5},
-                                                {x: gridPoint.x - 0.5, y: gridPoint.y + 0.5},
-                                                {x: gridPoint.x + 0.5, y: gridPoint.y + 0.5},
-                                                {x: gridPoint.x + 0.5, y: gridPoint.y - 0.5}], this.gridArea);
-                currentLevel.addPiece(this.rectangle);
-                return;
-            }
-
-            // Calculate angle ranges with coordinate points corresponding to area of shape
-            var validGridAreas = getValidGridAreas(gridArea);
-            this.points = validGridAreas.points;
-            this.angles = validGridAreas.angles;
-        },
-
-        update: function(mouse_e) {
-
-            // Check for special case
-            if(this.gridArea === 1) {
-                return;
-            }
-
-            // Calculate new angle
-            var angle = getAngleFromPoints(this.startPoint, {x: mouse_e.offsetX, y: mouse_e.offsetY});
-            var newIndx = 0;
-
-            // If angle falls in new category, create new line
-            for (var i = 0; i < this.angles.length; i++) {
-                if ( angleInRange(angle, this.angles[i], this.angles[(i+1)%(this.angles.length)]) ) {
-                    newIndx = i;
-                    break;
-                }
-            }
-
-            // Exit if index does not change
-            if (newIndx === this.indx) {return;}
-            
-            // Remove old rectangle from canvas
-            if (this.rectangle) {canvas.remove(this.rectangle);}
-
-            // Save new index
-            this.indx = newIndx;
-
-            // Calculate borders of new rectangle
-            var p0 = this.startGridPoint;
-            var p1 = this.points[newIndx];
-            var minX = Math.min( (p0.x - 0.5) , p0.x - 0.5 + p1.x );
-            var maxX = Math.max( (p0.x + 0.5) , p0.x + 0.5 + p1.x );
-            var minY = Math.min( (p0.y - 0.5) , p0.y - 0.5 + p1.y );
-            var maxY = Math.max( (p0.y + 0.5) , p0.y + 0.5 + p1.y );
-
-            var points = [{x: minX, y: minY},
-                          {x: minX, y: maxY},
-                          {x: maxX, y: maxY},
-                          {x: maxX, y: minY},];
-
-            // Add new Polygon to group
-            var rectangle = new PolyGroup(points, this.gridArea);
-            this.rectangle = rectangle;
-            canvas.add(this.rectangle);
-
-            
-            currentLevel.updateBoard();
-        },
-        
-        addToLevel: function() {
-            currentLevel.removePiece(this.startBox);
-
-            canvas.remove(this.rectangle); 
-            currentLevel.addPiece(this.rectangle);
-
-        },
-        
-        removeFromLevel: function() {
-            currentLevel.removePiece(this.startBox);
-        },
-    }
-);
 
 // ----------------------------------
 // Buttons
 // ----------------------------------
 
-var ControlButton = fabric.util.createClass(fabric.Group, 
+var ArrowButton = fabric.util.createClass(fabric.Group, 
     {
-        initialize: function(type, centerPoint) {
+        initialize: function(centerPoint, val, Box) {
+
+            // val = +/- 1 for up and down arrows.
 
             // Initialize Polygon
             this.callSuper('initialize');
@@ -402,17 +246,17 @@ var ControlButton = fabric.util.createClass(fabric.Group,
                 }
             );
 
-            this.type = type;
+            this.type = 'editArrow';
+            this.box = Box;
+            this.val = val;
 
             var buttonCoords = [
-                { x: centerPoint.x - CROSS_BTN_WIDTH,
-                  y: centerPoint.y - CROSS_BTN_HEIGHT},
-                { x: centerPoint.x + CROSS_BTN_WIDTH,
-                  y: centerPoint.y - CROSS_BTN_HEIGHT},
-                { x: centerPoint.x + CROSS_BTN_WIDTH,
-                  y: centerPoint.y + CROSS_BTN_HEIGHT},
-                { x: centerPoint.x - CROSS_BTN_WIDTH,
-                  y: centerPoint.y + CROSS_BTN_HEIGHT}   
+                { x: centerPoint.x - EDIT_ARROW_WIDTH/2,
+                  y: centerPoint.y},
+                { x: centerPoint.x + EDIT_ARROW_WIDTH/2,
+                  y: centerPoint.y},
+                { x: centerPoint.x,
+                  y: centerPoint.y + EDIT_ARROW_HEIGHT * val}, 
             ];
 
             this.button = new fabric.Polygon(buttonCoords,
@@ -434,103 +278,63 @@ var ControlButton = fabric.util.createClass(fabric.Group,
         },
 
         onSelected: function(mouse_e) {
-            // Button action
-            currentLevel.crossLynes();
-            
-            canvas.discardActiveObject();
+            // Increase button element
+            this.box.increment(this.val);
         },
     }
 );
 
-
-// -----------------------------------
-// Shadows & Solutions
-// -----------------------------------
-
-var Shadow = fabric.util.createClass(fabric.Group, 
+var SaveButton = fabric.util.createClass(fabric.Group, 
     {
-        initialize: function(gridPoints) {
+        initialize: function(file) {
+
+            // val = +/- 1 for up and down arrows.
 
             // Initialize Polygon
             this.callSuper('initialize');
             this.set( 
                 {originX: 'center', 
                  originY: 'center',
-                 selectable: false,
+                 lockMovementX: true,
+                 lockMovementY: true,
                 }
             );
 
-            this.type = "shadow";
+            this.type = 'editArrow';
+            this.box = Box;
+            this.val = val;
 
-            this.startPoint = gridPointsToCoords(gridPoints)[0];
+            var buttonCoords = [
+                { x: centerPoint.x - EDIT_ARROW_WIDTH/2,
+                  y: centerPoint.y},
+                { x: centerPoint.x + EDIT_ARROW_WIDTH/2,
+                  y: centerPoint.y},
+                { x: centerPoint.x,
+                  y: centerPoint.y + EDIT_ARROW_HEIGHT * val}, 
+            ];
 
-            this.polygon = new fabric.Polygon(gridPointsToCoords(gridPoints),
+            this.button = new fabric.Polygon(buttonCoords,
                 {
-                 fill: SHADOW_COLOR, 
-                 opacity: SHADOW_OPACITY,
-                 selectable: false,
+                 fill: BUTTON_COLOR, 
                 }
             );
 
-            this.addWithUpdate(this.polygon);
+            this.addWithUpdate(this.button);
             
         },
 
-    }
-);
-
-
-var SolutionManager = fabric.util.createClass( 
-    {
-        initialize: function(solutions) {
-            // Receive "solutions", an array of solutions to level, each an array of point objects.
-
-            this.type = "solution";
-            this.solutionsArray = solutions;
-
+        mouseOver: function() {
+            this.set({'strokeWidth': (POLY_STROKEWIDTH + POLY_HOVER_GROWTH)});
         },
 
-        levelSolved: function(gridPoints) {
-
-            // Compare gridPoints to solution sets
-            for (var i = 0; i < this.solutionsArray.length; i++) {
-
-                var solutionClone = this.solutionsArray[i].slice(0);
-
-                for (var j = 0; j < gridPoints.length; j++) {
-                    
-                    var element = gridPoints[j];
-
-                    // Run through solutionClone and remove point if it exists.
-                    for (var k = 0; k < solutionClone.length; k++) {
-                        if(element.x === solutionClone[k].x && element.y === solutionClone[k].y) {
-                            // Remove element from solution array
-                            solutionClone.splice(k, 1);
-                            element = null;
-                            break;
-                        }
-                    }    
-
-                    if (element) {
-                        // Current element not found in this solution, move to next solution set
-                        continue;
-                    }
-
-                    if(j === (gridPoints.length -1) && solutionClone.length === 0) {
-                        // All gridPoints match solution set
-                        return true;
-                    }
-
-                }
-            }
-
-            // Gridpoints do not match solutions
-            return false;
+        mouseOut: function() {
+            this.set({'strokeWidth': POLY_STROKEWIDTH});
         },
 
+        onSelected: function(mouse_e) {
+            // Increase button element
+            this.box.increment(this.val);
+        },
     }
 );
-
-
-
 

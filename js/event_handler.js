@@ -52,6 +52,7 @@ function onMouseMove(ev) {
 
 function onMouseDown(ev) {
     console.log('Win:', currentLevel.isLevelSolved()); 
+    console.log('StartPieces:', currentEditor.startingPieces); 
 }
 
 function onMouseUp(ev) {
@@ -98,6 +99,14 @@ function onMouseOut(ev) {
 }
 
 function onObjectSelected(ev) {
+
+    // LEVEL EDITOR - Keep track of pieces that are selected
+    if(ev.target.pieceID) {
+        currentLevel.selectedPiece = ev.target;
+        console.log(ev.target.pieceID, "selected")
+    }
+    // LEVEL EDITOR END
+
 
     if (currentLevel.selectedObject && currentLevel.mode !== 'dropping') {
         if (currentLevel.selectedObject.deselect) {

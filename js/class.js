@@ -1,12 +1,27 @@
 
+// ----------------------------------
+// LevelPiece
+// ----------------------------------
 
+var LevelPiece = fabric.util.createClass(fabric.Group, 
+    {
+        initialize: function() {
+            this.pieceID = currentLevel.getNextPieceID(); // For codewriting purposes, not used explicitly
+            this.parentPieces = [];
+            this.callSuper('initialize');
+        },
 
+        convertToObject: function() {
+            return {type: "piece", n: null, points: null};
+        }
+    }
+);
 
 // ----------------------------------
 // NumberBall (Scalars)
 // ----------------------------------
 
-var NumberBall = fabric.util.createClass(fabric.Group, 
+var NumberBall = fabric.util.createClass(LevelPiece, 
     {
         initialize: function(number) {
 
@@ -103,6 +118,11 @@ var NumberBall = fabric.util.createClass(fabric.Group,
                 }
             );
         },
+
+
+        convertToObject: function() {
+            return {type: this.type, n: this.number};
+        },
         
         
     }
@@ -113,7 +133,7 @@ var NumberBall = fabric.util.createClass(fabric.Group,
 // Line
 // ----------------------------------
 
-var Lyne = fabric.util.createClass(fabric.Group, 
+var Lyne = fabric.util.createClass(LevelPiece, 
     {
         initialize: function(gridPoints) {
 
@@ -125,7 +145,6 @@ var Lyne = fabric.util.createClass(fabric.Group,
             );
 
             this.type = "lyne";
-            this.lyneString = "1"; // getLyneString; //String
 
             this.startGridPoint = gridPoints[0];
             this.endGridPoint = gridPoints[1];
@@ -280,6 +299,11 @@ var Lyne = fabric.util.createClass(fabric.Group,
             currentLevel.addPiece(newLyne);
             currentLevel.removePiece(this);
         },
+
+
+        convertToObject: function() {
+            return {type: this.type, points: [this.startGridPoint, this.endGridPoint]};
+        },
     }
 );
 
@@ -289,7 +313,7 @@ var Lyne = fabric.util.createClass(fabric.Group,
 // Polygon
 // ----------------------------------
 
-var PolyGroup = fabric.util.createClass(fabric.Group, 
+var PolyGroup = fabric.util.createClass(LevelPiece, 
     {
         initialize: function(gridPoints, gridArea) {
 
@@ -420,18 +444,44 @@ var PolyGroup = fabric.util.createClass(fabric.Group,
             // Scale polygon area for scalar NumberBall
 
             if (Number.isInteger(this.gridArea) && this.gridPoints.length === 4) {
+                // Add area boxes to Level
                 for (var i = 1; i < number; i++) {
                     var boxArea = new BoxArea(this.gridArea);
                     currentLevel.addPiece(boxArea);
                 }
             } else {
+                // Add shapes to grid (starting in the +x direction)
                 for (var i = 1; i < number; i++) {
-                    var boxPoly = new BoxPoly(this.gridPoints);
-                    currentLevel.addPiece(boxPoly);
+
+                    // Calculate new start point
+                    var newStartX = this.startGridPoint.x + i <= 5? 
+                                    this.startGridPoint.x + i: 
+                                    this.startGridPoint.x - (this.startGridPoint.x + i - 5);
+                    var newStartGridPoint = {x: newStartX, y: this.startGridPoint.y};
+
+                    var offset = {x: newStartGridPoint.x - this.gridPoints[0].x, 
+                                  y: newStartGridPoint.y - this.gridPoints[0].y};
+
+                    // Make a new copy of gridPoints
+                    var gridPoints = [];
+                    for (var j = 0; j < this.gridPoints.length; j++) {
+                        gridPoints.push({x: this.gridPoints[j].x + offset.x, 
+                                         y: this.gridPoints[j].y + offset.y});
+                    }
+
+                    console.log("gridPoints", gridPoints);
+
+                    // Make new PolyGroup at new location and add to Level
+                    var newPoly = new PolyGroup(gridPoints);
+                    currentLevel.addPiece(newPoly);
                 }
             }
         },
         
+
+        convertToObject: function() {
+            return {type: this.type, n: this.gridArea, points: this.gridPoints};
+        },
     }
 );
 
@@ -447,7 +497,7 @@ var PolyGroup = fabric.util.createClass(fabric.Group,
 // BoxArea
 // BoxShape
 
-var Box = fabric.util.createClass(fabric.Group, 
+var Box = fabric.util.createClass(LevelPiece, 
     {
         initialize: function() {
 
@@ -532,6 +582,10 @@ var BoxLyne = fabric.util.createClass(Box,
             this.addWithUpdate(this.lyneStringTextbox);
 
         },
+
+        convertToObject: function() {
+            return {type: this.type, width: this.gridWidth, height: this.gridHeight};
+        },
     }
 );
 
@@ -546,6 +600,10 @@ var BoxPoly = fabric.util.createClass(Box,
 
             // Create shape in miniature, fit into box
             // Shape will have secondary color
+        },
+
+        convertToObject: function() {
+            return {type: this.type, points: this.gridPoints};
         },
     }
 );
@@ -574,6 +632,10 @@ var BoxArea = fabric.util.createClass(Box,
             this.addWithUpdate(this.areaStringTextbox);
 
         },
+
+        convertToObject: function() {
+            return {type: this.type, n: this.gridArea};
+        },
     }
 );
 
@@ -586,6 +648,10 @@ var BoxShape = fabric.util.createClass(Box,
             this.type = "boxShape";
             this.img = img;
 
+        },
+
+        convertToObject: function() {
+            return {type: this.type, image: this.img};
         },
     }
 );
@@ -873,6 +939,7 @@ var Shadow = fabric.util.createClass(fabric.Group,
 
             this.type = "shadow";
 
+            this.gridPoints = gridPoints;
             this.startPoint = gridPointsToCoords(gridPoints)[0];
 
             this.polygon = new fabric.Polygon(gridPointsToCoords(gridPoints),
@@ -885,6 +952,10 @@ var Shadow = fabric.util.createClass(fabric.Group,
 
             this.addWithUpdate(this.polygon);
             
+        },
+
+        convertToObject: function() {
+            return {type: this.type, points: this.gridPoints};
         },
 
     }
@@ -937,6 +1008,11 @@ var SolutionManager = fabric.util.createClass(
 
             // Gridpoints do not match solutions
             return false;
+        },
+
+
+        convertToObject: function() {
+            return {type: this.type, solutions: this.solutionsArray};
         },
 
     }

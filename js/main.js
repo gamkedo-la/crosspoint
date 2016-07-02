@@ -30,6 +30,8 @@ window.onload = function() {
 
 
 function loadGame() {
+    currentLevel = Level.init({}, []);
+
     var box1a = new BoxLyne(1);
     var box1b = new BoxLyne(2);
     var box1c = new BoxLyne(3);
@@ -55,8 +57,8 @@ function loadGame() {
     var shad1 = new Shadow(solpoints);
     var sol1 = new SolutionManager([solpoints])
 
-    var pieces = [shad1,sol1, box1a,box1b,box1c,box1d, ball1b,ball1c, box2b,box2c ];
-    currentLevel = Level.init({}, pieces);
+    var pieces = [shad1,sol1 ]; //box1a,box1b,box1c,box1d, ball1b,ball1c, box2b,box2c ];
+    currentLevel.addPieces(pieces);
 }
 
     

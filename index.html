@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="optiverse">
+<html lang="en" ng-app="crosspoint">
 
 <head>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
 
     <script src="fabric/dist/fabric.js"></script>
+    <script src="jquery/jquery-2.1.4.js"></script>
 </head>
 
 <body>
@@ -15,12 +16,52 @@
     <script src="js/canvas.js"></script>
     <script src="js/CONST.js"></script>
     <script src="js/image_loader.js"></script>
+    <script src="js/level_loader.js"></script>
     <script src="js/geometry_helper.js"></script>
     <script src="js/class_helper.js"></script>
     <script src="js/class.js"></script>
     <script src="js/level.js"></script>
     <script src="js/event_handler.js"></script>
     <script src="js/main.js"></script>
+
+    <!-- Temporary for Level Editor-->
+        <button id="editorButton" >Level Editor</button>
+
+        <div hidden id="editorOptionsDiv">
+            <button id="saveButton" >Save Level</button>
+            <button id="undoButton" >Undo</button>
+            <button id="deleteButton" >Delete Last Selected</button>
+            <button id="clearAllButton" >Clear All</button>
+        </div>
+
+        <div hidden id="addPieceDiv">
+            <textarea rows="1" cols="3" id="lyneTextfield">1</textarea>
+            <button id="lyneButton" >Add Lyne</button>
+            <textarea rows="1" cols="3" id="areaTextfield">1</textarea>
+            <button id="areaButton" >Add Area</button>
+            <textarea rows="1" cols="3" id="numberTextfield">1</textarea>
+            <button id="numberButton" >Add NumberBall</button>
+            <textarea rows="1" cols="3" id="polyTextfield">1</textarea>
+            <button id="polyButton" >Add Polygon</button>
+
+            <select id="crossButtonDropdown">
+                <option value="cross">Cross Button</option>
+                <option value="none">No Button</option>
+                <option value="crossDot">Cross Dot</option>
+                <option value="crossPM">Cross +/-</option>
+            </select>
+        </div>
+
+        
+
+        <textarea hidden rows="15" cols="102" id="levelTextfield" readOnly="true">
+
+
+            Level Editor: JSON data will apear here, copy and paste into JSON file.
+        </textarea>
+
+    <script src="js/level_editor.js"></script>
+    <script src="js/level_editor_buttons.js"></script>
 </body>
 
 </html>
