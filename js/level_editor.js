@@ -56,7 +56,7 @@ LevelEditor.prototype.createShadow = function()
     // Create shadow out of current pieces on the board
 
     // TEMP
-    var gridPoints = [{x:-2, y:-2}, {x:0, y:2}, {x:2, y:2}, {x:0, y:-2}];
+    var gridPoints = [];
     return new Shadow(gridPoints);
 }
 
