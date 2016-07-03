@@ -581,8 +581,50 @@ var BoxPoly = fabric.util.createClass(Box,
             this.type = "boxPoly";
             this.gridPoints = gridPoints;
 
+            this.createThumbnail();
+        },
+
+        createThumbnail: function(){
+
             // Create shape in miniature, fit into box
-            // Shape will have secondary color
+
+            var gridPoints = [];
+
+            // Get bounds of shape
+            var bounds = getGridPointBounds(this.gridPoints);
+
+            // Calculate scaling factor for thumbnail
+            var scale = BOXPOLY_THUMBNAIL_DEFAULT_SCALE;
+            if(bounds.width * scale > BOXPOLY_THUMBNAIL_WIDTH){
+                scale = BOXPOLY_THUMBNAIL_WIDTH / bounds.width;
+            }
+            if(bounds.height * scale > BOXPOLY_THUMBNAIL_HEIGHT){
+                scale = BOXPOLY_THUMBNAIL_HEIGHT / bounds.height;
+            }
+
+            console.log("bounds.centerPoint",bounds.centerPoint);
+            console.log("scale",scale);
+            console.log("gridPoints",gridPoints);
+
+            // Center points to (0,0) and scale
+            for (var i = 0; i < this.gridPoints.length; i++) 
+            {
+                console.log("gridpoint",this.gridPoints[i]);
+                gridPoints.push({x: (this.gridPoints[i].x - bounds.centerPoint.x) * scale,
+                                 y: -(this.gridPoints[i].y - bounds.centerPoint.y) * scale } );
+            }
+
+            console.log("gridPoints",gridPoints);
+
+            // Create thumbnail polygon
+            this.thumbnail = new fabric.Polygon(gridPoints,
+                {
+                 fill: hex_light, 
+                 stroke: hex_dark,
+                 strokeWidth: BOXPOLY_THUMBNAIL_STROKEWIDTH,
+                }
+            );
+            this.addWithUpdate(this.thumbnail);
         },
 
         convertToObject: function() {

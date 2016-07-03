@@ -147,6 +147,30 @@ function calculateGridArea(gridPoints) {
     return 42.5;
 }
 
+function getGridPointBounds(gridPoints) {
+    var bounds = {minX: gridPoints[0].x, 
+                  maxX: gridPoints[0].x,
+                  minY: gridPoints[0].y, 
+                  maxY: gridPoints[0].y };
+
+    for (var i = 1; i < gridPoints.length; i++) {
+        if(gridPoints[i].x < bounds.minX){
+            bounds.minX = gridPoints[i].x;
+            bounds.pointMinX = gridPoints[i];
+        }
+        
+        bounds.maxX = Math.max(bounds.maxX, gridPoints[i].x);
+        bounds.minY = Math.min(bounds.minY, gridPoints[i].y);
+        bounds.maxY = Math.max(bounds.maxY, gridPoints[i].y);
+    }
+
+    bounds.width = bounds.maxX - bounds.minX;
+    bounds.height = bounds.maxY - bounds.minY;
+    bounds.centerPoint = {x: (bounds.maxX + bounds.minX)/2 , 
+                          y: (bounds.maxY + bounds.minY)/2 };
+
+    return bounds;
+}
 
 
 
