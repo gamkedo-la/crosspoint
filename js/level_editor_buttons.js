@@ -1,54 +1,65 @@
 
 
-// ----------------------------------
-// Level Editor Controls
-// ----------------------------------
+
 
 // Level Editor Toggle
 var editorBtn = document.getElementById("editorButton");
-// Hidden Divisions
-var optionsDiv = document.getElementById("editorOptionsDiv");
-var addPieceDiv = document.getElementById("addPieceDiv");
-var levelTextField = document.getElementById("levelTextfield");
-// Option Buttons
-var saveBtn = document.getElementById("saveButton");
-var undoBtn = document.getElementById("undoButton");
+// Hidden Division
+var editorDiv = document.getElementById("editor");
+
+
+// ----------------------------------
+// Main Control Bar
+// ----------------------------------
+
+// Option buttons and text fields
 var deleteBtn = document.getElementById("deleteButton");
 var clearBtn = document.getElementById("clearAllButton");
+var levelName = document.getElementById("levelNameField");
+var levelCreator = document.getElementById("levelCreatorField");
+var saveBtn = document.getElementById("saveButton");
+var loadBtn = document.getElementById("loadButton");
+var levelTextfield = document.getElementById("levelTextfield");
 
 
 // Toggle
 editorBtn.onclick = function(){
-    optionsDiv.hidden = !optionsDiv.hidden;
-    addPieceDiv.hidden = !addPieceDiv.hidden;
-    levelTextField.hidden = !levelTextField.hidden;
+
+    if(editorDiv.hidden) {
+        // Delete all pieces in level
+
+        // Create new level editor
+
+    } else {
+        // Delete current level editor
+    }
+
+    editorDiv.hidden = !editorDiv.hidden;
     
-}
-
-// Save Pieces
-saveBtn.onclick = function(){
-    console.log("saveBtn Click");
-    currentEditor.saveLevelToTextField();
-}
-
-// Undo
-undoBtn.onclick = function(){
-    console.log("undoBtn Click");
 }
 
 // Delete Last Selected Piece
 deleteBtn.onclick = function(){
-    console.log("deleteBtn Click");
     currentEditor.deletePiece(currentLevel.selectedPiece);
     currentLevel.selectedPiece = null;
 }
 
 // Clear All
 clearBtn.onclick = function(){
-    console.log("clearBtn Click");
     currentEditor.clearAll();
 }
 
+
+// Save Level
+saveBtn.onclick = function(){
+    currentEditor.saveLevelToTextField();
+}
+
+// Load Level
+loadBtn.onclick = function(){
+    currentEditor.clearAll();
+    currentEditor.loadLevel();
+}
 
 // ----------------------------------
 // Piece Controls
@@ -77,6 +88,8 @@ numberBtn.onclick = function(){
     var numberBall = new NumberBall(numberField.value);
     currentEditor.addStartPiece(numberBall);
 }
+
+
 
 
 

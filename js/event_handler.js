@@ -52,7 +52,7 @@ function onMouseMove(ev) {
 
 function onMouseDown(ev) {
     console.log('Win:', currentLevel.isLevelSolved()); 
-    console.log('StartPieces:', currentEditor.startingPieces); 
+    console.log('levels:', levels); 
 }
 
 function onMouseUp(ev) {

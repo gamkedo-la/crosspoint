@@ -6,6 +6,10 @@ textarea {
     resize: none;
 }
 
+div {
+    padding-top: 10px;
+}
+
 
 /* LEVEL EDITOR BUTTONS */
 #lyneTextfield {

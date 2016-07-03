@@ -307,6 +307,7 @@ Level.prototype.bringPieceToFront = function(_piece)
  */
 Level.prototype.addPieces = function(_pieces)
 {
+    if (!_pieces) {return;}
     for (var i = 0; i < _pieces.length; i++) {
         this.addPiece(_pieces[i]);
     }
@@ -323,6 +324,7 @@ Level.prototype.addPiece = function(_piece)
     if (_piece.type === "solution") 
     {
         this.solutionManager = _piece;
+        this.allPieces.push(_piece);
         return;
     } 
     else if (_piece.type === "lyne") 
@@ -361,13 +363,7 @@ Level.prototype.addPiece = function(_piece)
     {
         this.shadows.push(_piece);
     }
-    else if (_piece.type === "temporary" ||
-             _piece.type === "editBoxLyne" ||
-             _piece.type === "editBoxBall" ||
-             _piece.type === "editBoxArea" ||
-             _piece.type === "editBoxLyne" ||
-             _piece.type === "editArrow"
-            )
+    else if (_piece.type === "temporary")
     {
         this.temporary.push(_piece);
     }
@@ -390,7 +386,7 @@ Level.prototype.addPiece = function(_piece)
  */
 Level.prototype.removePieces = function(_pieces)
 {
-
+    if (!_pieces) {return;}
     for (var i = 0; i < _pieces.length; i++) {
         this.removePiece(_pieces[i]);
     }
@@ -404,8 +400,12 @@ Level.prototype.removePieces = function(_pieces)
  */
 Level.prototype.removePiece = function(_piece)
 {
-
-    if (_piece.type === "lyne") 
+    if (_piece.type === "solution") 
+    {
+        this.solutionManager = null;
+        return;
+    } 
+    else if (_piece.type === "lyne") 
     {
         this.lynes = this.lynes.filter(function(e){return e!==_piece});
     } 
@@ -442,6 +442,10 @@ Level.prototype.removePiece = function(_piece)
         this.boxes = this.boxes.filter(function(e){return e!==_piece});
         this.updateBoxes();
     }
+    else if (_piece.type === "shadow")
+    {
+        this.shadows = this.shadows.filter(function(e){return e!==_piece});
+    }
     else if (_piece.type === "temporary")
     {
         this.temporary = this.temporary.filter(function(e){return e!==_piece});
@@ -457,15 +461,14 @@ Level.prototype.removePiece = function(_piece)
 
 
 // ##################################
-// Delete Level
+// Deleting Pieces
 // ##################################
 
-Level.prototype.deleteAll = function()
-{   
-    // TODO
-    return;
+Level.prototype.deletePieces = function()
+{       
+    this.removePieces(this.allPieces);
+    this.allPieces = [];
 }
-
 
 
 // ##################################
