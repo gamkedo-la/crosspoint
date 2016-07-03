@@ -72,6 +72,9 @@ var areaField = document.getElementById("areaTextfield");
 var areaBtn = document.getElementById("areaButton");
 var numberField = document.getElementById("numberTextfield");
 var numberBtn = document.getElementById("numberButton");
+var polyField = document.getElementById("polyTextfield");
+var polyBtn = document.getElementById("polyButton");
+
 
 // Add Lyne Box
 lyneBtn.onclick = function(){
@@ -89,6 +92,21 @@ numberBtn.onclick = function(){
     currentEditor.addStartPiece(numberBall);
 }
 
+// Add Polygon Box
+polyBtn.onclick = function(){
+
+    // Convert field into points
+    var jsonString = '[' + polyField.value + ']';
+    var pointArray = JSON.parse(jsonString);
+    var gridPoints = [];
+
+    for (var i = 0; i < pointArray.length; i++) {
+        gridPoints.push({x: pointArray[i][0], y: pointArray[i][1]});
+    }
+
+    var boxPoly = new BoxPoly(gridPoints);
+    currentEditor.addStartPiece(boxPoly);
+}
 
 
 

@@ -601,8 +601,21 @@ Level.prototype.deselectBox = function(box, mouse_e)
         gridPoint.x = Math.round(gridPoint.x + 0.5) - 0.5;
         gridPoint.y = Math.round(gridPoint.y + 0.5) - 0.5;
 
-        // Attempt to add Lyne object to Grid
+        // Attempt to add Area to Grid as PolyGroup
         this.addAreaToGrid(gridPoint, box.gridArea);
+
+    } else if(box.type === 'boxPoly') {
+
+        // Round to closest grid point
+        gridPoint.x = Math.round(gridPoint.x);
+        gridPoint.y = Math.round(gridPoint.y);
+
+        // Attempt to add polygon to Grid as PolyGroup
+        this.addPolyToGrid(gridPoint, box.gridPoints);    
+
+        // Remove box from level
+        currentLevel.removePiece(box);    
+
     }
     
 }
@@ -614,6 +627,17 @@ Level.prototype.addAreaToGrid = function(gridPoint, gridArea)
     this.droppingObject = dropArea;
     this.updateBoard();
     this.mode = 'dropping';
+}
+
+Level.prototype.addPolyToGrid = function(startPoint, gridPoints)
+{
+    // Calculate new gridpoint positions
+    var newGridPoints = translateGridpointsToPoint(gridPoints, startPoint);
+
+    // Create PolyGroup object at gridPoint
+    var poly = new PolyGroup(newGridPoints);
+    currentLevel.addPiece(poly);
+
 }
 
 // ##################################

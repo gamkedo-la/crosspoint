@@ -326,12 +326,15 @@ var PolyGroup = fabric.util.createClass(LevelPiece,
             );
 
             this.type = "poly";
-            this.areaString = "1"; // getAreaString; //String
 
             this.gridPoints = gridPoints;
-            this.gridArea = gridArea;
             this.startGridPoint = gridPoints[0];
             this.startPoint = gridPointsToCoords(this.startGridPoint);
+
+            if (!gridArea) {
+                var gridArea = calculateGridArea(gridPoints);
+            }
+            this.gridArea = gridArea;
 
             this.polygon = new fabric.Polygon(gridPointsToCoords(gridPoints),
                 {
@@ -423,17 +426,8 @@ var PolyGroup = fabric.util.createClass(LevelPiece,
 
         getPoints: function() {
             // Return an array of current grid points
-            var points = [];
-            var offset = {x: this.startGridPoint.x - this.gridPoints[0].x, 
-                          y: this.startGridPoint.y - this.gridPoints[0].y};
+            return translateGridpointsToPoint(this.gridPoints, this.startGridPoint);
 
-            // Loop through gridPoints and apply offset
-            for (var i = 0; i < this.gridPoints.length; i++) {
-                points.push({x: this.gridPoints[i].x + offset.x,
-                             y: this.gridPoints[i].y + offset.y});
-            }
-
-            return points;
         },
 
         encloses: function(gridPoint) {
@@ -458,18 +452,7 @@ var PolyGroup = fabric.util.createClass(LevelPiece,
                                     this.startGridPoint.x + i: 
                                     this.startGridPoint.x - (this.startGridPoint.x + i - 5);
                     var newStartGridPoint = {x: newStartX, y: this.startGridPoint.y};
-
-                    var offset = {x: newStartGridPoint.x - this.gridPoints[0].x, 
-                                  y: newStartGridPoint.y - this.gridPoints[0].y};
-
-                    // Make a new copy of gridPoints
-                    var gridPoints = [];
-                    for (var j = 0; j < this.gridPoints.length; j++) {
-                        gridPoints.push({x: this.gridPoints[j].x + offset.x, 
-                                         y: this.gridPoints[j].y + offset.y});
-                    }
-
-                    console.log("gridPoints", gridPoints);
+                    var gridPoints = translateGridpointsToPoint(this.gridPoints, newStartGridPoint);
 
                     // Make new PolyGroup at new location and add to Level
                     var newPoly = new PolyGroup(gridPoints);

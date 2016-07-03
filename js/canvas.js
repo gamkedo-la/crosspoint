@@ -125,6 +125,28 @@ function pointInGrid(gridPoint) {
 }
 
 
+function translateGridpointsToPoint(gridPoints, startPoint) {
+    
+    var newGridPoints = [];
+    var offset = {x: startPoint.x - gridPoints[0].x, 
+                  y: startPoint.y - gridPoints[0].y};
+
+    // Loop through gridPoints and apply offset
+    for (var i = 0; i < gridPoints.length; i++) {
+        newGridPoints.push({x: gridPoints[i].x + offset.x,
+                            y: gridPoints[i].y + offset.y});
+    }
+
+    console.log("newGridPoints",newGridPoints);
+
+    return newGridPoints;
+}
+
+function calculateGridArea(gridPoints) {
+    // TODO
+    return 42.5;
+}
+
 
 
 
