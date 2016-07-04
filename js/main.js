@@ -47,7 +47,7 @@ function loadGame() {
     // var box2d = new BoxArea(9);
     // var box2e = new BoxArea(12);
 
-    var box3a = new BoxPoly([{x:-4, y:-4}, {x:-4, y:2}, {x:2, y:-4}]);
+    // var box3a = new BoxPoly([{x:-4, y:-4}, {x:-4, y:2}, {x:2, y:-4}]);
     // var poly3a = new PolyGroup([{x:-4, y:-4}, {x:-4, y:2}, {x:2, y:-4}]);
 
     // var ball1a = new NumberBall(1);
@@ -60,7 +60,7 @@ function loadGame() {
     var shad1 = new Shadow(solpoints);
     var sol1 = new SolutionManager([solpoints])
 
-    var pieces = [shad1,sol1, box3a ];
+    var pieces = [shad1,sol1 ];
     currentLevel.addPieces(pieces);
 
     // loadLevel(1,1);

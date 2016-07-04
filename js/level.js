@@ -1035,19 +1035,22 @@ Level.prototype.crossLynes = function()
  */
 Level.prototype.isLevelSolved = function()
 {
-    // Check if current board matches a solution set.
-    var gridPoints = [], points;
+    //TEMP Erik 2016-07
+    return false;
 
-    // Loop through all objects and compile their points
-    for (var i = 0; i < this.polygons.length; i++) {
-        points = this.polygons[i].getPoints();
+    // // Check if current board matches a solution set.
+    // var gridPoints = [], points;
 
-        for (var j = 0; j < points.length; j++) {
-            gridPoints.push(points[j]);
-        }
-    }
+    // // Loop through all objects and compile their points
+    // for (var i = 0; i < this.polygons.length; i++) {
+    //     points = this.polygons[i].getPoints();
 
-    return this.solutionManager.levelSolved(gridPoints);
+    //     for (var j = 0; j < points.length; j++) {
+    //         gridPoints.push(points[j]);
+    //     }
+    // }
+
+    // return this.solutionManager.levelSolved(gridPoints);
 }
 
 
