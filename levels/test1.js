@@ -1,3 +1,0 @@
-var obj = {"name":"test1","designer":"Erik","levelOptions":{"crossButton":"cross"},"pieces":[{"type":"boxLyne","width":3,"height":null},{"type":"boxArea","n":1},{"type":"ball","n":1},{"type":"shadow","points":[{"x":-2,"y":-2},{"x":0,"y":2},{"x":2,"y":2},{"x":0,"y":-2}]},{"type":"solution","solutions":[[{"x":-2,"y":-2},{"x":0,"y":2},{"x":2,"y":2},{"x":0,"y":-2}]]}]};
-
-levels['test1'] = JSON.parse(obj);
