@@ -51,19 +51,17 @@ LevelEditor.prototype.deletePiece = function(_piece)
     }
 }
 
-LevelEditor.prototype.createShadow = function() 
+LevelEditor.prototype.createShadows = function() 
 {
     // Create shadow out of current pieces on the board
-
-    // TEMP
-    var gridPoints = [];
-    return new Shadow(gridPoints);
+    currentLevel.deleteShadows();
+    return currentLevel.convertPiecesToShadows();
 }
 
 LevelEditor.prototype.createSolution = function() 
 {
     // Create solution out of current pieces on the board
-
+    currentLevel.deleteSolution();
     // TEMP
     var solpoints = [{x:-2, y:-2}, {x:0, y:2}, {x:2, y:2}, {x:0, y:-2}];
     return new SolutionManager([solpoints]);
@@ -97,8 +95,12 @@ LevelEditor.prototype.saveLevelToTextField = function()
         _pieces.push( this.convertPieceToObject(this.startingPieces[i]) );
     }
 
-    // Create shadow and solution
-    _pieces.push( this.convertPieceToObject(this.createShadow()) );
+    // Create shadows
+    var shadows = this.createShadows();
+    for (var i = 0; i < shadows.length; i++) {
+        _pieces.push( this.convertPieceToObject(shadows[i]) );
+    }
+    // Create solution
     _pieces.push( this.convertPieceToObject(this.createSolution()) );
     
 

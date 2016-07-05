@@ -58,7 +58,8 @@ const NUMBER_BALL_FONTSIZE = 18;
 const DROPPING_OPACITY = 0.3;
 
 // Shadows
-const SHADOW_OPACITY = 0.3;
+const SHADOW_OPACITY = 1;
+const SHADOW_STROKE_WIDTH = 1;
 
 
 // Level Editor

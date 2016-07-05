@@ -971,6 +971,8 @@ var Shadow = fabric.util.createClass(fabric.Group,
                 {
                  fill: SHADOW_COLOR, 
                  opacity: SHADOW_OPACITY,
+                 stroke: SHADOW_COLOR, 
+                 strokeWidth: SHADOW_STROKE_WIDTH,
                  selectable: false,
                 }
             );

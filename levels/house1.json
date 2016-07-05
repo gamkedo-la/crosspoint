@@ -1,1 +1,0 @@
-{"name":"house1","designer":"Erik","levelOptions":{"crossButton":"cross"},"pieces":[{"type":"boxPoly","points":[{"x":0,"y":0},{"x":6,"y":0},{"x":3,"y":2}]},{"type":"boxArea","n":12},{"type":"boxArea","n":3},{"type":"shadow","points":[]},{"type":"solution","solutions":[[{"x":-2,"y":-2},{"x":0,"y":2},{"x":2,"y":2},{"x":0,"y":-2}]]}]}

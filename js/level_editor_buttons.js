@@ -25,14 +25,14 @@ var levelTextfield = document.getElementById("levelTextfield");
 // Toggle
 editorBtn.onclick = function(){
 
-    if(editorDiv.hidden) {
-        // Delete all pieces in level
+    // if(editorDiv.hidden) {
+    //     // Delete all pieces in level
 
-        // Create new level editor
+    //     // Create new level editor
 
-    } else {
-        // Delete current level editor
-    }
+    // } else {
+    //     // Delete current level editor
+    // }
 
     editorDiv.hidden = !editorDiv.hidden;
     

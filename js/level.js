@@ -1,3 +1,4 @@
+
 //-----------------------------------------------------------------------------//
 /*
  *  Name:       Level
@@ -468,6 +469,18 @@ Level.prototype.deletePieces = function()
 {       
     this.removePieces(this.allPieces);
     this.allPieces = [];
+}
+
+Level.prototype.deleteShadows = function()
+{
+    this.removePieces(this.shadows);
+    this.shadows = [];
+}
+
+Level.prototype.deleteSolution = function()
+{
+    this.removePieces(this.solutionManager);
+    this.solutionManager = null;
 }
 
 
@@ -1020,6 +1033,63 @@ Level.prototype.crossLynes = function()
 
 
 
+// ##################################
+// Shadows / Outlines
+// ##################################
+
+Level.prototype.convertPiecesToShadows = function()
+{
+    //TODO
+    // Go through all shape pieces in level and create single outline if possible
+    // Use GreinerHormann?
+
+    var newShadows = []; 
+    var shapePieces = this.polygons.concat(this.shapes);
+
+    // Make shadows of 2D pieces on the board
+    for (var i = 0; i < shapePieces.length; i++) 
+    {
+        var shadow = new Shadow(shapePieces[i].getPoints());
+        newShadows.push(shadow);
+    }
+
+// TODO commented out, ERIK 2016-07
+    // // Combine all shadows that overlap
+    // var finished = false;
+    // while (!finished) 
+    // {
+    //     var combined = false;
+    //     for (var i = 0; i < newShadows.length-1; i++) 
+    //     {
+    //         for (var j = i+1; j < newShadows.length; j++) 
+    //         {
+    //             // Greiner-Hormann method of joining polygons
+    //             var union = GreinerHormann.union(newShadows[i].gridPoints, newShadows[j].gridPoints);
+
+    //             if(union)
+    //             {
+    //                 // Create shadows out of union 
+    //                 // (for loop just in case multiple returned)
+    //                 for (var k = 0; k < union.length; k++) 
+    //                 {
+    //                     var shadow = new Shadow(union[k]);
+    //                     newShadows.push(shadow);
+    //                 }
+    //                 // remove old shadows
+    //                 newShadows = newShadows.filter(function(e){return e!==newShadows[i] && e!==newShadows[j]});
+    //                 combined = true;
+    //                 break;
+    //             }
+    //         }
+    //         if (combined) {break;}
+
+    //     }
+    //     if (!combined) {finished = true;}
+    // }
+
+    return newShadows;
+
+}
 
 // ##################################
 // Solution
