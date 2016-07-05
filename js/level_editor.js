@@ -86,7 +86,7 @@ LevelEditor.prototype.saveLevelToTextField = function()
     // OPTIONS
 
     _options.crossButton = document.getElementById("crossButtonDropdown").value;
-
+    _options.lineAddition = document.getElementById("lineAddDropdown").value;
 
     // PIECES
 

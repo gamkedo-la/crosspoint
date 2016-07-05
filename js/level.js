@@ -805,7 +805,7 @@ Level.prototype.joinLynes = function(lyne)
 {
 
     // Courtesy check, return if there are only two lines on board
-    if ( (this.lynes.length + this.boxLynes.length) < 3 ) {return;}
+    if (this.levelOptions.lineAddition === "off") {return;}
 
 
     var p0 = lyne.startGridPoint;
@@ -953,6 +953,8 @@ Level.prototype.removeAllCrossMarks = function(point)
  */
 Level.prototype.markCrossLynes = function()
 {
+    if (currentLevel.levelOptions.lineAddition === "off") {return;}
+
     // delete all previous marks
     this.removeAllCrossMarks();
 
@@ -979,6 +981,8 @@ Level.prototype.markCrossLynes = function()
  */
 Level.prototype.crossLynes = function()
 {
+    if (currentLevel.levelOptions.lineAddition === "off") {return;}
+
     // Remove cross marks
     this.removeAllCrossMarks();
 
@@ -1044,7 +1048,7 @@ Level.prototype.convertPiecesToShadows = function()
     // Use GreinerHormann?
 
     var newShadows = []; 
-    var shapePieces = this.polygons.concat(this.shapes);
+    var shapePieces = this.polygons.concat(this.shapes, this.lynes);
 
     // Make shadows of 2D pieces on the board
     for (var i = 0; i < shapePieces.length; i++) 

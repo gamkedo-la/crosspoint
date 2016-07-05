@@ -156,40 +156,57 @@ var Lyne = fabric.util.createClass(LevelPiece,
 
             var coords = gridPointsToCoordsArray(gridPoints);
 
-            // calculate line coordinates
-            distance_along_line_reverse(coords, LYNE_END_RAD);
+            if (currentLevel.levelOptions.lineAddition === "on") 
+            {
+                // calculate line coordinates
+                distance_along_line_reverse(coords, LYNE_END_RAD);
+            }
 
             // create circles and line and add them to canvas
 
             this.line = new fabric.Line(coords, 
-                { stroke: hex_dark,
-                strokeWidth: LYNE_STROKEWIDTH,
-                originX: 'center', 
-                originY: 'center', 
+                {   stroke: hex_dark,
+                    strokeWidth: LYNE_STROKEWIDTH,
+                    originX: 'center', 
+                    originY: 'center', 
                 }
             );
 
             this.startCircle = new fabric.Circle(
-                { left: this.startPoint.x, 
-                top:  this.startPoint.y, 
-                radius: LYNE_START_RAD, 
-                fill: hex_dark, 
-                originX: 'center', 
-                originY: 'center',
+                {   left: this.startPoint.x, 
+                    top:  this.startPoint.y, 
+                    radius: LYNE_START_RAD, 
+                    fill: hex_dark, 
+                    originX: 'center', 
+                    originY: 'center',
                 }
             );
 
-            this.endCircle = new fabric.Circle(
-                { left: this.endPoint.x, 
-                top:  this.endPoint.y,
-                radius: LYNE_END_RAD, 
-                stroke: hex_dark, 
-                strokeWidth: LYNE_END_STROKEWIDTH,
-                fill: '',
-                originX: 'center', 
-                originY: 'center',
-                }
-            );
+            if (currentLevel.levelOptions.lineAddition === "on") 
+            {
+                this.endCircle = new fabric.Circle(
+                    {   left: this.endPoint.x, 
+                        top:  this.endPoint.y,
+                        radius: LYNE_END_RAD, 
+                        stroke: hex_dark, 
+                        strokeWidth: LYNE_END_STROKEWIDTH,
+                        fill: '',
+                        originX: 'center', 
+                        originY: 'center',
+                    }
+                );
+            } else {
+                this.endCircle = new fabric.Circle(
+                    {   left: this.endPoint.x, 
+                        top:  this.endPoint.y,
+                        radius: LYNE_START_RAD, 
+                        fill: hex_dark, 
+                        originX: 'center', 
+                        originY: 'center',
+                    }
+                );
+            }
+            
 
             this.addWithUpdate(this.line);
             this.addWithUpdate(this.startCircle);
@@ -207,13 +224,22 @@ var Lyne = fabric.util.createClass(LevelPiece,
         mouseOver: function() {
             this.line.set('strokeWidth', LYNE_STROKEWIDTH + LYNE_HOVER_GROWTH);
             this.startCircle.set('radius', LYNE_START_RAD + LYNE_HOVER_GROWTH);
-            this.endCircle.set('strokeWidth', LYNE_END_STROKEWIDTH + LYNE_HOVER_GROWTH); 
+            if (currentLevel.levelOptions.lineAddition === "on") {
+                this.endCircle.set('strokeWidth', LYNE_END_STROKEWIDTH + LYNE_HOVER_GROWTH); 
+            } else {
+                this.endCircle.set('radius', LYNE_START_RAD + LYNE_HOVER_GROWTH);
+            }
         },
 
         mouseOut: function() {
             this.line.set('strokeWidth', LYNE_STROKEWIDTH);
             this.startCircle.set('radius', LYNE_START_RAD);
-            this.endCircle.set('strokeWidth', LYNE_END_STROKEWIDTH);
+            if (currentLevel.levelOptions.lineAddition === "on") {
+                this.endCircle.set('strokeWidth', LYNE_END_STROKEWIDTH);
+            } else {
+                this.endCircle.set('radius', LYNE_START_RAD);
+            }
+            
         },
 
         update: function(mouse_e) {
@@ -298,6 +324,12 @@ var Lyne = fabric.util.createClass(LevelPiece,
             var newLyne = new Lyne([this.startGridPoint, this.endGridPoint]);
             currentLevel.addPiece(newLyne);
             currentLevel.removePiece(this);
+        },
+
+        getPoints: function() {
+            // Return an array of current grid points
+            return translateGridpointsToPoint([this.startGridPoint, this.endGridPoint], this.startGridPoint);
+
         },
 
 
@@ -946,7 +978,7 @@ var ControlButton = fabric.util.createClass(fabric.Group,
 
 
 // -----------------------------------
-// Shadows & Solutions
+// Shadows
 // -----------------------------------
 
 var Shadow = fabric.util.createClass(fabric.Group, 
@@ -967,17 +999,37 @@ var Shadow = fabric.util.createClass(fabric.Group,
             this.gridPoints = gridPoints;
             this.startPoint = gridPointsToCoords(gridPoints)[0];
 
-            this.polygon = new fabric.Polygon(gridPointsToCoords(gridPoints),
-                {
-                 fill: SHADOW_COLOR, 
-                 opacity: SHADOW_OPACITY,
-                 stroke: SHADOW_COLOR, 
-                 strokeWidth: SHADOW_STROKE_WIDTH,
-                 selectable: false,
-                }
-            );
+            // Draw shadow
+            if (gridPoints.length > 2) {
+                // Normal polygonal shadow
+                this.polygon = new fabric.Polygon(gridPointsToCoords(gridPoints),
+                    {
+                     fill: SHADOW_COLOR, 
+                     opacity: SHADOW_OPACITY,
+                     stroke: SHADOW_COLOR, 
+                     strokeWidth: SHADOW_STROKE_WIDTH,
+                     selectable: false,
+                    }
+                );
 
-            this.addWithUpdate(this.polygon);
+                this.addWithUpdate(this.polygon);
+
+            } else {
+                // Line shadow
+                var coords = gridPointsToCoordsArray(gridPoints);
+                this.polygon = new fabric.Line(coords, 
+                    { stroke: SHADOW_COLOR,
+                    strokeWidth: LYNE_STROKEWIDTH,
+                    strokeLineCap: 'round',
+                    originX: 'center', 
+                    originY: 'center', 
+                    }
+                );
+
+                this.addWithUpdate(this.polygon);
+            }
+
+            
             
         },
 
@@ -988,6 +1040,9 @@ var Shadow = fabric.util.createClass(fabric.Group,
     }
 );
 
+// -----------------------------------
+// Solutions
+// -----------------------------------
 
 var SolutionManager = fabric.util.createClass( 
     {

@@ -60,6 +60,7 @@ const DROPPING_OPACITY = 0.3;
 // Shadows
 const SHADOW_OPACITY = 1;
 const SHADOW_STROKE_WIDTH = 1;
+const SHADOW_LINE_STROKE_WIDTH = LYNE_STROKEWIDTH;
 
 
 // Level Editor
