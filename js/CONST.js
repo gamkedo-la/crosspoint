@@ -15,6 +15,8 @@ const LYNE_START_RAD = 6;
 const LYNE_END_RAD = 8;
 const LYNE_END_STROKEWIDTH = 5;
 const LYNE_HOVER_GROWTH = 1;
+const LYNE_START_SQUARE_WIDTH = 4;
+const LYNE_START_SQUARE_STROKEWIDTH = 1;
 
 // Polygon
 const POLY_STROKEWIDTH = 2;
@@ -24,6 +26,8 @@ const POLY_MOVING_OPACITY = 0.5;
 // Buttons
 const CROSS_BTN_WIDTH = 40;
 const CROSS_BTN_HEIGHT = 20;
+const CROSS_BTN_LINELENGTH = 8;
+const CROSS_BTN_STROKEWIDTH = 3;
 
 // Boxes
 const BOX_STROKEWIDTH = 3;
@@ -86,6 +90,10 @@ const NUMBER_BALL_COLOR = "black";
 const PURPLE_LT = '#CCB7E0';
 const PURPLE_MD = '#BCA9CF';
 const PURPLE_DK = '#64427A';
+
+const GREEN_LT = '#CCB7E0';
+const GREEN_MD = '#BCA9CF';
+const GREEN_DK = '#64427A';
 
 
 

@@ -167,7 +167,7 @@ var Lyne = fabric.util.createClass(LevelPiece,
             // create circles and line and add them to canvas
 
             this.line = new fabric.Line(coords, 
-                {   stroke: hex_dark,
+                {   stroke: color_main_DK,
                     strokeWidth: LYNE_STROKEWIDTH,
                     originX: 'center', 
                     originY: 'center', 
@@ -178,7 +178,7 @@ var Lyne = fabric.util.createClass(LevelPiece,
                 {   left: this.startPoint.x, 
                     top:  this.startPoint.y, 
                     radius: LYNE_START_RAD, 
-                    fill: hex_dark, 
+                    fill: color_main_DK, 
                     originX: 'center', 
                     originY: 'center',
                 }
@@ -190,7 +190,7 @@ var Lyne = fabric.util.createClass(LevelPiece,
                     {   left: this.endPoint.x, 
                         top:  this.endPoint.y,
                         radius: LYNE_END_RAD, 
-                        stroke: hex_dark, 
+                        stroke: color_main_DK, 
                         strokeWidth: LYNE_END_STROKEWIDTH,
                         fill: '',
                         originX: 'center', 
@@ -202,17 +202,33 @@ var Lyne = fabric.util.createClass(LevelPiece,
                     {   left: this.endPoint.x, 
                         top:  this.endPoint.y,
                         radius: LYNE_END_RAD, 
-                        fill: hex_dark, 
+                        fill: color_main_DK, 
                         originX: 'center', 
                         originY: 'center',
                     }
                 );
             }
-            
 
             this.addWithUpdate(this.line);
             this.addWithUpdate(this.startCircle);
             this.addWithUpdate(this.endCircle);
+
+            if (currentLevel.levelOptions.crossButton !== "none") 
+            {
+                this.startSquare = new fabric.Rect(
+                    {   originX: 'center', 
+                        originY: 'center',
+                        left: this.startPoint.x, 
+                        top:  this.startPoint.y, 
+                        width: LYNE_START_SQUARE_WIDTH, 
+                        height: LYNE_START_SQUARE_WIDTH, 
+                        fill: BACKGROUND_COLOR, 
+                        stroke: BACKGROUND_COLOR, 
+                        strokeWidth: 0, 
+                    }
+                );
+                this.addWithUpdate(this.startSquare);
+            }
 
             // Offset of group left/top to gridpoint
             this.deltaX = this.left - this.startPoint.x;
@@ -232,6 +248,10 @@ var Lyne = fabric.util.createClass(LevelPiece,
                 } else {
                     this.endCircle.set('radius', LYNE_END_RAD + LYNE_HOVER_GROWTH);
                 }
+
+                if(this.startSquare) {
+                    this.startSquare.strokeWidth = LYNE_START_SQUARE_STROKEWIDTH;
+                }
             }
         },
 
@@ -242,6 +262,10 @@ var Lyne = fabric.util.createClass(LevelPiece,
                 this.endCircle.set('strokeWidth', LYNE_END_STROKEWIDTH);
             } else {
                 this.endCircle.set('radius', LYNE_END_RAD);
+            }
+
+            if(this.startSquare) {
+                this.startSquare.strokeWidth = 0; 
             }
             
         },
@@ -374,8 +398,8 @@ var PolyGroup = fabric.util.createClass(LevelPiece,
 
             this.polygon = new fabric.Polygon(gridPointsToCoords(gridPoints),
                 {
-                 fill: hex_light, 
-                 stroke: hex_dark,
+                 fill: color_main_LT, 
+                 stroke: color_main_DK,
                  strokeWidth: POLY_STROKEWIDTH,
                 }
             );
@@ -392,12 +416,12 @@ var PolyGroup = fabric.util.createClass(LevelPiece,
 
         mouseOver: function() {
             if (this.selectable) {
-                this.set({'fill': hex_med});
+                this.set({'fill': color_main_MD});
             }
         },
 
         mouseOut: function() {
-            this.set({'fill': hex_light});
+            this.set({'fill': color_main_LT});
         },
 
         update: function(mouse_e) {
@@ -508,6 +532,154 @@ var PolyGroup = fabric.util.createClass(LevelPiece,
 
 
 // ----------------------------------
+// Shapes
+// ----------------------------------
+
+var Circle = fabric.util.createClass(LevelPiece, 
+    {
+        initialize: function(gridPoint, radius) {
+
+            // Initialize Polygon
+            this.callSuper('initialize');
+            this.set( 
+                {originX: 'center', 
+                 originY: 'center',
+                }
+            );
+
+            this.type = "circle";
+
+            this.gridPoint = gridPoint;
+            this.startPoint = gridPointsToCoords(this.gridPoint);
+            this.radius = radius;
+
+
+            this.circle = new fabric.Circle(
+                {
+                 originX: 'center', 
+                 originY: 'center',
+                 left: this.startPoint.x,
+                 top: this.startPoint.y,
+                 radius: this.radius * GRID_PIXEL_SIZE,
+                 fill: color_second_LT, 
+                 stroke: color_second_DK,
+                 strokeWidth: POLY_STROKEWIDTH,
+                }
+            );
+            this.addWithUpdate(this.circle);   
+
+            this.mouseToShapeOffsetX = null;
+            this.mouseToShapeOffsetY = null;                     
+        },
+
+        mouseOver: function() {
+            if (this.selectable) {
+                this.set({'fill': color_second_MD});
+            }
+        },
+
+        mouseOut: function() {
+            this.set({'fill': color_second_LT});
+        },
+
+        update: function(mouse_e) {
+
+            // Center object to mouse
+            if(mouse_e) {
+
+                var mouseX = mouse_e.offsetX;
+                var mouseY = mouse_e.offsetY;
+
+                // Check if mouse has left the grid
+                if ( mouseX < gridLeft) {mouseX = gridLeft;}
+                if ( mouseX > gridRight) {mouseX = gridRight;}
+                if ( mouseY < gridTop) {mouseY = gridTop;}
+                if ( mouseY > gridBot) {mouseY = gridBot;}
+    
+                // Move object to mouse position
+                this.set(
+                    {'left': mouseX + this.mouseToShapeOffsetX, 
+                     'top':  mouseY + this.mouseToShapeOffsetY, 
+                    }
+                );
+            }
+
+            // Move to nearest grid location (grid lock)
+            var newX = canvasCenterX + Math.round((this.left - canvasCenterX) / GRID_PIXEL_SIZE) * GRID_PIXEL_SIZE;
+            var newY = canvasCenterY + Math.round((this.top - canvasCenterY) / GRID_PIXEL_SIZE) * GRID_PIXEL_SIZE;
+            this.set(
+                {'left': (newX), 
+                 'top':  (newY),
+                }
+            );
+
+            currentLevel.updateBoard();
+
+            // TODO: Update position tracker
+            this.startPoint = {x: newX, y: newY}; 
+            this.gridPoint = coordsToGridPoints(this.startPoint);
+        },
+
+        onSelected: function(mouse_e) {
+            this.mouseToShapeOffsetX = this.left - mouse_e.offsetX;
+            this.mouseToShapeOffsetY = this.top - mouse_e.offsetY;
+
+            currentLevel.bringPieceToFront(this);
+            this.set('opacity', POLY_MOVING_OPACITY);
+            currentLevel.mode = 'moving';
+            currentLevel.selectedObject = this;
+        },
+
+        onModified: function() {
+            this.deselect();
+        },
+
+        deselect: function() {
+            // Change back to full opacity
+            this.set('opacity', 1);
+
+            // Deselect this object
+            canvas.discardActiveObject();
+            currentLevel.selectedObject = null;
+            currentLevel.mode = '';
+        },
+
+        getPoints: function() {
+            // Return an array of current grid points
+            return [this.gridPoint];
+
+        },
+
+        // encloses: function(gridPoint) {
+        //     return 
+        // },
+
+        scale: function(number) {
+            
+            // Add shapes to grid (starting in the +x direction)
+            for (var i = 1; i < number; i++) {
+
+                // Calculate new start point
+                var newStartX = this.gridPoint.x + i <= 5? 
+                                this.gridPoint.x + i: 
+                                this.gridPoint.x - (this.gridPoint.x + i - 5);
+                var newStartGridPoint = {x: newStartX, y: this.gridPoint.y};
+
+                // Make new PolyGroup at new location and add to Level
+                var newCircle = new Circle(newStartGridPoint);
+                currentLevel.addPiece(newCircle);
+            }
+            
+        },
+        
+
+        convertToObject: function() {
+            return {type: this.type, n: this.radius, points: [this.gridPoint]};
+        },
+    }
+);
+
+// ----------------------------------
 // Boxes
 // ----------------------------------
 
@@ -558,7 +730,7 @@ var Box = fabric.util.createClass(LevelPiece,
         },
 
         onSelected: function(mouse_e) {
-            this.box.set('fill', hex_light);
+            this.box.set('fill', color_main_LT);
             currentLevel.makeGridPiecesUnselectable();
 
         },
@@ -643,10 +815,6 @@ var BoxPoly = fabric.util.createClass(Box,
                 scale = BOXPOLY_THUMBNAIL_HEIGHT / bounds.height;
             }
 
-            console.log("bounds.centerPoint",bounds.centerPoint);
-            console.log("scale",scale);
-            console.log("gridPoints",gridPoints);
-
             // Center points to (0,0) and scale
             for (var i = 0; i < this.gridPoints.length; i++) 
             {
@@ -655,13 +823,11 @@ var BoxPoly = fabric.util.createClass(Box,
                                  y: -(this.gridPoints[i].y - bounds.centerPoint.y) * scale } );
             }
 
-            console.log("gridPoints",gridPoints);
-
             // Create thumbnail polygon
             this.thumbnail = new fabric.Polygon(gridPoints,
                 {
-                 fill: hex_light, 
-                 stroke: hex_dark,
+                 fill: color_main_LT, 
+                 stroke: color_main_DK,
                  strokeWidth: BOXPOLY_THUMBNAIL_STROKEWIDTH,
                 }
             );
@@ -670,6 +836,53 @@ var BoxPoly = fabric.util.createClass(Box,
 
         convertToObject: function() {
             return {type: this.type, points: this.gridPoints};
+        },
+    }
+);
+
+var BoxCircle = fabric.util.createClass(Box, 
+    {
+        initialize: function(radius) {
+
+            this.callSuper('initialize');
+
+            this.type = "boxCircle";
+            this.radius = radius;
+
+            this.createThumbnail();
+        },
+
+        createThumbnail: function(){
+
+            // Create shape in miniature, fit into box
+
+            // Calculate scaling factor for thumbnail
+            var scale = BOXPOLY_THUMBNAIL_DEFAULT_SCALE;
+            if ((2 * this.radius) * scale > BOXPOLY_THUMBNAIL_WIDTH){
+                scale = BOXPOLY_THUMBNAIL_WIDTH / (2 * this.radius);
+            }
+            if ((2 * this.radius)  * scale > BOXPOLY_THUMBNAIL_HEIGHT){
+                scale = BOXPOLY_THUMBNAIL_HEIGHT / (2 * this.radius);
+            }
+
+            // Create thumbnail of circle
+            this.thumbnail = new fabric.Circle(
+                {
+                 originX: 'center', 
+                 originY: 'center',
+                 left: 0,
+                 top: 0,
+                 radius: this.radius * scale,
+                 fill: color_second_LT, 
+                 stroke: color_second_DK,
+                 strokeWidth: POLY_STROKEWIDTH,
+                }
+            );
+            this.addWithUpdate(this.thumbnail);
+        },
+
+        convertToObject: function() {
+            return {type: this.type, n: this.radius};
         },
     }
 );
@@ -745,7 +958,7 @@ var DropLyne = fabric.util.createClass(
                 { left: this.startPoint.x, 
                 top:  this.startPoint.y, 
                 radius: LYNE_START_RAD, 
-                fill: hex_dark, 
+                fill: color_main_DK, 
                 originX: 'center', 
                 originY: 'center',
                 selectable: false,
@@ -839,7 +1052,7 @@ var DropArea = fabric.util.createClass(
                     top:  this.startPoint.y, 
                     width : GRID_PIXEL_SIZE,
                     height : GRID_PIXEL_SIZE,
-                    fill: hex_dark, 
+                    fill: color_main_DK, 
                     opacity: DROPPING_OPACITY,
                     selectable: false,
                 
@@ -963,8 +1176,38 @@ var ControlButton = fabric.util.createClass(fabric.Group,
                  fill: BUTTON_COLOR, 
                 }
             );
-
             this.addWithUpdate(this.button);
+
+            var line1_coords = [centerPoint.x - CROSS_BTN_LINELENGTH, centerPoint.y - CROSS_BTN_LINELENGTH,
+                                centerPoint.x + CROSS_BTN_LINELENGTH, centerPoint.y + CROSS_BTN_LINELENGTH];
+            this.line1 = new fabric.Line(line1_coords,
+                {
+                 stroke: BACKGROUND_COLOR, 
+                 strokeWidth: CROSS_BTN_STROKEWIDTH, 
+                 strokeLineCap: 'round',
+                 originX: 'center', 
+                 originY: 'center', 
+
+                }
+            );
+            this.addWithUpdate(this.line1);
+
+            var line2_coords = [centerPoint.x + CROSS_BTN_LINELENGTH, centerPoint.y - CROSS_BTN_LINELENGTH,
+                                centerPoint.x - CROSS_BTN_LINELENGTH, centerPoint.y + CROSS_BTN_LINELENGTH];
+            this.line2 = new fabric.Line(line2_coords,
+                {
+                 stroke: BACKGROUND_COLOR, 
+                 strokeWidth: CROSS_BTN_STROKEWIDTH, 
+                 strokeLineCap: 'round',
+                 originX: 'center', 
+                 originY: 'center', 
+                }
+            );
+            this.addWithUpdate(this.line2);
+
+            console.log("line2_coords",line2_coords);
+            console.log("this.line2",this.line2);
+
             
         },
 
@@ -1032,18 +1275,58 @@ var Shadow = fabric.util.createClass(fabric.Group,
                     strokeLineCap: 'round',
                     originX: 'center', 
                     originY: 'center', 
+                    selectable: false,
                     }
                 );
 
                 this.addWithUpdate(this.polygon);
-            }
 
-            
-            
+            }         
         },
 
         convertToObject: function() {
             return {type: this.type, points: this.gridPoints};
+        },
+
+    }
+);
+
+var ShadowCircle = fabric.util.createClass(fabric.Group, 
+    {
+        initialize: function(gridPoint, radius) {
+
+            // Initialize Polygon
+            this.callSuper('initialize');
+            this.set( 
+                {originX: 'center', 
+                 originY: 'center',
+                 selectable: false,
+                }
+            );
+
+            this.type = "shadowCircle";
+
+            this.gridPoint = gridPoint;
+            this.startPoint = gridPointsToCoords(this.gridPoint);
+            this.radius = radius;
+
+            // Draw shadow
+            this.circle = new fabric.Circle(
+                {
+                 originX: 'center', 
+                 originY: 'center',
+                 left: this.startPoint.x,
+                 top: this.startPoint.y,
+                 radius: this.radius * GRID_PIXEL_SIZE,
+                 fill: SHADOW_COLOR, 
+                 selectable: false,
+                }
+            );
+            this.addWithUpdate(this.circle);   
+        },
+
+        convertToObject: function() {
+            return {type: this.type, point: this.gridPoint, radius: this.radius};
         },
 
     }

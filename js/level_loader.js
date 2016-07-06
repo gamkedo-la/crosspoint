@@ -24,6 +24,10 @@ var makePieceFromJSON = function(jpiece)
     {
         piece = new Shadow(jpiece.points);
     }
+    else if (jpiece.type === "shadowCircle")
+    {
+        piece = new ShadowCircle(jpiece.point, jpiece.radius);
+    }
     else if (jpiece.type === "lyne") 
     {
         piece = new Lyne(jpiece.points);
@@ -55,6 +59,10 @@ var makePieceFromJSON = function(jpiece)
     else if (jpiece.type === "boxArea")
     {
         piece = new BoxArea(jpiece.n);
+    }
+    else if (jpiece.type === "boxCircle")
+    {
+        piece = new BoxCircle(jpiece.n);
     }
     else if (jpiece.type === "boxShape")
     {

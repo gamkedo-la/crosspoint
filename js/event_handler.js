@@ -45,7 +45,7 @@ canvas.on({
 function onMouseMove(ev) {
     if (currentLevel.mode === 'dropping' || currentLevel.mode === 'dropball') {
         // update dropping object
-        currentLevel.droppingObject.update(ev.e);
+        if(currentLevel.droppingObject) {currentLevel.droppingObject.update(ev.e);}
     }
     
 }
@@ -57,18 +57,26 @@ function onMouseDown(ev) {
 function onMouseUp(ev) {
     // Drop object on Grid
     if (currentLevel.mode === 'dropping') {
-        if (currentLevel.droppingObject.lyne || currentLevel.droppingObject.rectangle) {
-            // Add new piece to level
-            currentLevel.droppingObject.addToLevel();
-            currentLevel.removePiece(currentLevel.droppingBox);
+
+        // Check for dropping objects, cancel if not activated
+        if (currentLevel.droppingObject) {
+            if (currentLevel.droppingObject.lyne || currentLevel.droppingObject.rectangle) {
+                // Add new piece to level, remove box
+                currentLevel.droppingObject.addToLevel();
+                currentLevel.removePiece(currentLevel.droppingBox);
+            } else {
+                // Do not remove box
+                currentLevel.droppingObject.removeFromLevel();
+                currentLevel.droppingBox.deselect();
+            }
+            canvas.remove(currentLevel.droppingObject);
         } else {
-            currentLevel.droppingObject.removeFromLevel();
+            // No dropping object, just remove the box
+            currentLevel.removePiece(currentLevel.droppingBox);
         }
         
         // Reset values
-        canvas.remove(currentLevel.droppingObject);
         currentLevel.droppingObject = null;
-        currentLevel.droppingBox.deselect();
         currentLevel.droppingBox = null;
         currentLevel.makeGridPiecesSelectable();
         currentLevel.mode = '';
@@ -113,6 +121,7 @@ function onObjectSelected(ev) {
     if(ev.target.pieceID) {
         currentLevel.selectedPiece = ev.target;
         console.log(ev.target.pieceID, "selected")
+        console.log(ev.target, "selected")
     }
     // LEVEL EDITOR END
 
@@ -152,6 +161,7 @@ function beforeSelectionCleared(ev) {
             if (clearedObject.type === 'boxLyne' ||
                 clearedObject.type === 'boxArea' ||
                 clearedObject.type === 'boxPoly' ||
+                clearedObject.type === 'boxCircle' ||
                 clearedObject.type === 'boxShape')
             {
                 currentLevel.deselectBox(clearedObject, ev.e);

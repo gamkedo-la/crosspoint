@@ -90,6 +90,8 @@ var areaField = document.getElementById("areaTextfield");
 var areaBtn = document.getElementById("areaButton");
 var numberField = document.getElementById("numberTextfield");
 var numberBtn = document.getElementById("numberButton");
+var circleField = document.getElementById("circleTextfield");
+var circleBtn = document.getElementById("circleButton");
 var polyField = document.getElementById("polyTextfield");
 var polyBtn = document.getElementById("polyButton");
 
@@ -104,10 +106,15 @@ areaBtn.onclick = function(){
     var boxArea = new BoxArea(areaField.value);
     currentEditor.addStartPiece(boxArea);
 }
-// Add Number Box
+// Add NumberBall
 numberBtn.onclick = function(){
     var numberBall = new NumberBall(numberField.value);
     currentEditor.addStartPiece(numberBall);
+}
+// Add Circle Box
+circleBtn.onclick = function(){
+    var circle = new BoxCircle(circleField.value);
+    currentEditor.addStartPiece(circle);
 }
 
 // Add Polygon Box

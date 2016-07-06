@@ -1,8 +1,12 @@
 
 // TEMPORARY
-var hex_light = PURPLE_LT;
-var hex_med = PURPLE_MD;
-var hex_dark = PURPLE_DK;
+var color_main_LT = PURPLE_LT; // Light
+var color_main_MD = PURPLE_MD; // Medium
+var color_main_DK = PURPLE_DK; // Dark
+
+var color_second_LT = GREEN_LT; // Light
+var color_second_MD = GREEN_MD; // Medium
+var color_second_DK = GREEN_DK; // Dark
 // END TEMPORARY
 
 

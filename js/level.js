@@ -46,6 +46,7 @@ function Level()
     this.lynes = [];
     this.polygons = [];
     this.shapes = [];
+    this.circles = [];
 
     // current settings
     this.mode = '';
@@ -59,7 +60,7 @@ function Level()
 
     // TEMPORARY WIN MESSAGE
     var textShadow = new fabric.Shadow({color: 'white', blur: 20});
-    this.levelSolvedMessage = new fabric.Text("You Won!", 
+    this.levelSolvedMessage = new fabric.Text("You Win!", 
                 {   
                     originX: 'center',
                     originY: 'center',
@@ -243,7 +244,8 @@ Level.prototype.updateBoard = function()
 
     // Shadows
     for (var i = 0; i < this.shadows.length; i++) {
-        this.shadows[i].polygon.sendToBack();
+        if(this.shadows[i].polygon) {this.shadows[i].polygon.sendToBack();}
+        else if(this.shadows[i].circle) {this.shadows[i].circle.sendToBack();}
     }
 
     // Polygons - unmodified (for selection purposes)
@@ -355,9 +357,9 @@ Level.prototype.addPiece = function(_piece)
     {
         this.polygons.push(_piece);
     }
-    else if (_piece.type === "shape")
+    else if (_piece.type === "circle")
     {
-        this.shapes.push(_piece);
+        this.circles.push(_piece);
     }
     else if (_piece.type === "ball")
     {        
@@ -371,6 +373,10 @@ Level.prototype.addPiece = function(_piece)
     {
         this.addBox(_piece);
     }
+    else if (_piece.type === "boxCircle")
+    {
+        this.addBox(_piece);
+    }
     else if (_piece.type === "boxArea")
     {
         this.addBox(_piece);
@@ -379,7 +385,7 @@ Level.prototype.addPiece = function(_piece)
     {
         this.addBox(_piece);
     }
-    else if (_piece.type === "shadow")
+    else if (_piece.type === "shadow" || _piece.type === "shadowCircle")
     {
         this.shadows.push(_piece);
     }
@@ -389,7 +395,7 @@ Level.prototype.addPiece = function(_piece)
     }
     else 
     {
-        console.log("Piece has invalid type:", _piece);
+        console.log("Piece has invalid type:", _piece.type, _piece);
         return;
     }
 
@@ -433,9 +439,9 @@ Level.prototype.removePiece = function(_piece)
     {
         this.polygons = this.polygons.filter(function(e){return e!==_piece});
     }
-    else if (_piece.type === "shape")
+    else if (_piece.type === "circle")
     {
-        this.shapes = this.shapes.filter(function(e){return e!==_piece});
+        this.circles = this.circles.filter(function(e){return e!==_piece});
     }
     else if (_piece.type === "ball")
     {
@@ -452,6 +458,11 @@ Level.prototype.removePiece = function(_piece)
         this.boxes = this.boxes.filter(function(e){return e!==_piece});
         this.updateBoxes();
     }
+    else if (_piece.type === "boxCircle")
+    {
+        this.boxes = this.boxes.filter(function(e){return e!==_piece});
+        this.updateBoxes();
+    }
     else if (_piece.type === "boxArea")
     {
         this.boxes = this.boxes.filter(function(e){return e!==_piece});
@@ -462,7 +473,7 @@ Level.prototype.removePiece = function(_piece)
         this.boxes = this.boxes.filter(function(e){return e!==_piece});
         this.updateBoxes();
     }
-    else if (_piece.type === "shadow")
+    else if (_piece.type === "shadow" || _piece.type === "shadowCircle")
     {
         this.shadows = this.shadows.filter(function(e){return e!==_piece});
     }
@@ -486,15 +497,18 @@ Level.prototype.removePiece = function(_piece)
 
 Level.prototype.makeGridPiecesSelectable = function()
 {
-    var shapePieces = this.polygons.concat(this.shapes, this.lynes);
+    console.log("makeGridPiecesSelectable");
+    var shapePieces = this.polygons.concat(this.shapes, this.lynes, this.circles);
+    console.log("shapePieces",shapePieces);
     for (var i = 0; i < shapePieces.length; i++) {
         shapePieces[i].selectable = true;
+        console.log("i",i);
     }
 }
 
 Level.prototype.makeGridPiecesUnselectable = function()
 {
-    var shapePieces = this.polygons.concat(this.shapes, this.lynes);
+    var shapePieces = this.polygons.concat(this.shapes, this.lynes, this.circles);
     for (var i = 0; i < shapePieces.length; i++) {
         shapePieces[i].selectable = false;
     }    
@@ -630,11 +644,12 @@ Level.prototype.deselectBox = function(box, mouse_e)
 
     if (!pointInGrid(gridPoint)) {return;}
 
+    this.mode = 'dropping';
+    // Mark box for removal
+    this.droppingBox = box;
+
     if (box.type === 'boxLyne') 
     {
-        // Mark box for removal
-        this.droppingBox = box;
-
         // Round to closest grid point
         gridPoint.x = Math.round(gridPoint.x);
         gridPoint.y = Math.round(gridPoint.y);
@@ -643,9 +658,6 @@ Level.prototype.deselectBox = function(box, mouse_e)
         this.addLyneToGrid(gridPoint, box.gridWidth, box.gridHeight);
 
     } else if(box.type === 'boxArea') {
-
-        // Mark box for removal
-        this.droppingBox = box;
 
         // Calculate closest center point e.g. (0.5, 0.5)
         gridPoint.x = Math.round(gridPoint.x + 0.5) - 0.5;
@@ -661,11 +673,16 @@ Level.prototype.deselectBox = function(box, mouse_e)
         gridPoint.y = Math.round(gridPoint.y);
 
         // Attempt to add polygon to Grid as PolyGroup
-        this.addPolyToGrid(gridPoint, box.gridPoints);    
+        this.addPolyToGrid(gridPoint, box.gridPoints);       
 
-        // Remove box from level
-        currentLevel.removePiece(box);    
+    } else if(box.type === 'boxCircle') {
 
+        // Round to closest grid point
+        gridPoint.x = Math.round(gridPoint.x);
+        gridPoint.y = Math.round(gridPoint.y);
+
+        // Attempt to add polygon to Grid as PolyGroup
+        this.addCircleToGrid(gridPoint, box.radius);    
     }
     
 }
@@ -676,7 +693,6 @@ Level.prototype.addAreaToGrid = function(gridPoint, gridArea)
 
     this.droppingObject = dropArea;
     this.updateBoard();
-    this.mode = 'dropping';
 }
 
 Level.prototype.addPolyToGrid = function(startPoint, gridPoints)
@@ -687,7 +703,12 @@ Level.prototype.addPolyToGrid = function(startPoint, gridPoints)
     // Create PolyGroup object at gridPoint
     var poly = new PolyGroup(newGridPoints);
     currentLevel.addPiece(poly);
-
+}
+Level.prototype.addCircleToGrid = function(gridPoint, radius)
+{
+    // Create Circle object at gridPoint
+    var circle = new Circle(gridPoint, radius);
+    currentLevel.addPiece(circle);
 }
 
 // ##################################
@@ -906,7 +927,6 @@ Level.prototype.addLyneToGrid = function(gridPoint, gridWidth, gridHeight)
 
     this.droppingObject = dropLyne;
     this.updateBoard();
-    this.mode = 'dropping';
 }
 
 /**
@@ -1094,6 +1114,13 @@ Level.prototype.convertPiecesToShadows = function()
         newShadows.push(shadow);
     }
 
+    // Make shadows of Circles
+    for (var i = 0; i < this.circles.length; i++) 
+    {
+        var shadow = new ShadowCircle(this.circles[i].gridPoint, this.circles[i].radius);
+        newShadows.push(shadow);
+    }
+
 // TODO commented out, ERIK 2016-07
     // // Combine all shadows that overlap
     // var finished = false;
@@ -1142,7 +1169,7 @@ Level.prototype.convertPiecesToPoints = function()
     // Returns the points of all current pieces on the board.
 
     var newPoints = []; 
-    var shapePieces = this.polygons.concat(this.shapes, this.lynes);
+    var shapePieces = this.polygons.concat(this.lynes, this.circles);
 
     // Extract points from 2D pieces on the board
     for (var i = 0; i < shapePieces.length; i++) 
@@ -1190,19 +1217,11 @@ Level.prototype.isSolved = function()
 
     // Check if current board matches a solution set
     var gridPoints = []; 
+    var shapePieces = this.polygons.concat(this.lynes, this.circles);
 
     // Loop through all shapes and compile their points
-    for (var i = 0; i < this.polygons.length; i++) {
-        var points = this.polygons[i].getPoints();
-
-        for (var j = 0; j < points.length; j++) {
-            gridPoints.push(points[j]);
-        }
-    }
-
-    // Loop through lines and compile their points
-    for (var i = 0; i < this.lynes.length; i++) {
-        var points = this.lynes[i].getPoints();
+    for (var i = 0; i < shapePieces.length; i++) {
+        var points = shapePieces[i].getPoints();
 
         for (var j = 0; j < points.length; j++) {
             gridPoints.push(points[j]);
