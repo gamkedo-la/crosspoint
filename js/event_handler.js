@@ -70,6 +70,7 @@ function onMouseUp(ev) {
         currentLevel.droppingObject = null;
         currentLevel.droppingBox.deselect();
         currentLevel.droppingBox = null;
+        currentLevel.makeGridPiecesSelectable();
         currentLevel.mode = '';
 
         currentLevel.updateBoard();

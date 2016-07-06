@@ -59,12 +59,12 @@ function Level()
 
     // TEMPORARY WIN MESSAGE
     var textShadow = new fabric.Shadow({color: 'white', blur: 20});
-    this.levelSolvedMessage = new fabric.Text("Success!", 
+    this.levelSolvedMessage = new fabric.Text("You Won!", 
                 {   
                     originX: 'center',
                     originY: 'center',
                     left: canvasCenterX, 
-                    top: canvasCenterY,
+                    top: 60,
                     stroke: 'gray',
                     strokeWidth: 1,
                     fontSize: 60,
@@ -223,12 +223,11 @@ Level.prototype.loadBoard = function()
 
 
     // Create cross button
-
-    // if (this.levelOptions.crossButton)
     this.crossButton = new ControlButton("cross", {x: canvasCenterX, 
                                                y: canvasHeight - (canvasHeight - gridBot)/2});
-
-    canvas.add(this.crossButton);
+    if (this.levelOptions.crossButton !== "none") {
+        canvas.add(this.crossButton);
+    }
 }
 
 /**
@@ -282,8 +281,9 @@ Level.prototype.updateBoard = function()
     for (var i = 0; i < this.balls.length; i++) {
         this.balls[i].bringToFront();
     }
+
     // buttons
-    this.crossButton.bringToFront();
+    if(this.levelOptions.crossButton !== "none") {this.crossButton.bringToFront();}
 
     // TEMP LEVEL WIN MESSAGE
     this.levelSolvedMessage.bringToFront();
@@ -479,6 +479,26 @@ Level.prototype.removePiece = function(_piece)
     canvas.remove(_piece);
 }
 
+
+// ##################################
+// Selectability
+// ##################################
+
+Level.prototype.makeGridPiecesSelectable = function()
+{
+    var shapePieces = this.polygons.concat(this.shapes, this.lynes);
+    for (var i = 0; i < shapePieces.length; i++) {
+        shapePieces[i].selectable = true;
+    }
+}
+
+Level.prototype.makeGridPiecesUnselectable = function()
+{
+    var shapePieces = this.polygons.concat(this.shapes, this.lynes);
+    for (var i = 0; i < shapePieces.length; i++) {
+        shapePieces[i].selectable = false;
+    }    
+}
 
 // ##################################
 // Deleting Pieces

@@ -33,7 +33,6 @@ window.onload = function() {
 
 
 function loadGame() {
-    currentLevel = Level.init({}, []);
 
     // var box1a = new BoxLyne(1);
     // var box1b = new BoxLyne(2);
@@ -56,12 +55,10 @@ function loadGame() {
     // var ball1d = new NumberBall(-1);
     // var ball1e = new NumberBall(0);
 
-    var solpoints = [{x:-2, y:-2}, {x:0, y:2}, {x:2, y:2}, {x:0, y:-2}]
-    var shad1 = new Shadow(solpoints);
-    var sol1 = new SolutionManager([solpoints])
+    var sol1 = new SolutionManager([])
 
-    var pieces = [shad1,sol1 ];
-    currentLevel.addPieces(pieces);
+    var pieces = [sol1];
+    currentLevel = Level.init({crossButton: "none", lineAddition: "off"}, pieces);
 
     // loadLevel(1,1);
 }

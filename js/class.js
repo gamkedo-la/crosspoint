@@ -66,7 +66,9 @@ var NumberBall = fabric.util.createClass(LevelPiece,
         },
 
         mouseOver: function() {
-            this.circle.set('radius', NUMBER_BALL_RAD + NUMBER_BALL_HOVER_GROWTH);
+            if (this.selectable) {
+                this.circle.set('radius', NUMBER_BALL_RAD + NUMBER_BALL_HOVER_GROWTH);
+            }
         },
 
         mouseOut: function() {
@@ -222,12 +224,14 @@ var Lyne = fabric.util.createClass(LevelPiece,
         },
 
         mouseOver: function() {
-            this.line.set('strokeWidth', LYNE_STROKEWIDTH + LYNE_HOVER_GROWTH);
-            this.startCircle.set('radius', LYNE_START_RAD + LYNE_HOVER_GROWTH);
-            if (currentLevel.levelOptions.lineAddition === "on") {
-                this.endCircle.set('strokeWidth', LYNE_END_STROKEWIDTH + LYNE_HOVER_GROWTH); 
-            } else {
-                this.endCircle.set('radius', LYNE_END_RAD + LYNE_HOVER_GROWTH);
+            if (this.selectable) {
+                this.line.set('strokeWidth', LYNE_STROKEWIDTH + LYNE_HOVER_GROWTH);
+                this.startCircle.set('radius', LYNE_START_RAD + LYNE_HOVER_GROWTH);
+                if (currentLevel.levelOptions.lineAddition === "on") {
+                    this.endCircle.set('strokeWidth', LYNE_END_STROKEWIDTH + LYNE_HOVER_GROWTH); 
+                } else {
+                    this.endCircle.set('radius', LYNE_END_RAD + LYNE_HOVER_GROWTH);
+                }
             }
         },
 
@@ -387,7 +391,9 @@ var PolyGroup = fabric.util.createClass(LevelPiece,
         },
 
         mouseOver: function() {
-            this.set({'fill': hex_med});
+            if (this.selectable) {
+                this.set({'fill': hex_med});
+            }
         },
 
         mouseOut: function() {
@@ -542,7 +548,9 @@ var Box = fabric.util.createClass(LevelPiece,
         },
 
         mouseOver: function() {
-            this.box.set('strokeWidth', BOX_HOVER_STROKEWIDTH);
+            if (this.selectable) {
+                this.box.set('strokeWidth', BOX_HOVER_STROKEWIDTH);
+            }
         },
 
         mouseOut: function() {
@@ -551,6 +559,7 @@ var Box = fabric.util.createClass(LevelPiece,
 
         onSelected: function(mouse_e) {
             this.box.set('fill', hex_light);
+            currentLevel.makeGridPiecesUnselectable();
 
         },
         

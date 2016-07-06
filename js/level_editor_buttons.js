@@ -22,6 +22,8 @@ var loadBtn = document.getElementById("loadButton");
 var levelTextfield = document.getElementById("levelTextfield");
 
 
+
+
 // Toggle
 editorBtn.onclick = function(){
 
@@ -59,6 +61,22 @@ saveBtn.onclick = function(){
 loadBtn.onclick = function(){
     currentEditor.clearAll();
     currentEditor.loadLevel();
+}
+
+
+// Dropdown level options
+var crossDropdown = document.getElementById("crossButtonDropdown");
+crossDropdown.onchange = function(){
+    currentLevel.levelOptions.crossButton = crossDropdown.value;
+    if (crossDropdown.value === "none") {
+        canvas.remove(currentLevel.crossButton);
+    } else {
+        canvas.add(currentLevel.crossButton);
+    }
+}
+var lineAddDropdown = document.getElementById("lineAddDropdown");
+lineAddDropdown.onchange = function(){
+    currentLevel.levelOptions.lineAddition = lineAddDropdown.value;
 }
 
 // ----------------------------------
