@@ -62,8 +62,7 @@ LevelEditor.prototype.createSolution = function()
 {
     // Create solution out of current pieces on the board
     currentLevel.deleteSolution();
-    // TEMP
-    var solpoints = [{x:-2, y:-2}, {x:0, y:2}, {x:2, y:2}, {x:0, y:-2}];
+    var solpoints = currentLevel.convertPiecesToPoints();
     return new SolutionManager([solpoints]);
 }
 

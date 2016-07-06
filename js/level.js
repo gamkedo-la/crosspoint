@@ -56,6 +56,23 @@ function Level()
     this.droppingBox = null;
     this.renderCanvasRequired = false;
 
+
+    // TEMPORARY WIN MESSAGE
+    var textShadow = new fabric.Shadow({color: 'white', blur: 20});
+    this.levelSolvedMessage = new fabric.Text("Success!", 
+                {   
+                    originX: 'center',
+                    originY: 'center',
+                    left: canvasCenterX, 
+                    top: canvasCenterY,
+                    stroke: 'gray',
+                    strokeWidth: 1,
+                    fontSize: 60,
+                    opacity: 0,
+                    shadow: textShadow,
+                });
+    canvas.add(this.levelSolvedMessage);
+
     return this;
 }
 
@@ -268,6 +285,9 @@ Level.prototype.updateBoard = function()
     // buttons
     this.crossButton.bringToFront();
 
+    // TEMP LEVEL WIN MESSAGE
+    this.levelSolvedMessage.bringToFront();
+
     // Call canvas.renderAll() through currentLevel.tick()
     this.renderCanvasRequired = true;
 
@@ -325,7 +345,6 @@ Level.prototype.addPiece = function(_piece)
     if (_piece.type === "solution") 
     {
         this.solutionManager = _piece;
-        this.allPieces.push(_piece);
         return;
     } 
     else if (_piece.type === "lyne") 
@@ -403,7 +422,7 @@ Level.prototype.removePiece = function(_piece)
 {
     if (_piece.type === "solution") 
     {
-        this.solutionManager = null;
+        this.solutionManager = new SolutionManager([[]]);
         return;
     } 
     else if (_piece.type === "lyne") 
@@ -468,7 +487,6 @@ Level.prototype.removePiece = function(_piece)
 Level.prototype.deletePieces = function()
 {       
     this.removePieces(this.allPieces);
-    this.allPieces = [];
 }
 
 Level.prototype.deleteShadows = function()
@@ -480,7 +498,6 @@ Level.prototype.deleteShadows = function()
 Level.prototype.deleteSolution = function()
 {
     this.removePieces(this.solutionManager);
-    this.solutionManager = null;
 }
 
 
@@ -805,7 +822,7 @@ Level.prototype.joinLynes = function(lyne)
 {
 
     // Courtesy check, return if there are only two lines on board
-    if (this.levelOptions.lineAddition === "off") {return;}
+    if (this.levelOptions.lineAddition !== "on") {return;}
 
 
     var p0 = lyne.startGridPoint;
@@ -953,7 +970,7 @@ Level.prototype.removeAllCrossMarks = function(point)
  */
 Level.prototype.markCrossLynes = function()
 {
-    if (currentLevel.levelOptions.lineAddition === "off") {return;}
+    if (currentLevel.levelOptions.crossButton === "none") {return;}
 
     // delete all previous marks
     this.removeAllCrossMarks();
@@ -981,7 +998,7 @@ Level.prototype.markCrossLynes = function()
  */
 Level.prototype.crossLynes = function()
 {
-    if (currentLevel.levelOptions.lineAddition === "off") {return;}
+    if (currentLevel.levelOptions.crossButton === "none") {return;}
 
     // Remove cross marks
     this.removeAllCrossMarks();
@@ -1100,6 +1117,47 @@ Level.prototype.convertPiecesToShadows = function()
 // ##################################
 
 
+Level.prototype.convertPiecesToPoints = function()
+{   
+    // Returns the points of all current pieces on the board.
+
+    var newPoints = []; 
+    var shapePieces = this.polygons.concat(this.shapes, this.lynes);
+
+    // Extract points from 2D pieces on the board
+    for (var i = 0; i < shapePieces.length; i++) 
+    {
+        var points = shapePieces[i].getPoints();
+        for (var j = 0; j < points.length; j++) 
+        {
+            newPoints.push({x: points[j].x, y: points[j].y});
+        }
+    }
+
+    return newPoints;
+
+}
+
+Level.prototype.printLevelSolved = function()
+{
+    this.levelSolvedMessage.animate(
+        {opacity: 1} , 
+        {
+          duration:  BOXLYNE_MOVE_TIME,
+          onChange: function () {currentLevel.renderCanvasRequired = true},
+          onComplete: function () {
+            currentLevel.levelSolvedMessage.animate(
+                {opacity: 0} , 
+                {
+                  duration: 3 * BOXLYNE_MOVE_TIME,
+                  onChange: function () {currentLevel.renderCanvasRequired = true},
+                }
+            );
+          },
+        }
+    );
+}
+
 
 /**
  * Check if Level win condition has been met
@@ -1107,26 +1165,34 @@ Level.prototype.convertPiecesToShadows = function()
  * @param  pieces [Array]
  * @return {}
  */
-Level.prototype.isLevelSolved = function()
+Level.prototype.isSolved = function()
 {
-    //TEMP Erik 2016-07
-    return false;
 
-    // // Check if current board matches a solution set.
-    // var gridPoints = [], points;
+    // Check if current board matches a solution set
+    var gridPoints = []; 
 
-    // // Loop through all objects and compile their points
-    // for (var i = 0; i < this.polygons.length; i++) {
-    //     points = this.polygons[i].getPoints();
+    // Loop through all shapes and compile their points
+    for (var i = 0; i < this.polygons.length; i++) {
+        var points = this.polygons[i].getPoints();
 
-    //     for (var j = 0; j < points.length; j++) {
-    //         gridPoints.push(points[j]);
-    //     }
-    // }
+        for (var j = 0; j < points.length; j++) {
+            gridPoints.push(points[j]);
+        }
+    }
 
-    // return this.solutionManager.levelSolved(gridPoints);
+    // Loop through lines and compile their points
+    for (var i = 0; i < this.lynes.length; i++) {
+        var points = this.lynes[i].getPoints();
+
+        for (var j = 0; j < points.length; j++) {
+            gridPoints.push(points[j]);
+        }
+    }
+
+    console.log("isLevelSolved gridpoints", gridPoints);
+    console.log("SolutionManager: ",this.solutionManager.solutionsArray);
+    return this.solutionManager.levelSolved(gridPoints);
 }
-
 
 
 

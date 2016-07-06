@@ -42,15 +42,10 @@ var makePieceFromJSON = function(jpiece)
     }
     else if (jpiece.type === "boxLyne")
     {  
-        console.log("jpiece", jpiece);
         if(jpiece.height) {
-            console.log("if");
             piece = new BoxLyne(jpiece.width, jpiece.height);
-            console.log("endif");
         } else {
-            console.log("else");
             piece = new BoxLyne(jpiece.width);
-            console.log("endelse");
         }
     }
     else if (jpiece.type === "boxPoly")
@@ -71,8 +66,6 @@ var makePieceFromJSON = function(jpiece)
         return null;
     }
 
-    console.log("piece", piece);
-
     // Add to level editor
     currentEditor.addStartPiece(piece);
 
@@ -86,8 +79,6 @@ var loadPiecesFromJSON = function(jsonPieces)
     // Instantiate pieces 
     for (var i = 0; i < jsonPieces.length; i++) 
     {
-        console.log("loadPiecesFromJSON", i);
-        console.log("jsonPieces[i]", jsonPieces[i]);
         pieces.push( makePieceFromJSON(jsonPieces[i]) );
     }
     return pieces;
@@ -95,8 +86,6 @@ var loadPiecesFromJSON = function(jsonPieces)
 
 var loadLevelFromJSON = function(jsonObject) 
 {
-    console.log("jsonObject.levelOptions", jsonObject.levelOptions);
-    console.log("jsonObject.pieces", jsonObject.pieces);
     // Instantiate pieces
     var pieces = loadPiecesFromJSON(jsonObject.pieces);
 

@@ -199,7 +199,7 @@ var Lyne = fabric.util.createClass(LevelPiece,
                 this.endCircle = new fabric.Circle(
                     {   left: this.endPoint.x, 
                         top:  this.endPoint.y,
-                        radius: LYNE_START_RAD, 
+                        radius: LYNE_END_RAD, 
                         fill: hex_dark, 
                         originX: 'center', 
                         originY: 'center',
@@ -227,7 +227,7 @@ var Lyne = fabric.util.createClass(LevelPiece,
             if (currentLevel.levelOptions.lineAddition === "on") {
                 this.endCircle.set('strokeWidth', LYNE_END_STROKEWIDTH + LYNE_HOVER_GROWTH); 
             } else {
-                this.endCircle.set('radius', LYNE_START_RAD + LYNE_HOVER_GROWTH);
+                this.endCircle.set('radius', LYNE_END_RAD + LYNE_HOVER_GROWTH);
             }
         },
 
@@ -237,7 +237,7 @@ var Lyne = fabric.util.createClass(LevelPiece,
             if (currentLevel.levelOptions.lineAddition === "on") {
                 this.endCircle.set('strokeWidth', LYNE_END_STROKEWIDTH);
             } else {
-                this.endCircle.set('radius', LYNE_START_RAD);
+                this.endCircle.set('radius', LYNE_END_RAD);
             }
             
         },

@@ -51,8 +51,7 @@ function onMouseMove(ev) {
 }
 
 function onMouseDown(ev) {
-    console.log('Win:', currentLevel.isLevelSolved()); 
-    console.log('levels:', levels); 
+    
 }
 
 function onMouseUp(ev) {
@@ -79,6 +78,15 @@ function onMouseUp(ev) {
     if (currentLevel.mode === 'dropball') {
         currentLevel.droppingObject.deselect();
     }
+
+    // Check for win condition
+    if(currentLevel.isSolved()) {
+        console.log("YOU WIN!!!"); 
+        
+        currentLevel.printLevelSolved();
+
+    }
+    
     
 }
 
