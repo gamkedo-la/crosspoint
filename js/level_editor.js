@@ -108,12 +108,17 @@ LevelEditor.prototype.saveLevelToTextField = function()
     levelTextfield.value = JSON.stringify(level_obj);
 }
 
-LevelEditor.prototype.loadLevel = function() 
+LevelEditor.prototype.loadLevel = function(JSON_from_file) 
 {
     this.clearAll();
     canvas.clear();
 
-    var levelObject = JSON.parse(levelTextfield.value);
+    if (JSON_from_file) {
+        var levelObject = JSON.parse(JSON_from_file);
+    } else {
+        var levelObject = JSON.parse(levelTextfield.value);
+    }
+    
 
     loadLevelFromJSON(levelObject);
 }
