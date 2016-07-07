@@ -70,6 +70,12 @@ function deg_to_rad(degrees) {
     return degrees * Math.PI/180;
 }
 
+// Distance between two points
+function distance_between_two_points(p0, p1) {
+    var deltaX = p1.x - p0.x;
+    var deltaY = p1.y - p0.y;
+    return Math.hypot(deltaX, deltaY);
+}
 
 // Check to see if polygon encloses point
 function poly_encloses_point(polygon_points, point) {
@@ -157,13 +163,7 @@ function angle_between_vectors(a,b) {
 
 
 
-// Distance between two points
-function distance_between_two_points(x0, y0, x1, y1) {
-    var deltaX = x1 - x0;
-    var deltaY = y1 - y0;
-    return Math.hypot(deltaX, deltaY);
-    
-}
+
 
 // Translate Point objects
 function translate_points(points, deltaX, deltaY) {

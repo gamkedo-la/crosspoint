@@ -779,30 +779,17 @@ Level.prototype.ballMoving = function(ball)
 
     var ballPoint = coordsToGridPoints({x: ball.left, y: ball.top});
     
+    var shapePieces = this.polygons.concat(this.shapes, this.lynes, this.circles);
+
     // Check if hovering on lynes 
-    for (var i = 0; i < this.lynes.length; i++) {
-        if(this.lynes[i].encloses(ballPoint)) {
+    for (var i = 0; i < shapePieces.length; i++) {
+        if(shapePieces[i].encloses(ballPoint)) {
 
-            if(this.hoveringObject === this.lynes[i]) {return;}
-
-            // establish new hovering object
-            if(this.hoveringObject) {this.hoveringObject.mouseOut();}
-            this.hoveringObject = this.lynes[i];
-            this.hoveringObject.mouseOver();
-            this.updateBoard();
-            return;
-        }
-    }
-
-    // Check if hovering on polygons 
-    for (var i = 0; i < this.polygons.length; i++) {
-        if(this.polygons[i].encloses(ballPoint)) {
-
-            if(this.hoveringObject === this.polygons[i]) {return;}
+            if(this.hoveringObject === shapePieces[i]) {return;}
 
             // establish new hovering object
             if(this.hoveringObject) {this.hoveringObject.mouseOut();}
-            this.hoveringObject = this.polygons[i];
+            this.hoveringObject = shapePieces[i];
             this.hoveringObject.mouseOver();
             this.updateBoard();
             return;
@@ -822,22 +809,14 @@ Level.prototype.ballDropped = function(ball)
     // Get center of ball
     var ballPoint = coordsToGridPoints({x: ball.left, y: ball.top});
 
-    // Check if dropped on lynes 
-    for (var i = 0; i < this.lynes.length; i++) {
-        if(this.lynes[i].encloses(ballPoint)) {
-            // scale lyne
-            this.lynes[i].scale(ball.number);
-            // remove ball
-            this.removePiece(ball);
-            return;
-        }
-    }
+    var shapePieces = this.lynes.concat(this.circles, this.polygons);
 
-    // Check if dropped on polygons 
-    for (var i = 0; i < this.polygons.length; i++) {
-        if(this.polygons[i].encloses(ballPoint)) {
-            // scale polygon
-            this.polygons[i].scale(ball.number);
+    // Check if dropped on shapes 
+    for (var i = 0; i < shapePieces.length; i++) 
+    {
+        if(shapePieces[i].encloses(ballPoint)) {
+            // scale shape
+            shapePieces[i].scale(ball.number);
             // remove ball
             this.removePiece(ball);
             return;

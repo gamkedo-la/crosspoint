@@ -650,9 +650,13 @@ var Circle = fabric.util.createClass(LevelPiece,
 
         },
 
-        // encloses: function(gridPoint) {
-        //     return 
-        // },
+        encloses: function(gridPoint) {
+            if(distance_between_two_points(gridPoint, this.gridPoint) <= this.radius) {
+                return true;
+            } else {
+                return false;   
+            }  
+        },
 
         scale: function(number) {
             
@@ -666,7 +670,7 @@ var Circle = fabric.util.createClass(LevelPiece,
                 var newStartGridPoint = {x: newStartX, y: this.gridPoint.y};
 
                 // Make new PolyGroup at new location and add to Level
-                var newCircle = new Circle(newStartGridPoint);
+                var newCircle = new Circle(newStartGridPoint, this.radius);
                 currentLevel.addPiece(newCircle);
             }
             

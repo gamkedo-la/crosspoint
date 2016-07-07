@@ -91,9 +91,9 @@ const PURPLE_LT = '#CCB7E0';
 const PURPLE_MD = '#BCA9CF';
 const PURPLE_DK = '#64427A';
 
-const GREEN_LT = '#CCB7E0';
-const GREEN_MD = '#BCA9CF';
-const GREEN_DK = '#64427A';
+const GREEN_LT = '#B7CE89';
+const GREEN_MD = '#ABC180';
+const GREEN_DK = '#64832E';
 
 
 
