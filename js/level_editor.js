@@ -51,17 +51,29 @@ LevelEditor.prototype.deletePiece = function(_piece)
     }
 }
 
+LevelEditor.prototype.removeShadowsAndSolutions = function() 
+{
+    // Remove shadows from startingPieces
+    for (var i = this.startingPieces.length-1; i >= 0; i--) {
+        var _piece = this.startingPieces[i];
+        if (_piece.type === 'shadow' || 
+            _piece.type === 'shadowCircle' ||
+            _piece.type === 'solution') {
+            
+            this.removePieceFromStart(_piece);
+        }
+    }
+}
+
 LevelEditor.prototype.createShadows = function() 
 {
     // Create shadow out of current pieces on the board
-    currentLevel.deleteShadows();
     return currentLevel.convertPiecesToShadows();
 }
 
 LevelEditor.prototype.createSolution = function() 
 {
     // Create solution out of current pieces on the board
-    currentLevel.deleteSolution();
     var solpoints = currentLevel.convertPiecesToPoints();
     return new SolutionManager([solpoints]);
 }
@@ -88,6 +100,9 @@ LevelEditor.prototype.saveLevelToTextField = function()
     _options.lineAddition = document.getElementById("lineAddDropdown").value;
 
     // PIECES
+
+    // Get rid of old shadows and solutions
+    this.removeShadowsAndSolutions();
 
     // Add recorded Level Pieces to list 
     for (var i = 0; i < this.startingPieces.length; i++) {
