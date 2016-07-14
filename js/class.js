@@ -192,7 +192,7 @@ var Lyne = fabric.util.createClass(LevelPiece,
                         radius: LYNE_END_RAD, 
                         stroke: color_main_DK, 
                         strokeWidth: LYNE_END_STROKEWIDTH,
-                        fill: '',
+                        fill: INVISIBLE_COLOR,
                         originX: 'center', 
                         originY: 'center',
                     }

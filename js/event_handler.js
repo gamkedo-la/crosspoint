@@ -117,6 +117,8 @@ function onMouseOut(ev) {
 
 function onObjectSelected(ev) {
 
+    console.log(ev);
+
     // LEVEL EDITOR - Keep track of pieces that are selected
     if(ev.target.pieceID) {
         currentLevel.selectedPiece = ev.target;
