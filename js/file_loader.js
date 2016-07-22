@@ -5,7 +5,7 @@
 
 
 document.getElementById('file').addEventListener('change', function (evt) {
-    console.log("readFile");
+
    var files = evt.target.files;
    var file = files[0];           
    var reader = new FileReader();

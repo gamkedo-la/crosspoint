@@ -137,8 +137,6 @@ function translateGridpointsToPoint(gridPoints, startPoint) {
                             y: gridPoints[i].y + offset.y});
     }
 
-    console.log("newGridPoints",newGridPoints);
-
     return newGridPoints;
 }
 

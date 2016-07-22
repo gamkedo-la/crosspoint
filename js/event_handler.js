@@ -63,7 +63,7 @@ function onMouseUp(ev) {
             if (currentLevel.droppingObject.lyne || currentLevel.droppingObject.rectangle) {
                 // Add new piece to level, remove box
                 currentLevel.droppingObject.addToLevel();
-                currentLevel.removePiece(currentLevel.droppingBox);
+                if (currentLevel.droppingBox) {currentLevel.removePiece(currentLevel.droppingBox);}
             } else {
                 // Do not remove box
                 currentLevel.droppingObject.removeFromLevel();
@@ -72,7 +72,7 @@ function onMouseUp(ev) {
             canvas.remove(currentLevel.droppingObject);
         } else {
             // No dropping object, just remove the box
-            currentLevel.removePiece(currentLevel.droppingBox);
+            if (currentLevel.droppingBox) {currentLevel.removePiece(currentLevel.droppingBox);}
         }
         
         // Reset values
@@ -96,7 +96,6 @@ function onMouseUp(ev) {
 
     }
     
-    
 }
 
 function onMouseOver(ev) {
@@ -117,13 +116,11 @@ function onMouseOut(ev) {
 
 function onObjectSelected(ev) {
 
-    console.log(ev);
 
     // LEVEL EDITOR - Keep track of pieces that are selected
     if(ev.target.pieceID) {
         currentLevel.selectedPiece = ev.target;
-        console.log(ev.target.pieceID, "selected")
-        console.log(ev.target, "selected")
+        console.log("pieceID",ev.target.pieceID)
     }
     // LEVEL EDITOR END
 

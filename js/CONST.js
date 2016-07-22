@@ -86,7 +86,8 @@ const FOREGROUND_LINE_COLOR = "black";
 const SHADOW_COLOR = "gray";
 const BUTTON_COLOR = "black";
 const NUMBER_BALL_COLOR = "black";
-const INVISIBLE_COLOR = 'rgba(255,255,255,0.1)';
+const INVISIBLE_COLOR = 'rgba(255,0,0,0.01)';
+const INVISIBLE_COLOR_MODIFIED = 'rgba(255,0,0,1.0)';
 
 const PURPLE_LT = '#CCB7E0';
 const PURPLE_MD = '#BCA9CF';

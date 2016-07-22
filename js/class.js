@@ -184,6 +184,9 @@ var Lyne = fabric.util.createClass(LevelPiece,
                 }
             );
 
+            this.addWithUpdate(this.line);
+            this.addWithUpdate(this.startCircle);
+
             if (currentLevel.levelOptions.lineAddition === "on") 
             {
                 this.endCircle = new fabric.Circle(
@@ -208,10 +211,11 @@ var Lyne = fabric.util.createClass(LevelPiece,
                     }
                 );
             }
+            this.addWithUpdate(this.endCircle);  
 
-            this.addWithUpdate(this.line);
-            this.addWithUpdate(this.startCircle);
-            this.addWithUpdate(this.endCircle);
+            // Create End Circle Control for changing orientation of vector
+            this.lyneEndControl = new LyneEndControl(this, this.endPoint, this.endCircle.radius);
+
 
             if (currentLevel.levelOptions.crossButton !== "none") 
             {
@@ -310,6 +314,9 @@ var Lyne = fabric.util.createClass(LevelPiece,
             this.endPoint = {x: newX + this.gridWidth * GRID_PIXEL_SIZE, y: newY - this.gridHeight * GRID_PIXEL_SIZE};
             this.endGridPoint = coordsToGridPoints(this.endPoint);
 
+            // Move Lyne End Control
+            this.lyneEndControl.moveToPoint(this.endPoint);
+
 
         },
 
@@ -367,6 +374,81 @@ var Lyne = fabric.util.createClass(LevelPiece,
     }
 );
 
+var LyneEndControl = fabric.util.createClass(LevelPiece, 
+    {
+        initialize: function(lyne, endPoint, radius) {
+
+            this.callSuper('initialize');
+            this.set( 
+                {originX: 'center', 
+                 originY: 'center',
+                }
+            );
+
+            this.type = "lyneEnd";
+
+            this.lyne = lyne;
+            this.endPoint = endPoint;
+            this.radius = radius;          
+
+            this.endCircle = new fabric.Circle(
+                {   left: this.endPoint.x, 
+                    top:  this.endPoint.y, 
+                    radius: this.radius, 
+                    fill: INVISIBLE_COLOR, 
+                    stroke: INVISIBLE_COLOR, 
+                    strokeWidth: this.lyne.endCircle.strokeWidth + LYNE_HOVER_GROWTH, 
+                    originX: 'center', 
+                    originY: 'center',
+                }
+            );
+
+            this.addWithUpdate(this.endCircle);
+
+        },
+
+        mouseOver: function() {
+            console.log('mouseOver: selectable', this.selectable);
+            if (this.selectable) {
+                this.endCircle.set('stroke', color_main_DK);
+            }
+        },
+
+        mouseOut: function() {
+            this.endCircle.set('stroke', INVISIBLE_COLOR);
+        },
+
+        onSelected: function(mouse_e) {
+            // make invisible
+            this.endCircle.set('stroke', INVISIBLE_COLOR);
+
+            // Set mode to dropping
+            currentLevel.mode = 'dropping';
+
+            // Call function to add new line to grid, give old lyne for deletion
+            currentLevel.addLyneToGrid(this.lyne.startGridPoint, this.lyne.gridWidth, this.lyne.gridHeight, this.lyne);
+        },
+
+        moveToPoint: function(point) {
+            this.set({left: point.x, 
+                      top:  point.y});
+            this.setCoords();
+            console.log('selectable', this.selectable);
+        },
+        
+        onModified: function() {
+
+            // Deselect this object
+            canvas.discardActiveObject();
+
+            // Delete this object
+            currentLevel.removePiece(this);
+            console.log("onModified done");
+
+        },
+
+    }
+);
 
 
 // ----------------------------------
@@ -822,7 +904,6 @@ var BoxPoly = fabric.util.createClass(Box,
             // Center points to (0,0) and scale
             for (var i = 0; i < this.gridPoints.length; i++) 
             {
-                console.log("gridpoint",this.gridPoints[i]);
                 gridPoints.push({x: (this.gridPoints[i].x - bounds.centerPoint.x) * scale,
                                  y: -(this.gridPoints[i].y - bounds.centerPoint.y) * scale } );
             }
@@ -958,18 +1039,19 @@ var DropLyne = fabric.util.createClass(
             this.startPoint = gridPointsToCoords(this.startGridPoint);    
             this.endPoint = null;
 
-            this.startCircle = new fabric.Circle(
-                { left: this.startPoint.x, 
-                top:  this.startPoint.y, 
-                radius: LYNE_START_RAD, 
-                fill: color_main_DK, 
-                originX: 'center', 
-                originY: 'center',
-                selectable: false,
-                }
-            );
+            // REMOVED BY ERIK 2016-07-22
+            // this.startCircle = new fabric.Circle(
+            //     { left: this.startPoint.x, 
+            //     top:  this.startPoint.y, 
+            //     radius: LYNE_START_RAD, 
+            //     fill: color_main_DK, 
+            //     originX: 'center', 
+            //     originY: 'center',
+            //     selectable: false,
+            //     }
+            // );
 
-            canvas.add(this.startCircle);
+            // canvas.add(this.startCircle);
 
             this.lyne = null;
             this.indx = null;
@@ -984,10 +1066,11 @@ var DropLyne = fabric.util.createClass(
 
         update: function(mouse_e) {
 
+            // REMOVED BY ERIK 2016-07-22
             // Check if this is first update
-            if(!this.lyne){
-                canvas.remove(this.startCircle);
-            }
+            // if(!this.lyne){
+            //     canvas.remove(this.startCircle);
+            // }
 
             // Calculate new angle
             var angle = getAngleFromPoints(this.startPoint, {x: mouse_e.offsetX, y: mouse_e.offsetY});
@@ -1004,8 +1087,9 @@ var DropLyne = fabric.util.createClass(
             // Exit if index does not change
             if (newIndx === this.indx) {return;}
             
+
             // Remove old line from canvas
-            if (this.lyne) {canvas.remove(this.lyne);}
+            if (this.lyne) {currentLevel.removePiece(this.lyne);}
 
             // Save new index and point
             this.indx = newIndx;
@@ -1015,9 +1099,7 @@ var DropLyne = fabric.util.createClass(
             // Add new Lyne to group
             var newLyne = new Lyne([this.startGridPoint, this.endPoint]);
             this.lyne = newLyne;
-            canvas.add(this.lyne);
-
-            currentLevel.updateBoard();
+            currentLevel.addPiece(this.lyne);
         },
         
         addToLevel: function() {
@@ -1208,9 +1290,6 @@ var ControlButton = fabric.util.createClass(fabric.Group,
                 }
             );
             this.addWithUpdate(this.line2);
-
-            console.log("line2_coords",line2_coords);
-            console.log("this.line2",this.line2);
 
             
         },

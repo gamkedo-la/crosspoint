@@ -30,8 +30,6 @@ LevelEditor.prototype.addStartPiece = function(_piece)
     this.startingPieces.push(_piece);
     currentLevel.addPiece(_piece);
 
-    console.log("this.startingPieces", this.startingPieces);
-
 }
 
 LevelEditor.prototype.removePieceFromStart = function(_piece)

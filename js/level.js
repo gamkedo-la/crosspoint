@@ -44,6 +44,7 @@ function Level()
 
     // grid pieces
     this.lynes = [];
+    this.lyneEnds = [];
     this.polygons = [];
     this.shapes = [];
     this.circles = [];
@@ -254,6 +255,7 @@ Level.prototype.updateBoard = function()
     // Lynes
     for (var i = 0; i < this.lynes.length; i++) {
         this.lynes[i].bringToFront();
+        this.lynes[i].lyneEndControl.bringToFront();
     }
     // Grid borders E/W
     this.gridBorderEast.bringToFront();
@@ -316,8 +318,12 @@ Level.prototype.getNextPieceID = function()
 
 Level.prototype.bringPieceToFront = function(_piece)
 {
-    if (_piece) {_piece.bringToFront();}
-    this.updateBoard();
+
+    if (_piece) {
+        _piece.bringToFront();
+        if (_piece.type === 'lyne') {_piece.lyneEndControl.bringToFront();}
+        this.updateBoard();
+    }
 
     // TODO: change order of arrays so that piece order on canvas can change.
 }
@@ -351,8 +357,13 @@ Level.prototype.addPiece = function(_piece)
     } 
     else if (_piece.type === "lyne") 
     {
+        this.addPiece(_piece.lyneEndControl);
         this.lynes.push(_piece);
     } 
+    else if (_piece.type === "lyneEnd")
+    {
+        this.lyneEnds.push(_piece);
+    }
     else if (_piece.type === "poly")
     {
         this.polygons.push(_piece);
@@ -433,8 +444,17 @@ Level.prototype.removePiece = function(_piece)
     } 
     else if (_piece.type === "lyne") 
     {
+        canvas.remove(_piece); // Workaround for when lyneEndControl is selected 
+        if(_piece.lyneEndControl) {this.removePiece(_piece.lyneEndControl);}
+
         this.lynes = this.lynes.filter(function(e){return e!==_piece});
+        console.log("Removed lyne", _piece);
     } 
+    else if (_piece.type === "lyneEnd")
+    {
+        this.lyneEnds = this.lyneEnds.filter(function(e){return e!==_piece});
+        console.log("Removed lyneEnd", this.lyneEnds);
+    }
     else if (_piece.type === "poly")
     {
         this.polygons = this.polygons.filter(function(e){return e!==_piece});
@@ -488,6 +508,8 @@ Level.prototype.removePiece = function(_piece)
     }
 
     canvas.remove(_piece);
+    delete _piece;
+    console.log("Got to bottom");
 }
 
 
@@ -497,12 +519,9 @@ Level.prototype.removePiece = function(_piece)
 
 Level.prototype.makeGridPiecesSelectable = function()
 {
-    console.log("makeGridPiecesSelectable");
     var shapePieces = this.polygons.concat(this.shapes, this.lynes, this.circles);
-    console.log("shapePieces",shapePieces);
     for (var i = 0; i < shapePieces.length; i++) {
         shapePieces[i].selectable = true;
-        console.log("i",i);
     }
 }
 
@@ -757,9 +776,6 @@ Level.prototype.addBall = function(_piece)
 
 Level.prototype.updateBalls = function()
 {
-
-    console.log('updateBalls');
-
     var startX = this.crossButton.left - (CROSS_BTN_WIDTH + NUMBER_BALL_RAD + NUMBER_BALL_PADDING);
     var startY = this.crossButton.top;
 
@@ -899,12 +915,15 @@ Level.prototype.joinLynes = function(lyne)
 }
 
 
-Level.prototype.addLyneToGrid = function(gridPoint, gridWidth, gridHeight)
+Level.prototype.addLyneToGrid = function(gridPoint, gridWidth, gridHeight, currentLyne)
 {
-    // TODO
+    console.log("addLyneToGrid currentLyne", currentLyne);
+
     var dropLyne = new DropLyne(gridPoint, gridWidth, gridHeight);
+    if (currentLyne) {dropLyne.lyne = currentLyne; console.log("currentLyne",currentLyne);} 
 
     this.droppingObject = dropLyne;
+
     this.updateBoard();
 }
 
@@ -1207,8 +1226,6 @@ Level.prototype.isSolved = function()
         }
     }
 
-    console.log("isLevelSolved gridpoints", gridPoints);
-    console.log("SolutionManager: ",this.solutionManager.solutionsArray);
     return this.solutionManager.levelSolved(gridPoints);
 }
 

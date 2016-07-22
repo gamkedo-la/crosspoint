@@ -21,16 +21,12 @@ function getValidGridPoints(gridWidth, gridHeight) {
 
     var lyneLength = Math.sqrt(Math.pow(gridWidth, 2) + Math.pow(gridHeight, 2));
 
-    console.log("lyneLength",lyneLength);
-
 
     // Special case of pythagorean tiples
     for (var i = 0; i < pyth_triples.length; i++) {
         if (lyneLength === pyth_triples[i][0] ||
             lyneLength === pyth_triples[i][0] ||
             lyneLength === pyth_triples[i][0]) {
-
-            console.log("tiples");
 
             gridWidth = pyth_triples[i][1];
             gridHeight = pyth_triples[i][2];
@@ -62,8 +58,6 @@ function getValidGridPoints(gridWidth, gridHeight) {
     // sort based on angles
     validPoints.sort(sort_by('angle', false, parseInt));
 
-    console.log("validPoints",validPoints);
-
     // Divvy up angle ranges using lower bound of angle bisection
     var p1, p0 = validPoints[validPoints.length-1];
     var a1, a0 = p0.angle;
@@ -81,8 +75,6 @@ function getValidGridPoints(gridWidth, gridHeight) {
         // Iterate previous point
         p0 = p1;
     }
-
-    console.log('result', result);
 
     // ----------------------------------
     // Example:
@@ -142,8 +134,6 @@ function getValidGridAreas(gridArea) {
     // sort based on angles
     validPoints.sort(sort_by('angle', false, parseInt));
 
-    console.log("validPoints",validPoints);
-
     // Divvy up angle ranges using lower bound of angle bisection
     var p1, p0 = validPoints[validPoints.length-1];
     var a1, a0 = p0.angle;
@@ -161,8 +151,6 @@ function getValidGridAreas(gridArea) {
         // Iterate previous point
         p0 = p1;
     }
-
-    console.log('result', result);
 
     // ----------------------------------
     // Example:
