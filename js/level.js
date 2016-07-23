@@ -357,12 +357,14 @@ Level.prototype.addPiece = function(_piece)
     } 
     else if (_piece.type === "lyne") 
     {
-        this.addPiece(_piece.lyneEndControl);
         this.lynes.push(_piece);
+        if (_piece.lyneEndControl) {this.addPiece(_piece.lyneEndControl);}
     } 
     else if (_piece.type === "lyneEnd")
     {
         this.lyneEnds.push(_piece);
+        canvas.add(_piece);
+        return; // Sub-piece attached to lyne, does not need to be added, no updateBoard().
     }
     else if (_piece.type === "poly")
     {
@@ -519,7 +521,7 @@ Level.prototype.removePiece = function(_piece)
 
 Level.prototype.makeGridPiecesSelectable = function()
 {
-    var shapePieces = this.polygons.concat(this.shapes, this.lynes, this.circles);
+    var shapePieces = this.polygons.concat(this.shapes, this.lynes, this.lyneEnds, this.circles);
     for (var i = 0; i < shapePieces.length; i++) {
         shapePieces[i].selectable = true;
     }
@@ -527,7 +529,7 @@ Level.prototype.makeGridPiecesSelectable = function()
 
 Level.prototype.makeGridPiecesUnselectable = function()
 {
-    var shapePieces = this.polygons.concat(this.shapes, this.lynes, this.circles);
+    var shapePieces = this.polygons.concat(this.shapes, this.lynes, this.lyneEnds, this.circles);
     for (var i = 0; i < shapePieces.length; i++) {
         shapePieces[i].selectable = false;
     }    

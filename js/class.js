@@ -1093,24 +1093,24 @@ var DropLyne = fabric.util.createClass(
 
             // Save new index and point
             this.indx = newIndx;
-            this.endPoint = {x: (this.startGridPoint.x + this.points[newIndx].x),
+            this.endGridPoint = {x: (this.startGridPoint.x + this.points[newIndx].x),
                              y: (this.startGridPoint.y + this.points[newIndx].y)};
 
             // Add new Lyne to group
-            var newLyne = new Lyne([this.startGridPoint, this.endPoint]);
+            var newLyne = new Lyne([this.startGridPoint, this.endGridPoint]);
             this.lyne = newLyne;
             currentLevel.addPiece(this.lyne);
         },
         
         addToLevel: function() {
-            canvas.remove(this.lyne); 
-            currentLevel.addPiece(this.lyne);
+            // canvas.remove(this.lyne); 
+            // currentLevel.addPiece(this.lyne);
             currentLevel.joinLynes(this.lyne);
             currentLevel.markCrossLynes();
         },
         
         removeFromLevel: function() {
-            canvas.remove(this.startCircle); 
+            // canvas.remove(this.startCircle); 
         },
     }
 );
