@@ -473,7 +473,12 @@ var PolyGroup = fabric.util.createClass(LevelPiece,
             this.startGridPoint = gridPoints[0];
             this.startPoint = gridPointsToCoords(this.startGridPoint);
 
-            if (!gridArea) {
+            if (gridArea) {
+                // Placement of area can be modified using grid handle
+                if (gridArea !== 1) {
+                    this.gridHandle = null; //TODO
+                }
+            } else {
                 var gridArea = calculateGridArea(gridPoints);
             }
             this.gridArea = gridArea;
@@ -498,7 +503,11 @@ var PolyGroup = fabric.util.createClass(LevelPiece,
 
         mouseOver: function() {
             if (this.selectable) {
-                this.set({'fill': color_main_MD});
+                console.log("fill medium");
+
+                if (this.hasRectGridArea) {
+
+                }
             }
         },
 
@@ -851,7 +860,7 @@ var BoxLyne = fabric.util.createClass(Box,
             }
             this.lyneString = this.lyneLength.toString(); // getLyneString; //String
 
-            // add to box
+            // add text to box
             this.lyneStringTextbox = new fabric.Text(this.lyneString, 
                 {   
                     originX: 'center',
@@ -860,9 +869,17 @@ var BoxLyne = fabric.util.createClass(Box,
                     top: 0,
                     fontSize: BOXLYNE_FONTSIZE,
                 });
-
             this.addWithUpdate(this.lyneStringTextbox);
 
+            // add vector symbol (line) to text
+            var overLine = new fabric.Line([-10, -13, 10, -13],
+                {
+                    stroke: color_main_DK,
+                    strokeWidth: 2,
+                    originX: 'center', 
+                    originY: 'center', 
+                });
+            this.addWithUpdate(overLine);
         },
 
         convertToObject: function() {
@@ -981,7 +998,7 @@ var BoxArea = fabric.util.createClass(Box,
             this.type = "boxArea";
             this.gridArea = Math.round(gridArea);
 
-            this.areaString = this.gridArea.toString(); // getLyneString; //String
+            this.areaString = '  ' + this.gridArea.toString() + '  '; // getLyneString; //String
 
             // add to box
             this.areaStringTextbox = new fabric.Text(this.areaString, 
@@ -991,6 +1008,7 @@ var BoxArea = fabric.util.createClass(Box,
                     left: 0, 
                     top: 0,
                     fontSize: BOX_FONTSIZE,
+                    backgroundColor: color_main_LT,
                 });
 
             this.addWithUpdate(this.areaStringTextbox);
