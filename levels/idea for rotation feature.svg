@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.0"
+   width="256"
+   height="256"
+   id="svg2">
+  <defs
+     id="defs4" />
+  <g
+     id="layer1">
+    <path
+       d="M 2.3999998e-06,2.7999996e-06 C 128,2.7999996e-06 128,2.7999996e-06 128,2.7999996e-06 L 2.3999998e-06,127.99999 L 2.3999998e-06,2.7999996e-06 L 128,2.7999996e-06"
+       id="path2380"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       d="M 128,127.99999 C 2.3999998e-06,127.99999 2.3999998e-06,127.99999 2.3999998e-06,127.99999 L 128,2.7999996e-06 L 128,127.99999 L 2.3999998e-06,127.99999"
+       id="path3154"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       d="M 128,127.99999 C 256,127.99999 256,127.99999 256,127.99999 L 128,-4.0000044e-07 L 128,127.99999 L 256,127.99999"
+       id="path3176"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       d="M 256,-4.0000044e-07 C 128,-4.0000044e-07 128,-4.0000044e-07 128,-4.0000044e-07 L 256,127.99999 L 256,-4.0000044e-07 L 128,-4.0000044e-07"
+       id="path3178"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       d="M 256,255.99998 C 128,255.99998 128,255.99998 128,255.99998 L 256,127.99999 L 256,255.99998 L 128,255.99998"
+       id="path3180"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       d="M 128,127.99999 C 256,127.99999 256,127.99999 256,127.99999 L 128,255.99998 L 128,127.99999 L 256,127.99999"
+       id="path3182"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       d="M 128,127.99999 C 0,127.99999 0,127.99999 0,127.99999 L 128,256 L 128,127.99999 L 0,127.99999"
+       id="path3184"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       d="M 0,256 C 128,256 128,256 128,256 L 0,127.99999 L 0,256 L 128,256"
+       id="path3186"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  </g>
+</svg>
