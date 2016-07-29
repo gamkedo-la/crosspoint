@@ -43,7 +43,9 @@ canvas.on({
 });
 
 function onMouseMove(ev) {
-    if (currentLevel.mode === 'dropping' || currentLevel.mode === 'dropball') {
+    if (currentLevel.mode === 'dropping' || 
+        currentLevel.mode === 'dropball' || 
+        currentLevel.mode === 'following') {
         // update dropping object
         if(currentLevel.droppingObject) {currentLevel.droppingObject.update(ev.e);}
     }
@@ -51,7 +53,6 @@ function onMouseMove(ev) {
 }
 
 function onMouseDown(ev) {
-    
 }
 
 function onMouseUp(ev) {
@@ -67,7 +68,7 @@ function onMouseUp(ev) {
             } else {
                 // Do not remove box
                 currentLevel.droppingObject.removeFromLevel();
-                currentLevel.droppingBox.deselect();
+                if (currentLevel.droppingBox) {currentLevel.droppingBox.deselect();}
             }
             canvas.remove(currentLevel.droppingObject);
         } else {
@@ -86,6 +87,17 @@ function onMouseUp(ev) {
 
     if (currentLevel.mode === 'dropball') {
         currentLevel.droppingObject.deselect();
+    }
+
+    if (currentLevel.mode === 'following') {
+        var mouseX = ev.e.offsetX;
+        var mouseY = ev.e.offsetY;
+        var gridPoint = coordsToGridPoints({x: mouseX, y: mouseY});  
+        if (pointInGrid(gridPoint)) {
+            currentLevel.droppingObject.addToLevel(ev.e);
+        } else {
+            currentLevel.droppingObject.removeFromLevel();
+        }
     }
 
     // Check for win condition

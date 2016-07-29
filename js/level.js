@@ -257,6 +257,12 @@ Level.prototype.updateBoard = function()
         this.lynes[i].bringToFront();
         this.lynes[i].lyneEndControl.bringToFront();
     }
+
+    // Cross marks
+    for (var i = 0; i < this.crossMarks.length; i++) {
+        this.crossMarks[i].bringToFront();
+    }
+
     // Grid borders E/W
     this.gridBorderEast.bringToFront();
     this.gridBorderWest.bringToFront();
@@ -274,11 +280,6 @@ Level.prototype.updateBoard = function()
     // Temporary objects
     for (var i = 0; i < this.temporary.length; i++) {
         this.temporary[i].bringToFront();
-    }
-
-    // Cross marks
-    for (var i = 0; i < this.crossMarks.length; i++) {
-        this.crossMarks[i].bringToFront();
     }
 
     // Balls
@@ -402,7 +403,8 @@ Level.prototype.addPiece = function(_piece)
     {
         this.shadows.push(_piece);
     }
-    else if (_piece.type === "temporary")
+    else if (_piece.type === "temporary" || 
+             _piece.type === "followLyne")
     {
         this.temporary.push(_piece);
     }
@@ -450,12 +452,10 @@ Level.prototype.removePiece = function(_piece)
         if(_piece.lyneEndControl) {this.removePiece(_piece.lyneEndControl);}
 
         this.lynes = this.lynes.filter(function(e){return e!==_piece});
-        console.log("Removed lyne", _piece);
     } 
     else if (_piece.type === "lyneEnd")
     {
         this.lyneEnds = this.lyneEnds.filter(function(e){return e!==_piece});
-        console.log("Removed lyneEnd", this.lyneEnds);
     }
     else if (_piece.type === "poly")
     {
@@ -499,7 +499,8 @@ Level.prototype.removePiece = function(_piece)
     {
         this.shadows = this.shadows.filter(function(e){return e!==_piece});
     }
-    else if (_piece.type === "temporary")
+    else if (_piece.type === "temporary" || 
+             _piece.type === "followLyne")
     {
         this.temporary = this.temporary.filter(function(e){return e!==_piece});
     }
@@ -511,7 +512,6 @@ Level.prototype.removePiece = function(_piece)
 
     canvas.remove(_piece);
     delete _piece;
-    console.log("Got to bottom");
 }
 
 
@@ -919,10 +919,9 @@ Level.prototype.joinLynes = function(lyne)
 
 Level.prototype.addLyneToGrid = function(gridPoint, gridWidth, gridHeight, currentLyne)
 {
-    console.log("addLyneToGrid currentLyne", currentLyne);
 
     var dropLyne = new DropLyne(gridPoint, gridWidth, gridHeight);
-    if (currentLyne) {dropLyne.lyne = currentLyne; console.log("currentLyne",currentLyne);} 
+    if (currentLyne) {dropLyne.lyne = currentLyne;} 
 
     this.droppingObject = dropLyne;
 

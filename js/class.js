@@ -882,6 +882,21 @@ var BoxLyne = fabric.util.createClass(Box,
             this.addWithUpdate(overLine);
         },
 
+        onSelected: function(mouse_e) {
+            
+            // Create temporaryLyne that follows mouse
+            var follow = new FollowLyne(this.gridWidth, this.gridHeight);
+            currentLevel.addPiece(follow);
+            follow.update(mouse_e);
+
+            currentLevel.mode = 'following';
+            currentLevel.droppingObject = follow;
+
+            // Remove box
+            currentLevel.removePiece(this);
+
+        },
+
         convertToObject: function() {
             return {type: this.type, width: this.gridWidth, height: this.gridHeight};
         },
@@ -1038,211 +1053,6 @@ var BoxShape = fabric.util.createClass(Box,
     }
 );
 
-
-// ----------------------------------
-// Dropping Objects
-// ----------------------------------
-
-
-// For user interface when creating Lyne objects
-var DropLyne = fabric.util.createClass( 
-    {
-        initialize: function(gridPoint, gridWidth, gridHeight) {
-
-            this.type = "dropLyne";
-
-            this.gridWidth = gridWidth;
-            this.gridHeight = gridHeight;
-            this.startGridPoint = gridPoint;
-            this.startPoint = gridPointsToCoords(this.startGridPoint);    
-            this.endPoint = null;
-
-            // REMOVED BY ERIK 2016-07-22
-            // this.startCircle = new fabric.Circle(
-            //     { left: this.startPoint.x, 
-            //     top:  this.startPoint.y, 
-            //     radius: LYNE_START_RAD, 
-            //     fill: color_main_DK, 
-            //     originX: 'center', 
-            //     originY: 'center',
-            //     selectable: false,
-            //     }
-            // );
-
-            // canvas.add(this.startCircle);
-
-            this.lyne = null;
-            this.indx = null;
-
-            // Calculate angle ranges with corresponding coordinate points
-            var validGridPoints = getValidGridPoints(gridWidth, gridHeight);
-            this.points = validGridPoints.points;
-            this.angles = validGridPoints.angles;
-
-
-        },
-
-        update: function(mouse_e) {
-
-            // REMOVED BY ERIK 2016-07-22
-            // Check if this is first update
-            // if(!this.lyne){
-            //     canvas.remove(this.startCircle);
-            // }
-
-            // Calculate new angle
-            var angle = getAngleFromPoints(this.startPoint, {x: mouse_e.offsetX, y: mouse_e.offsetY});
-            var newIndx = 0;
-
-            // If angle falls in new category, create new line
-            for (var i = 0; i < this.angles.length; i++) {
-                if ( angleInRange(angle, this.angles[i], this.angles[(i+1)%(this.angles.length)]) ) {
-                    newIndx = i;
-                    break;
-                }
-            }
-
-            // Exit if index does not change
-            if (newIndx === this.indx) {return;}
-            
-
-            // Remove old line from canvas
-            if (this.lyne) {currentLevel.removePiece(this.lyne);}
-
-            // Save new index and point
-            this.indx = newIndx;
-            this.endGridPoint = {x: (this.startGridPoint.x + this.points[newIndx].x),
-                             y: (this.startGridPoint.y + this.points[newIndx].y)};
-
-            // Add new Lyne to group
-            var newLyne = new Lyne([this.startGridPoint, this.endGridPoint]);
-            this.lyne = newLyne;
-            currentLevel.addPiece(this.lyne);
-        },
-        
-        addToLevel: function() {
-            // canvas.remove(this.lyne); 
-            // currentLevel.addPiece(this.lyne);
-            currentLevel.joinLynes(this.lyne);
-            currentLevel.markCrossLynes();
-        },
-        
-        removeFromLevel: function() {
-            // canvas.remove(this.startCircle); 
-        },
-    }
-);
-
-
-
-// For user interface when creating Lyne objects
-var DropArea = fabric.util.createClass( 
-    {
-        initialize: function(gridPoint, gridArea) {
-
-            this.type = "dropArea";
-
-            this.gridArea = Math.round(gridArea);
-            this.startGridPoint = gridPoint;
-            this.startPoint = gridPointsToCoords(this.startGridPoint); 
-
-            this.rectangle = null;
-            this.indx = null;
-            
-            this.startBox = new fabric.Rect({
-                    originX: 'center', 
-                    originY: 'center',
-                    left: this.startPoint.x, 
-                    top:  this.startPoint.y, 
-                    width : GRID_PIXEL_SIZE,
-                    height : GRID_PIXEL_SIZE,
-                    fill: color_main_DK, 
-                    opacity: DROPPING_OPACITY,
-                    selectable: false,
-                
-            });
-            this.startBox.type = "temporary";
-            if (gridArea > 1) {
-                currentLevel.addPiece(this.startBox);
-            } else if (gridArea === 1) { 
-                // Automatically add piece to level
-                this.rectangle = new PolyGroup([{x: gridPoint.x - 0.5, y: gridPoint.y - 0.5},
-                                                {x: gridPoint.x - 0.5, y: gridPoint.y + 0.5},
-                                                {x: gridPoint.x + 0.5, y: gridPoint.y + 0.5},
-                                                {x: gridPoint.x + 0.5, y: gridPoint.y - 0.5}], this.gridArea);
-                currentLevel.addPiece(this.rectangle);
-                return;
-            }
-
-            // Calculate angle ranges with coordinate points corresponding to area of shape
-            var validGridAreas = getValidGridAreas(gridArea);
-            this.points = validGridAreas.points;
-            this.angles = validGridAreas.angles;
-        },
-
-        update: function(mouse_e) {
-
-            // Check for special case
-            if(this.gridArea === 1) {
-                return;
-            }
-
-            // Calculate new angle
-            var angle = getAngleFromPoints(this.startPoint, {x: mouse_e.offsetX, y: mouse_e.offsetY});
-            var newIndx = 0;
-
-            // If angle falls in new category, create new line
-            for (var i = 0; i < this.angles.length; i++) {
-                if ( angleInRange(angle, this.angles[i], this.angles[(i+1)%(this.angles.length)]) ) {
-                    newIndx = i;
-                    break;
-                }
-            }
-
-            // Exit if index does not change
-            if (newIndx === this.indx) {return;}
-            
-            // Remove old rectangle from canvas
-            if (this.rectangle) {canvas.remove(this.rectangle);}
-
-            // Save new index
-            this.indx = newIndx;
-
-            // Calculate borders of new rectangle
-            var p0 = this.startGridPoint;
-            var p1 = this.points[newIndx];
-            var minX = Math.min( (p0.x - 0.5) , p0.x - 0.5 + p1.x );
-            var maxX = Math.max( (p0.x + 0.5) , p0.x + 0.5 + p1.x );
-            var minY = Math.min( (p0.y - 0.5) , p0.y - 0.5 + p1.y );
-            var maxY = Math.max( (p0.y + 0.5) , p0.y + 0.5 + p1.y );
-
-            var points = [{x: minX, y: minY},
-                          {x: minX, y: maxY},
-                          {x: maxX, y: maxY},
-                          {x: maxX, y: minY},];
-
-            // Add new Polygon to group
-            var rectangle = new PolyGroup(points, this.gridArea);
-            this.rectangle = rectangle;
-            canvas.add(this.rectangle);
-
-            
-            currentLevel.updateBoard();
-        },
-        
-        addToLevel: function() {
-            currentLevel.removePiece(this.startBox);
-
-            canvas.remove(this.rectangle); 
-            currentLevel.addPiece(this.rectangle);
-
-        },
-        
-        removeFromLevel: function() {
-            currentLevel.removePiece(this.startBox);
-        },
-    }
-);
 
 // ----------------------------------
 // Buttons
