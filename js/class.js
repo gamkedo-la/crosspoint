@@ -503,7 +503,7 @@ var PolyGroup = fabric.util.createClass(LevelPiece,
 
         mouseOver: function() {
             if (this.selectable) {
-                console.log("fill medium");
+                this.set({'fill': color_main_MD});
 
                 if (this.hasRectGridArea) {
 

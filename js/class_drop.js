@@ -17,22 +17,16 @@ var FollowLyne = fabric.util.createClass( fabric.Group,
 
             this.gridWidth = gridWidth;
             this.gridHeight = gridHeight ? gridHeight : 0;
-            console.log("this.gridHeight", this.gridHeight);
             this.startGridPoint = {x: 0, y: 0};
             this.startPoint = gridPointsToCoords(this.startGridPoint);
             this.endGridPoint = {x: this.gridWidth, y: this.gridHeight};
-            console.log("mark 1");
-            console.log("this.endGridPoint", this.endGridPoint);
             this.endPoint = gridPointsToCoords(this.endGridPoint);
-            console.log("mark 2");
 
             this.centerOffsetX = (this.endPoint.x - this.startPoint.x) / 2;
             this.centerOffsetY = (this.endPoint.y - this.startPoint.y) / 2;
 
-            console.log("mark 3");
             var gridPoints = [this.startGridPoint, this.endGridPoint];
             var coords = gridPointsToCoordsArray(gridPoints);
-            console.log("mark 4");
 
             // ---- COPIED FROM LYNE CLASS -------
 
@@ -117,6 +111,7 @@ var FollowLyne = fabric.util.createClass( fabric.Group,
 
             // Remove temporary oject from level
             currentLevel.removePiece(this);
+            currentLevel.mode = '';
         },
 
         removeFromLevel: function() { 
@@ -128,6 +123,7 @@ var FollowLyne = fabric.util.createClass( fabric.Group,
 
             // Remove temporary oject from level
             currentLevel.removePiece(this);
+            currentLevel.mode = '';
         },
         
     }
