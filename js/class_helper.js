@@ -1,9 +1,5 @@
 
 
-// Get string for length / area
-
-
-
 // Returns all valid grid points with their respective angle ranges (for dropLyne)
 function getValidGridPoints(gridWidth, gridHeight) {
     
@@ -199,6 +195,27 @@ var sort_by = function(field, reverse, primer){
    return function (a, b) {
        return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
      } 
+}
+
+
+var findCenterOffset = function(gridPoints){
+    // returns the offset between center of the polygon and first grid point
+    var offset = {x: null, y: null};
+    var maxX = minX = gridPoints[0].x;
+    var maxY = minY = gridPoints[0].y;
+
+    for (var i = 0; i < gridPoints.length; i++) {
+        var point = gridPoints[i];
+        if (point.x > maxX) {maxX = point.x;}
+        if (point.x < minX) {minX = point.x;}
+        if (point.y > maxY) {maxY = point.y;}
+        if (point.y < minY) {minY = point.y;}
+    }
+
+    offset.x = ( (minX + maxX) / 2 ) - gridPoints[0].x;
+    offset.y = ( (minY + maxY) / 2 ) - gridPoints[0].y;
+
+    return offset;
 }
 
 

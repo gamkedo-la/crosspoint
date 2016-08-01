@@ -826,12 +826,11 @@ var Box = fabric.util.createClass(LevelPiece,
 
         onSelected: function(mouse_e) {
             this.box.set('fill', color_main_LT);
-            currentLevel.makeGridPiecesUnselectable();
-
         },
         
         deselect: function() {
             this.box.set('fill', BACKGROUND_COLOR);
+            canvas.discardActiveObject();
         },
 
     }
@@ -892,8 +891,9 @@ var BoxLyne = fabric.util.createClass(Box,
             currentLevel.mode = 'following';
             currentLevel.droppingObject = follow;
 
-            // Remove box
-            currentLevel.removePiece(this);
+            // Mark box for removal
+            currentLevel.droppingBox = this;
+            this.box.set('fill', color_main_LT);
 
         },
 
@@ -951,6 +951,22 @@ var BoxPoly = fabric.util.createClass(Box,
             this.addWithUpdate(this.thumbnail);
         },
 
+        onSelected: function(mouse_e) {
+            
+            // Create temporaryLyne that follows mouse
+            var follow = new FollowPoly(this.gridPoints);
+            currentLevel.addPiece(follow);
+            follow.update(mouse_e);
+
+            currentLevel.mode = 'following';
+            currentLevel.droppingObject = follow;
+
+            // Mark box for removal
+            currentLevel.droppingBox = this;
+            this.box.set('fill', color_main_LT);
+
+        },
+
         convertToObject: function() {
             return {type: this.type, points: this.gridPoints};
         },
@@ -996,6 +1012,22 @@ var BoxCircle = fabric.util.createClass(Box,
                 }
             );
             this.addWithUpdate(this.thumbnail);
+        },
+
+        onSelected: function(mouse_e) {
+            
+            // Create temporary Circle that follows mouse
+            var follow = new FollowCircle(this.radius);
+            currentLevel.addPiece(follow);
+            follow.update(mouse_e);
+
+            currentLevel.mode = 'following';
+            currentLevel.droppingObject = follow;
+
+            // Mark box for removal
+            currentLevel.droppingBox = this;
+            this.box.set('fill', color_main_LT);
+
         },
 
         convertToObject: function() {

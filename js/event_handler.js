@@ -77,16 +77,18 @@ function onMouseUp(ev) {
         }
         
         // Reset values
-        currentLevel.droppingObject = null;
-        currentLevel.droppingBox = null;
-        currentLevel.makeGridPiecesSelectable();
-        currentLevel.mode = '';
-
+        currentLevel.resetState();
+        // Update board
         currentLevel.updateBoard();
     }
 
     if (currentLevel.mode === 'dropball') {
         currentLevel.droppingObject.deselect();
+
+        // Reset values
+        currentLevel.resetState();
+        // Update board
+        currentLevel.updateBoard();
     }
 
     if (currentLevel.mode === 'following') {
@@ -95,9 +97,16 @@ function onMouseUp(ev) {
         var gridPoint = coordsToGridPoints({x: mouseX, y: mouseY});  
         if (pointInGrid(gridPoint)) {
             currentLevel.droppingObject.addToLevel(ev.e);
+            if (currentLevel.droppingBox) {currentLevel.removePiece(currentLevel.droppingBox);}
         } else {
             currentLevel.droppingObject.removeFromLevel();
+            if (currentLevel.droppingBox) {currentLevel.droppingBox.deselect();}
         }
+
+        // Reset values
+        currentLevel.resetState();
+        // Update board
+        currentLevel.updateBoard();
     }
 
     // Check for win condition

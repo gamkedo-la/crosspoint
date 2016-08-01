@@ -28,6 +28,9 @@ var FollowLyne = fabric.util.createClass( fabric.Group,
             var gridPoints = [this.startGridPoint, this.endGridPoint];
             var coords = gridPointsToCoordsArray(gridPoints);
 
+            this.set({originX: 'center', 
+                      originY: 'center',});
+
             // ---- COPIED FROM LYNE CLASS -------
 
             if (currentLevel.levelOptions.lineAddition === "on") 
@@ -84,9 +87,6 @@ var FollowLyne = fabric.util.createClass( fabric.Group,
             this.addWithUpdate(this.line);
             this.addWithUpdate(this.endCircle);
 
-            this.set({originX: 'center', 
-                      originY: 'center',});
-
 
         },
 
@@ -109,6 +109,9 @@ var FollowLyne = fabric.util.createClass( fabric.Group,
             var newLyne = new Lyne(gridPoints);
             currentLevel.addPiece(newLyne);
 
+            // Call level updates for Lyne
+            currentLevel.joinLynes(newLyne);
+
             // Remove temporary oject from level
             currentLevel.removePiece(this);
             currentLevel.mode = '';
@@ -116,10 +119,137 @@ var FollowLyne = fabric.util.createClass( fabric.Group,
 
         removeFromLevel: function() { 
 
-            // Add box to level
-            if(this.gridHeight === 0) {this.gridHeight = null;}
-            var newBox = new BoxLyne(this.gridWidth, this.gridHeight);
-            currentLevel.addPiece(newBox);
+            // Remove temporary oject from level
+            currentLevel.removePiece(this);
+            currentLevel.mode = '';
+        },
+        
+    }
+);
+
+var FollowCircle = fabric.util.createClass( fabric.Group,
+    {
+        initialize: function(radius) {
+
+            this.callSuper('initialize');
+
+            this.type = "followCircle";
+            this.set({originX: 'center', 
+                      originY: 'center',});
+
+             this.radius = radius;
+
+
+            // ---- COPIED FROM CIRCLE CLASS -------
+            this.circle = new fabric.Circle(
+                {
+                 originX: 'center', 
+                 originY: 'center',
+                 left: 0,
+                 top: 0,
+                 radius: this.radius * GRID_PIXEL_SIZE,
+                 fill: color_second_LT, 
+                 stroke: color_second_DK,
+                 strokeWidth: POLY_STROKEWIDTH,
+                }
+            );
+            this.addWithUpdate(this.circle);   
+
+        },
+
+        update: function(mouse_e) {
+            this.set({left: mouse_e.offsetX, 
+                      top: mouse_e.offsetY,});
+        },
+        
+        addToLevel: function() {
+
+            // Calculate gridpoints
+            var startGridPoint = coordsToGridPoints({x: this.left,
+                                                     y: this.top});
+            startGridPoint.x = Math.round(startGridPoint.x);
+            startGridPoint.y = Math.round(startGridPoint.y);
+
+            console.log("startGridPoint",startGridPoint);
+
+            // Make Circle
+            var newCircle = new Circle(startGridPoint, this.radius);
+            currentLevel.addPiece(newCircle);
+
+            // Remove temporary oject from level
+            currentLevel.removePiece(this);
+
+            currentLevel.mode = '';
+        },
+
+        removeFromLevel: function() { 
+
+            // Remove temporary oject from level
+            currentLevel.removePiece(this);
+
+            currentLevel.mode = '';
+        },
+        
+    }
+);
+
+var FollowPoly = fabric.util.createClass( fabric.Group,
+    {
+        initialize: function(gridPoints) {
+
+            this.callSuper('initialize');
+
+            this.type = "followPoly";
+            this.set({originX: 'center', 
+                      originY: 'center',});
+
+            this.gridPoints = gridPoints;
+            this.centerOffset = findCenterOffset(gridPoints); 
+
+            console.log("this.centerOffset", this.centerOffset);
+
+            // ---- COPIED FROM POLY CLASS -------
+            this.polygon = new fabric.Polygon(gridPointsToCoords(gridPoints),
+                {
+                 originX: 'center', 
+                 originY: 'center',
+                 fill: color_main_LT, 
+                 stroke: color_main_DK,
+                 strokeWidth: POLY_STROKEWIDTH,
+                }
+            );
+
+            this.addWithUpdate(this.polygon);   
+
+        },
+
+        update: function(mouse_e) {
+            this.set({left: mouse_e.offsetX, 
+                      top: mouse_e.offsetY,});
+        },
+        
+        addToLevel: function() {
+
+            // Calculate gridpoints
+            var startGridPoint = coordsToGridPoints({x: this.left,
+                                                     y: this.top});
+            startGridPoint.x = Math.round(startGridPoint.x - this.centerOffset.x);
+            startGridPoint.y = Math.round(startGridPoint.y - this.centerOffset.y);
+
+            var newGridPoints = translateGridpointsToPoint(this.gridPoints, startGridPoint);
+
+            console.log("newGridPoints", newGridPoints);
+
+            // Make Lyne
+            var newPoly = new PolyGroup(newGridPoints);
+            currentLevel.addPiece(newPoly);
+
+            // Remove temporary oject from level
+            currentLevel.removePiece(this);
+            currentLevel.mode = '';
+        },
+
+        removeFromLevel: function() { 
 
             // Remove temporary oject from level
             currentLevel.removePiece(this);

@@ -108,6 +108,18 @@ Level.prototype.tick = function()
     }
 }
 
+/**
+ * Reset State Variables
+ */
+Level.prototype.resetState = function()
+{
+    // Reset values
+    this.droppingObject = null;
+    this.droppingBox = null;
+    this.makeGridPiecesSelectable();
+    this.mode = '';
+}
+
 // ##################################
 // Board
 // ##################################
@@ -404,7 +416,9 @@ Level.prototype.addPiece = function(_piece)
         this.shadows.push(_piece);
     }
     else if (_piece.type === "temporary" || 
-             _piece.type === "followLyne")
+             _piece.type === "followLyne" || 
+             _piece.type === "followCircle" || 
+             _piece.type === "followPoly")  
     {
         this.temporary.push(_piece);
     }
@@ -500,7 +514,9 @@ Level.prototype.removePiece = function(_piece)
         this.shadows = this.shadows.filter(function(e){return e!==_piece});
     }
     else if (_piece.type === "temporary" || 
-             _piece.type === "followLyne")
+             _piece.type === "followLyne" || 
+             _piece.type === "followCircle" || 
+             _piece.type === "followPoly")
     {
         this.temporary = this.temporary.filter(function(e){return e!==_piece});
     }
