@@ -12,7 +12,7 @@ div {
 
 
 /* LEVEL EDITOR BUTTONS */
-#lyneTextfield {
+#lyneTextfield1, #lyneTextfield2 {
     background-color : #ccccff;
 }
 

@@ -84,7 +84,8 @@ lineAddDropdown.onchange = function(){
 // ----------------------------------
 
 // Pieces
-var lyneField = document.getElementById("lyneTextfield");
+var lyneField1 = document.getElementById("lyneTextfield1");
+var lyneField2 = document.getElementById("lyneTextfield2");
 var lyneBtn = document.getElementById("lyneButton");
 var areaField = document.getElementById("areaTextfield");
 var areaBtn = document.getElementById("areaButton");
@@ -98,7 +99,7 @@ var polyBtn = document.getElementById("polyButton");
 
 // Add Lyne Box
 lyneBtn.onclick = function(){
-    var boxLyne = new BoxLyne(lyneField.value);
+    var boxLyne = new BoxLyne(lyneField1.value, lyneField2.value);
     currentEditor.addStartPiece(boxLyne);
 }
 // Add Area Box
