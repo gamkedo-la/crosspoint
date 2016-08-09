@@ -259,6 +259,84 @@ var FollowPoly = fabric.util.createClass( fabric.Group,
     }
 );
 
+
+var FollowArea = fabric.util.createClass( fabric.Group,
+    {
+        initialize: function(gridArea) {
+
+            this.callSuper('initialize');
+
+            this.type = "followArea";
+            this.set({originX: 'center', 
+                      originY: 'center',});
+
+            this.gridArea = Math.round(gridArea);
+            this.gridPoints = [{x: 0, y: 0},{x: 0, y: 1},{x: 1, y: 1},{x: 1, y: 0}];
+            
+
+            // Square
+            this.polygon = new fabric.Polygon(gridPointsToCoords(this.gridPoints),
+                {
+                 originX: 'center', 
+                 originY: 'center',
+                 fill: color_main_DK, 
+                 stroke: color_main_DK,
+                 strokeWidth: POLY_STROKEWIDTH,
+                }
+            );
+
+            // Text
+            this.areaString = '  ' + this.gridArea.toString() + '  ';
+            this.areaStringTextbox = new fabric.Text(this.areaString, 
+                {   
+                    originX: 'center',
+                    originY: 'center',
+                    left: this.polygon.left, 
+                    top: this.polygon.top,
+                    fontSize: BOX_FONTSIZE,
+                    fill: BACKGROUND_COLOR,
+                });
+
+            this.addWithUpdate(this.polygon);  
+            this.addWithUpdate(this.areaStringTextbox); 
+
+        },
+
+        update: function(mouse_e) {
+            this.set({left: mouse_e.offsetX, 
+                      top: mouse_e.offsetY,});
+        },
+        
+        addToLevel: function() {
+
+            // Calculate middle gridpoint
+            var middleGridPoint = coordsToGridPoints({x: this.left,
+                                                     y: this.top});
+            middleGridPoint.x = Math.round(middleGridPoint.x - 0.5) + 0.5;
+            middleGridPoint.y = Math.round(middleGridPoint.y - 0.5) + 0.5;
+
+            var middleCoord = gridPointsToCoords(middleGridPoint);
+
+            this.set({left: middleCoord.x, top: middleCoord.y});
+
+            // Reset mode
+            currentLevel.mode = '';
+        },
+
+        removeFromLevel: function() { 
+
+            // Remove temporary oject from level
+            currentLevel.removePiece(this);
+            currentLevel.mode = '';
+        },
+
+        onSelected: function() { 
+            console.log("FollowArea selected");
+        },
+        
+    }
+);
+
 // ----------------------------------
 // Dropping Objects
 // ----------------------------------
@@ -355,7 +433,7 @@ var DropLyne = fabric.util.createClass(
 
 
 
-// For user interface when creating Lyne objects
+// For user interface when creating Area objects
 var DropArea = fabric.util.createClass( 
     {
         initialize: function(gridPoint, gridArea) {

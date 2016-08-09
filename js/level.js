@@ -418,7 +418,8 @@ Level.prototype.addPiece = function(_piece)
     else if (_piece.type === "temporary" || 
              _piece.type === "followLyne" || 
              _piece.type === "followCircle" || 
-             _piece.type === "followPoly")  
+             _piece.type === "followPoly" || 
+             _piece.type === "followArea")  
     {
         this.temporary.push(_piece);
     }
@@ -516,7 +517,8 @@ Level.prototype.removePiece = function(_piece)
     else if (_piece.type === "temporary" || 
              _piece.type === "followLyne" || 
              _piece.type === "followCircle" || 
-             _piece.type === "followPoly")
+             _piece.type === "followPoly" || 
+             _piece.type === "followArea")
     {
         this.temporary = this.temporary.filter(function(e){return e!==_piece});
     }

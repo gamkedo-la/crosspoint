@@ -1055,10 +1055,27 @@ var BoxArea = fabric.util.createClass(Box,
                     left: 0, 
                     top: 0,
                     fontSize: BOX_FONTSIZE,
-                    backgroundColor: color_main_LT,
+                    fill: BACKGROUND_COLOR,
+                    backgroundColor: color_main_DK,
                 });
 
             this.addWithUpdate(this.areaStringTextbox);
+
+        },
+
+        onSelected: function(mouse_e) {
+            
+            // Create temporary Circle that follows mouse
+            var follow = new FollowArea(this.gridArea);
+            currentLevel.addPiece(follow);
+            follow.update(mouse_e);
+
+            currentLevel.mode = 'following';
+            currentLevel.droppingObject = follow;
+
+            // Mark box for removal
+            currentLevel.droppingBox = this;
+            this.box.set('fill', color_main_LT);
 
         },
 
