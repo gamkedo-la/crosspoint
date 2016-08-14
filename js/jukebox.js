@@ -1,5 +1,4 @@
 
 
-// Load and play sound files
-
+// Load and play music files
 

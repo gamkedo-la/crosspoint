@@ -48,6 +48,7 @@ function Level()
     this.polygons = [];
     this.shapes = [];
     this.circles = [];
+    this.packs = [];
 
     // current settings
     this.mode = '';
@@ -383,6 +384,10 @@ Level.prototype.addPiece = function(_piece)
     {
         this.polygons.push(_piece);
     }
+    else if (_piece.type === "packArea")
+    {
+        this.packs.push(_piece);
+    }
     else if (_piece.type === "circle")
     {
         this.circles.push(_piece);
@@ -475,6 +480,10 @@ Level.prototype.removePiece = function(_piece)
     else if (_piece.type === "poly")
     {
         this.polygons = this.polygons.filter(function(e){return e!==_piece});
+    }
+    else if (_piece.type === "packArea")
+    {
+        this.packs = this.packs.filter(function(e){return e!==_piece});
     }
     else if (_piece.type === "circle")
     {

@@ -28,6 +28,7 @@ var series;
 window.onload = function() {
     loadImages();
     loadGame();
+    loadSFX();
 
     var framesPerSecond = 10;
     setInterval(function() {

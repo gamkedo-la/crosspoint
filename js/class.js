@@ -590,13 +590,13 @@ var PolyGroup = fabric.util.createClass(LevelPiece,
         scale: function(number) {
             // Scale polygon area for scalar NumberBall
 
-            if (Number.isInteger(this.gridArea) && this.gridPoints.length === 4) {
-                // Add area boxes to Level
-                for (var i = 1; i < number; i++) {
-                    var boxArea = new BoxArea(this.gridArea);
-                    currentLevel.addPiece(boxArea);
-                }
-            } else {
+            // if (Number.isInteger(this.gridArea) && this.gridPoints.length === 4) {
+            //     // Add area boxes to Level
+            //     for (var i = 1; i < number; i++) {
+            //         var boxArea = new BoxArea(this.gridArea);
+            //         currentLevel.addPiece(boxArea);
+            //     }
+            // } else {
                 // Add shapes to grid (starting in the +x direction)
                 for (var i = 1; i < number; i++) {
 
@@ -611,7 +611,7 @@ var PolyGroup = fabric.util.createClass(LevelPiece,
                     var newPoly = new PolyGroup(gridPoints);
                     currentLevel.addPiece(newPoly);
                 }
-            }
+            // }
         },
         
 

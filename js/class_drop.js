@@ -315,12 +315,21 @@ var FollowArea = fabric.util.createClass( fabric.Group,
             middleGridPoint.x = Math.round(middleGridPoint.x - 0.5) + 0.5;
             middleGridPoint.y = Math.round(middleGridPoint.y - 0.5) + 0.5;
 
-            var middleCoord = gridPointsToCoords(middleGridPoint);
+            var pack = new PackArea(middleGridPoint, this.gridArea);
+            currentLevel.addPiece(pack);
 
-            this.set({left: middleCoord.x, top: middleCoord.y});
+            // var middleCoord = gridPointsToCoords(middleGridPoint);
+
+            // this.set({left: middleCoord.x, top: middleCoord.y});
 
             // Reset mode
             currentLevel.mode = '';
+            console.log("selectable", this.selectable);
+            currentLevel.removePiece(this);
+
+            // Play audio - Add to level
+            sound_reflect.currentTime = 0; 
+            sound_reflect.play();
         },
 
         removeFromLevel: function() { 
@@ -329,13 +338,107 @@ var FollowArea = fabric.util.createClass( fabric.Group,
             currentLevel.removePiece(this);
             currentLevel.mode = '';
         },
-
-        onSelected: function() { 
-            console.log("FollowArea selected");
-        },
         
     }
 );
+
+
+// ----------------------------------
+// Packaged Object
+// ----------------------------------
+
+var PackArea = fabric.util.createClass( fabric.Group,
+    {
+        initialize: function(centerGridPoint, gridArea) {
+
+
+            this.callSuper('initialize');
+
+            this.type = "packArea";
+            // this.set({originX: 'center', 
+            //           originY: 'center',});
+
+            this.gridArea = Math.round(gridArea);
+            this.centerGridPoint = centerGridPoint;
+            this.gridPoints = [ {x: centerGridPoint.x, y: centerGridPoint.y - 1},
+                                {x: centerGridPoint.x, y: centerGridPoint.y },
+                                {x: centerGridPoint.x + 1, y: centerGridPoint.y },
+                                {x: centerGridPoint.x + 1, y: centerGridPoint.y - 1}];
+            
+
+            // Square
+            this.polygon = new fabric.Polygon(gridPointsToCoords(this.gridPoints),
+                {
+                 originX: 'center', 
+                 originY: 'center',
+                 fill: color_main_DK, 
+                 stroke: color_main_DK,
+                 strokeWidth: POLY_STROKEWIDTH,
+                }
+            );
+
+            // Text
+            this.areaString = '  ' + this.gridArea.toString() + '  ';
+            this.areaStringTextbox = new fabric.Text(this.areaString, 
+                {   
+                    originX: 'center',
+                    originY: 'center',
+                    left: this.polygon.left, 
+                    top: this.polygon.top,
+                    fontSize: BOX_FONTSIZE,
+                    fill: BACKGROUND_COLOR,
+                });
+
+            this.addWithUpdate(this.polygon);  
+            this.addWithUpdate(this.areaStringTextbox); 
+
+
+        },
+
+        onSelected: function(mouse_e) { 
+            if (this.gridArea > 1) {
+                var drop = new DropArea(this.centerGridPoint, this.gridArea);
+                drop.update(mouse_e);
+                currentLevel.addPiece(drop);
+
+                //Set level mode
+                currentLevel.mode = 'dropping';
+                currentLevel.droppingObject = drop;
+
+            } else if (this.gridArea === 1) { 
+                // Add polygon of size 1
+                var gridPoint = {x: Math.round(this.centerGridPoint.x - 0.5), y: Math.round(this.centerGridPoint.y - 0.5)};
+                var rectangle = new PolyGroup([{x: gridPoint.x,     y: gridPoint.y },
+                                                {x: gridPoint.x,     y: gridPoint.y + 1},
+                                                {x: gridPoint.x + 1, y: gridPoint.y + 1},
+                                                {x: gridPoint.x + 1, y: gridPoint.y }], this.gridArea);
+                currentLevel.addPiece(rectangle);
+            }
+            currentLevel.removePiece(this);
+        },
+
+        scale: function(number) {
+            // Scale area for scalar NumberBall
+
+            
+            // Add Packed Areas to grid (starting in the +x direction)
+            for (var i = 1; i < number; i++) {
+
+                // Calculate new start point
+                var newStartX = this.centerGridPoint.x + i <= 5? 
+                                this.centerGridPoint.x + i: 
+                                this.centerGridPoint.x - (this.centerGridPoint.x + i - 5);
+                var newStartGridPoint = {x: newStartX, y: this.centerGridPoint.y};
+
+                // Make new Packed Areas at new location and add to Level
+                var newPack = new PackArea(newStartGridPoint, this.gridArea);
+                currentLevel.addPiece(newPack);
+            }
+            
+        },
+    }
+);
+
 
 // ----------------------------------
 // Dropping Objects
@@ -436,13 +539,13 @@ var DropLyne = fabric.util.createClass(
 // For user interface when creating Area objects
 var DropArea = fabric.util.createClass( 
     {
-        initialize: function(gridPoint, gridArea) {
+        initialize: function(centerGridPoint, gridArea) {
 
             this.type = "dropArea";
 
             this.gridArea = Math.round(gridArea);
-            this.startGridPoint = gridPoint;
-            this.startPoint = gridPointsToCoords(this.startGridPoint); 
+            this.centerGridPoint = centerGridPoint;
+            this.centerPoint = gridPointsToCoords(this.centerGridPoint); 
 
             this.rectangle = null;
             this.indx = null;
@@ -450,8 +553,8 @@ var DropArea = fabric.util.createClass(
             this.startBox = new fabric.Rect({
                     originX: 'center', 
                     originY: 'center',
-                    left: this.startPoint.x, 
-                    top:  this.startPoint.y, 
+                    left: this.centerPoint.x, 
+                    top:  this.centerPoint.y, 
                     width : GRID_PIXEL_SIZE,
                     height : GRID_PIXEL_SIZE,
                     fill: color_main_DK, 
@@ -460,22 +563,17 @@ var DropArea = fabric.util.createClass(
                 
             });
             this.startBox.type = "temporary";
-            if (gridArea > 1) {
-                currentLevel.addPiece(this.startBox);
-            } else if (gridArea === 1) { 
-                // Automatically add piece to level
-                this.rectangle = new PolyGroup([{x: gridPoint.x - 0.5, y: gridPoint.y - 0.5},
-                                                {x: gridPoint.x - 0.5, y: gridPoint.y + 0.5},
-                                                {x: gridPoint.x + 0.5, y: gridPoint.y + 0.5},
-                                                {x: gridPoint.x + 0.5, y: gridPoint.y - 0.5}], this.gridArea);
-                currentLevel.addPiece(this.rectangle);
-                return;
-            }
+            
+
+            currentLevel.addPiece(this.startBox);
+            
 
             // Calculate angle ranges with coordinate points corresponding to area of shape
             var validGridAreas = getValidGridAreas(gridArea);
             this.points = validGridAreas.points;
             this.angles = validGridAreas.angles;
+
+
         },
 
         update: function(mouse_e) {
@@ -486,7 +584,7 @@ var DropArea = fabric.util.createClass(
             }
 
             // Calculate new angle
-            var angle = getAngleFromPoints(this.startPoint, {x: mouse_e.offsetX, y: mouse_e.offsetY});
+            var angle = getAngleFromPoints(this.centerPoint, {x: mouse_e.offsetX, y: mouse_e.offsetY});
             var newIndx = 0;
 
             // If angle falls in new category, create new line
@@ -507,7 +605,7 @@ var DropArea = fabric.util.createClass(
             this.indx = newIndx;
 
             // Calculate borders of new rectangle
-            var p0 = this.startGridPoint;
+            var p0 = this.centerGridPoint;
             var p1 = this.points[newIndx];
             var minX = Math.min( (p0.x - 0.5) , p0.x - 0.5 + p1.x );
             var maxX = Math.max( (p0.x + 0.5) , p0.x + 0.5 + p1.x );
