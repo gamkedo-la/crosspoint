@@ -178,7 +178,7 @@ var Lyne = fabric.util.createClass(LevelPiece,
                 {   left: this.startPoint.x, 
                     top:  this.startPoint.y, 
                     radius: LYNE_START_RAD, 
-                    fill: color_main_DK, 
+                    fill: color_main_DK, //BUTTON_COLOR
                     originX: 'center', 
                     originY: 'center',
                 }
@@ -329,13 +329,20 @@ var Lyne = fabric.util.createClass(LevelPiece,
         
         onModified: function() {
             // Lyne Addition - Add Lynes if certain points overlap
-            currentLevel.joinLynes(this);
-            currentLevel.markCrossLynes();
+            var join_bool = currentLevel.joinLynes(this);
+            var mark_bool = currentLevel.markCrossLynes();
 
             // Deselect this object
             canvas.discardActiveObject();
 
-
+            // Audio
+            if (join_bool) {
+                playSFX("snapToGrid");
+            } else if (mark_bool) {
+                playSFX("snapToGrid");
+            } else {
+                playSFX("snapToGrid");
+            }
         },
 
         encloses: function(gridPoint) {
@@ -443,7 +450,9 @@ var LyneEndControl = fabric.util.createClass(LevelPiece,
 
             // Delete this object
             currentLevel.removePiece(this);
-            console.log("onModified done");
+
+            // Audio
+            playSFX("rotateLine");
 
         },
 
@@ -571,6 +580,9 @@ var PolyGroup = fabric.util.createClass(LevelPiece,
             canvas.discardActiveObject();
             currentLevel.selectedObject = null;
             currentLevel.mode = '';
+
+            // Play audio - Add to level
+            playSFX("snapToGrid");
         },
 
         getPoints: function() {
@@ -729,6 +741,9 @@ var Circle = fabric.util.createClass(LevelPiece,
             canvas.discardActiveObject();
             currentLevel.selectedObject = null;
             currentLevel.mode = '';
+
+            // Play audio - Add to level
+            playSFX("snapToGrid");
         },
 
         getPoints: function() {

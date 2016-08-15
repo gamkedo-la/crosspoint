@@ -6,13 +6,40 @@
     <meta content="utf-8" http-equiv="encoding">
     <link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
 
+    <!-- Libraries -->
     <script src="fabric/dist/fabric.js"></script>
     <script src="jquery/jquery-2.1.4.js"></script>
     <script src="js/lineclip.js"></script>
 </head>
 
 <body>
+    <!-- Images -->
     <img hidden id="board-purple" src="img/grid_400_400_purple.png">
+
+    <!-- Audio / SFX -->
+    <audio id="snap">
+      <source src="audio/sfx/snap.ogg" type="audio/ogg">
+      <source src="audio/sfx/snap.mp3" type="audio/mpeg">
+      Your browser does not support the audio tag.
+    </audio>
+    <audio id="add">
+      <source src="audio/sfx/add.ogg" type="audio/ogg">
+      <source src="audio/sfx/add.mp3" type="audio/mpeg">
+      Your browser does not support the audio tag.
+    </audio>
+    <audio id="rotate">
+      <source src="audio/sfx/rotate.ogg" type="audio/ogg">
+      <source src="audio/sfx/rotate.mp3" type="audio/mpeg">
+      Your browser does not support the audio tag.
+    </audio>
+    <audio id="scale">
+      <source src="audio/sfx/scale.ogg" type="audio/ogg">
+      <source src="audio/sfx/scale.mp3" type="audio/mpeg">
+      Your browser does not support the audio tag.
+    </audio>
+
+
+    <!-- Main JavsScript Code -->
     <canvas id="c" width="800" height="600"></canvas>
     <script src="js/canvas.js"></script>
     <script src="js/CONST.js"></script>
@@ -29,17 +56,7 @@
     <script src="js/main.js"></script>
 
 
-
-    <!-- Audio / SFX -->
-    <audio id="reflect">
-      <source src="sfx/laserbounceoffmirror.ogg" type="audio/ogg">
-      <source src="sfx/laserbounceoffmirror.mp3" type="audio/mpeg">
-      Your browser does not support the audio tag.
-    </audio>
-
-
-
-    <!-- Temporary for Level Editor-->
+    <!-- Level Editor-->
         <button id="editorButton" >Level Editor</button>
 
         <div hidden id="editor">

@@ -864,6 +864,9 @@ Level.prototype.ballDropped = function(ball)
             shapePieces[i].scale(ball.number);
             // remove ball
             this.removePiece(ball);
+            // Audio
+            playSFX("scale");
+
             return;
         }
     }
@@ -894,6 +897,8 @@ Level.prototype.joinLynes = function(lyne)
     var p1 = lyne.endGridPoint;
     var lyne2, p2, p3;
 
+    var result_bool = false;
+
     for (var i = 0; i < this.lynes.length; i++) {
         lyne2 = this.lynes[i];
         if (lyne === lyne2) { continue; }
@@ -913,6 +918,7 @@ Level.prototype.joinLynes = function(lyne)
             // Remove old lines
             this.removePieces([lyne, lyne2]);
 
+            result_bool = true;
             break;
 
         } else if (p0.x === p3.x && p0.y === p3.y) {
@@ -922,6 +928,7 @@ Level.prototype.joinLynes = function(lyne)
             // Remove old lines
             this.removePieces([lyne, lyne2]);
 
+            result_bool = true;
             break;
 
         }
@@ -940,7 +947,10 @@ Level.prototype.joinLynes = function(lyne)
 
         // } 
         
+
     }
+
+    return result_bool;
 }
 
 

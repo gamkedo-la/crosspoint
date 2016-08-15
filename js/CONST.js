@@ -11,7 +11,7 @@
 
 // Lyne
 const LYNE_STROKEWIDTH = 8;
-const LYNE_START_RAD = 6;
+const LYNE_START_RAD = 5;
 const LYNE_END_RAD = 8;
 const LYNE_END_STROKEWIDTH = 5;
 const LYNE_HOVER_GROWTH = 1;

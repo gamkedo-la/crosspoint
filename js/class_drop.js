@@ -115,6 +115,9 @@ var FollowLyne = fabric.util.createClass( fabric.Group,
             // Remove temporary oject from level
             currentLevel.removePiece(this);
             currentLevel.mode = '';
+
+            // Audio
+            playSFX("addToGrid");
         },
 
         removeFromLevel: function() { 
@@ -180,6 +183,9 @@ var FollowCircle = fabric.util.createClass( fabric.Group,
             currentLevel.removePiece(this);
 
             currentLevel.mode = '';
+
+            // Audio
+            playSFX("addToGrid");
         },
 
         removeFromLevel: function() { 
@@ -247,6 +253,9 @@ var FollowPoly = fabric.util.createClass( fabric.Group,
             // Remove temporary oject from level
             currentLevel.removePiece(this);
             currentLevel.mode = '';
+
+            // Audio
+            playSFX("addToGrid");
         },
 
         removeFromLevel: function() { 
@@ -336,8 +345,7 @@ var FollowArea = fabric.util.createClass( fabric.Group,
             currentLevel.removePiece(this);
 
             // Play audio - Add to level
-            sound_reflect.currentTime = 0; 
-            sound_reflect.play();
+            playSFX("addToGrid");
         },
 
         removeFromLevel: function() { 
@@ -646,6 +654,9 @@ var DropArea = fabric.util.createClass(
 
             canvas.remove(this.rectangle); 
             currentLevel.addPiece(this.rectangle);
+
+            // Audio
+            playSFX("dropArea");
 
         },
         
