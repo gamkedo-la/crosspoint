@@ -824,7 +824,7 @@ Level.prototype.ballMoving = function(ball)
 
     var ballPoint = coordsToGridPoints({x: ball.left, y: ball.top});
     
-    var shapePieces = this.polygons.concat(this.shapes, this.lynes, this.circles);
+    var shapePieces = this.polygons.concat(this.lynes, this.circles, this.packs, this.shapes);
 
     // Check if hovering on lynes 
     for (var i = 0; i < shapePieces.length; i++) {
@@ -854,7 +854,7 @@ Level.prototype.ballDropped = function(ball)
     // Get center of ball
     var ballPoint = coordsToGridPoints({x: ball.left, y: ball.top});
 
-    var shapePieces = this.lynes.concat(this.circles, this.polygons);
+    var shapePieces = this.polygons.concat(this.lynes, this.circles, this.packs, this.shapes);
 
     // Check if dropped on shapes 
     for (var i = 0; i < shapePieces.length; i++) 

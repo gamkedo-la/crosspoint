@@ -310,17 +310,25 @@ var FollowArea = fabric.util.createClass( fabric.Group,
         addToLevel: function() {
 
             // Calculate middle gridpoint
-            var middleGridPoint = coordsToGridPoints({x: this.left,
+            var centerGridPoint = coordsToGridPoints({x: this.left,
                                                      y: this.top});
-            middleGridPoint.x = Math.round(middleGridPoint.x - 0.5) + 0.5;
-            middleGridPoint.y = Math.round(middleGridPoint.y - 0.5) + 0.5;
+            centerGridPoint.x = Math.round(centerGridPoint.x - 0.5) + 0.5;
+            centerGridPoint.y = Math.round(centerGridPoint.y - 0.5) + 0.5;
 
-            var pack = new PackArea(middleGridPoint, this.gridArea);
-            currentLevel.addPiece(pack);
+            if (this.gridArea > 1) {
 
-            // var middleCoord = gridPointsToCoords(middleGridPoint);
+                var pack = new PackArea(centerGridPoint, this.gridArea);
+                currentLevel.addPiece(pack);
 
-            // this.set({left: middleCoord.x, top: middleCoord.y});
+            } else if (this.gridArea === 1) { 
+                // Add polygon of size 1
+                var gridPoint = {x: Math.round(centerGridPoint.x - 0.5), y: Math.round(centerGridPoint.y - 0.5)};
+                var rectangle = new PolyGroup([{x: gridPoint.x,     y: gridPoint.y },
+                                                {x: gridPoint.x,     y: gridPoint.y + 1},
+                                                {x: gridPoint.x + 1, y: gridPoint.y + 1},
+                                                {x: gridPoint.x + 1, y: gridPoint.y }], this.gridArea);
+                currentLevel.addPiece(rectangle);
+            }
 
             // Reset mode
             currentLevel.mode = '';
@@ -355,8 +363,8 @@ var PackArea = fabric.util.createClass( fabric.Group,
             this.callSuper('initialize');
 
             this.type = "packArea";
-            // this.set({originX: 'center', 
-            //           originY: 'center',});
+            this.set({originX: 'center', 
+                      originY: 'center',});
 
             this.gridArea = Math.round(gridArea);
             this.centerGridPoint = centerGridPoint;
@@ -373,7 +381,7 @@ var PackArea = fabric.util.createClass( fabric.Group,
                  originY: 'center',
                  fill: color_main_DK, 
                  stroke: color_main_DK,
-                 strokeWidth: POLY_STROKEWIDTH,
+                 strokeWidth: DROP_AREA_STROKEWIDTH,
                 }
             );
 
@@ -395,31 +403,38 @@ var PackArea = fabric.util.createClass( fabric.Group,
 
         },
 
-        onSelected: function(mouse_e) { 
-            if (this.gridArea > 1) {
-                var drop = new DropArea(this.centerGridPoint, this.gridArea);
-                drop.update(mouse_e);
-                currentLevel.addPiece(drop);
-
-                //Set level mode
-                currentLevel.mode = 'dropping';
-                currentLevel.droppingObject = drop;
-
-            } else if (this.gridArea === 1) { 
-                // Add polygon of size 1
-                var gridPoint = {x: Math.round(this.centerGridPoint.x - 0.5), y: Math.round(this.centerGridPoint.y - 0.5)};
-                var rectangle = new PolyGroup([{x: gridPoint.x,     y: gridPoint.y },
-                                                {x: gridPoint.x,     y: gridPoint.y + 1},
-                                                {x: gridPoint.x + 1, y: gridPoint.y + 1},
-                                                {x: gridPoint.x + 1, y: gridPoint.y }], this.gridArea);
-                currentLevel.addPiece(rectangle);
+        mouseOver: function() {
+            if (this.selectable) {
+                this.set({'strokeWidth': DROP_AREA_STROKEWIDTH + DROP_AREA_HOVER_GROWTH});
             }
+        },
+
+        mouseOut: function() {
+            this.set({'strokeWidth': DROP_AREA_STROKEWIDTH});
+        },
+
+        onSelected: function(mouse_e) { 
+
+            var drop = new DropArea(this.centerGridPoint, this.gridArea);
+            drop.update(mouse_e);
+            currentLevel.addPiece(drop);
+
+            //Set level mode
+            currentLevel.mode = 'dropping';
+            currentLevel.droppingObject = drop;
             currentLevel.removePiece(this);
+        },
+
+        encloses: function(gridPoint) {
+            var gridPoints = [ {x: this.centerGridPoint.x - 0.5, y: this.centerGridPoint.y - 0.5},
+                                {x: this.centerGridPoint.x - 0.5, y: this.centerGridPoint.y + 0.5},
+                                {x: this.centerGridPoint.x + 0.5, y: this.centerGridPoint.y + 0.5},
+                                {x: this.centerGridPoint.x + 0.5, y: this.centerGridPoint.y - 0.5}];
+            return poly_encloses_point(gridPoints, gridPoint);
         },
 
         scale: function(number) {
             // Scale area for scalar NumberBall
-
             
             // Add Packed Areas to grid (starting in the +x direction)
             for (var i = 1; i < number; i++) {
