@@ -6,9 +6,13 @@ var sound_snap = null;
 
 function loadSFX() {
     sound_snap = document.getElementById("snap"); 
+    sound_grab = document.getElementById("grab"); 
     sound_add = document.getElementById("add"); 
-    sound_rotate = document.getElementById("rotate"); 
+    sound_add_line = document.getElementById("add_line"); 
+    sound_rotate_hover = document.getElementById("rotate_hover"); 
+    sound_rotate_bing = document.getElementById("rotate_bing"); 
     sound_scale = document.getElementById("scale");
+    sound_undo = document.getElementById("undoMove");
 }
 
 function playSFX(sound_text) {
@@ -16,34 +20,36 @@ function playSFX(sound_text) {
 
     if (sound_text === "snapToGrid"){
         sound = sound_snap;
+    } else if (sound_text === "grab"){
+        sound = sound_grab;
     } else if (sound_text === "addToGrid"){
         sound = sound_add;
-    } else if (sound_text === "rotateLine" || sound_text === "dropArea"){
-        sound = sound_rotate;
+    } else if (sound_text === "addLine"){
+        sound = sound_add_line;
+    } else if (sound_text === "rotateHover"){
+        sound = sound_rotate_hover;
+    } else if (sound_text === "rotateChange"){
+        sound = sound_rotate_bing;
     } else if (sound_text === "scale"){
         sound = sound_scale;
+    } else if (sound_text === "undoMove"){
+        sound = sound_undo;    
     } else {
         return;
     }
 
-    sound.currentTime = 0; 
-    sound.play();
+    if (sound.paused) {
+        sound.currentTime = 0; 
+        sound.play();
+    }
+    
 }
 
 
 
-
-
 // -------------------------------
-// EXAMPLE
+// EXAMPLE (Put this in code to play SFX)
 
-// var reflect_sound = null
+// Audio
+// playSFX("addLine");
 
-// function prepSFX() {
-//     reflect_sound = document.getElementById("reflect"); 
-// }
-
-
-// // ADD THIS TO CODE TO PLAY SFX
-// reflect_sound.currentTime = 0; 
-// reflect_sound.play();

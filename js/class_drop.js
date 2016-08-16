@@ -117,7 +117,7 @@ var FollowLyne = fabric.util.createClass( fabric.Group,
             currentLevel.mode = '';
 
             // Audio
-            playSFX("addToGrid");
+            playSFX("snapToGrid");
         },
 
         removeFromLevel: function() { 
@@ -185,7 +185,7 @@ var FollowCircle = fabric.util.createClass( fabric.Group,
             currentLevel.mode = '';
 
             // Audio
-            playSFX("addToGrid");
+            playSFX("snapToGrid");
         },
 
         removeFromLevel: function() { 
@@ -255,7 +255,7 @@ var FollowPoly = fabric.util.createClass( fabric.Group,
             currentLevel.mode = '';
 
             // Audio
-            playSFX("addToGrid");
+            playSFX("snapToGrid");
         },
 
         removeFromLevel: function() { 
@@ -345,7 +345,7 @@ var FollowArea = fabric.util.createClass( fabric.Group,
             currentLevel.removePiece(this);
 
             // Play audio - Add to level
-            playSFX("addToGrid");
+            playSFX("snapToGrid");
         },
 
         removeFromLevel: function() { 
@@ -363,7 +363,7 @@ var FollowArea = fabric.util.createClass( fabric.Group,
 // Packaged Object
 // ----------------------------------
 
-var PackArea = fabric.util.createClass( fabric.Group,
+var PackArea = fabric.util.createClass( LevelPiece,
     {
         initialize: function(centerGridPoint, gridArea) {
 
@@ -414,6 +414,9 @@ var PackArea = fabric.util.createClass( fabric.Group,
         mouseOver: function() {
             if (this.selectable) {
                 this.set({'strokeWidth': DROP_AREA_STROKEWIDTH + DROP_AREA_HOVER_GROWTH});
+
+                // Audio
+                playSFX("rotateHover");
             }
         },
 
@@ -542,6 +545,9 @@ var DropLyne = fabric.util.createClass(
             var newLyne = new Lyne([this.startGridPoint, this.endGridPoint]);
             this.lyne = newLyne;
             currentLevel.addPiece(this.lyne);
+
+            // Audio
+            playSFX("rotateChange");
         },
         
         addToLevel: function() {
@@ -644,9 +650,11 @@ var DropArea = fabric.util.createClass(
             var rectangle = new PolyGroup(points, this.gridArea);
             this.rectangle = rectangle;
             canvas.add(this.rectangle);
-
             
             currentLevel.updateBoard();
+
+            // Audio
+            playSFX("rotateChange");
         },
         
         addToLevel: function() {
@@ -656,7 +664,7 @@ var DropArea = fabric.util.createClass(
             currentLevel.addPiece(this.rectangle);
 
             // Audio
-            playSFX("dropArea");
+            playSFX("snapToGrid");
 
         },
         

@@ -17,6 +17,11 @@
     <img hidden id="board-purple" src="img/grid_400_400_purple.png">
 
     <!-- Audio / SFX -->
+    <audio id="grab">
+      <source src="audio/sfx/grab.ogg" type="audio/ogg">
+      <source src="audio/sfx/grab.mp3" type="audio/mpeg">
+      Your browser does not support the audio tag.
+    </audio>
     <audio id="snap">
       <source src="audio/sfx/snap.ogg" type="audio/ogg">
       <source src="audio/sfx/snap.mp3" type="audio/mpeg">
@@ -27,14 +32,29 @@
       <source src="audio/sfx/add.mp3" type="audio/mpeg">
       Your browser does not support the audio tag.
     </audio>
-    <audio id="rotate">
-      <source src="audio/sfx/rotate.ogg" type="audio/ogg">
-      <source src="audio/sfx/rotate.mp3" type="audio/mpeg">
+    <audio id="add_line">
+      <source src="audio/sfx/add_line.ogg" type="audio/ogg">
+      <source src="audio/sfx/add_line.mp3" type="audio/mpeg">
+      Your browser does not support the audio tag.
+    </audio>
+    <audio id="rotate_hover">
+      <source src="audio/sfx/rotate_hover.ogg" type="audio/ogg">
+      <source src="audio/sfx/rotate_hover.mp3" type="audio/mpeg">
+      Your browser does not support the audio tag.
+    </audio>
+    <audio id="rotate_bing">
+      <source src="audio/sfx/rotate_bing.ogg" type="audio/ogg">
+      <source src="audio/sfx/rotate_bing.mp3" type="audio/mpeg">
       Your browser does not support the audio tag.
     </audio>
     <audio id="scale">
       <source src="audio/sfx/scale.ogg" type="audio/ogg">
       <source src="audio/sfx/scale.mp3" type="audio/mpeg">
+      Your browser does not support the audio tag.
+    </audio>
+    <audio id="undoMove">
+      <source src="audio/sfx/undoMove.ogg" type="audio/ogg">
+      <source src="audio/sfx/undoMove.mp3" type="audio/mpeg">
       Your browser does not support the audio tag.
     </audio>
 
@@ -45,8 +65,8 @@
     <script src="js/CONST.js"></script>
     <script src="js/geometry_helper.js"></script>
     <script src="js/class_helper.js"></script>
-    <script src="js/class_drop.js"></script>
     <script src="js/class.js"></script>
+    <script src="js/class_drop.js"></script>
     <script src="js/level.js"></script>
     <script src="js/event_handler.js"></script>
     <script src="js/image_loader.js"></script>

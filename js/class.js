@@ -418,6 +418,9 @@ var LyneEndControl = fabric.util.createClass(LevelPiece,
             console.log('mouseOver: selectable', this.selectable);
             if (this.selectable) {
                 this.endCircle.set('stroke', color_main_DK);
+
+                // Audio
+                playSFX("rotateHover");
             }
         },
 

@@ -102,6 +102,9 @@ function onMouseUp(ev) {
         } else {
             currentLevel.droppingObject.removeFromLevel();
             if (currentLevel.droppingBox) {currentLevel.droppingBox.deselect();}
+
+            // Audio
+            playSFX("undoMove");
         }
 
         // Reset values
@@ -143,6 +146,22 @@ function onObjectSelected(ev) {
     if(ev.target.pieceID) {
         currentLevel.selectedPiece = ev.target;
         console.log("pieceID",ev.target.pieceID)
+
+        // Audio
+        if(ev.target.type === "boxPoly" ||
+           ev.target.type === "boxCircle" ||
+           ev.target.type === "boxArea") {
+
+            playSFX("addToGrid");
+
+        } else if(ev.target.type === "boxLyne") {
+
+            playSFX("addLine");
+
+        } else {
+            playSFX("grab");
+        }
+        
     }
     // LEVEL EDITOR END
 
