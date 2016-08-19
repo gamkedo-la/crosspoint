@@ -10,7 +10,7 @@ var video_shape = document.getElementById('video_shape');
 linkVideoToCanvas(video_shape);
 
 // Level list
-var levelOrderArray = [ [video_shape, keyhole, japan_bridge, tangram_easy] ];
+var levelOrderArray = [ [video_shape, keyhole, video_shape, japan_bridge, tangram_easy] ];
 
 // ==========================================================================
 
