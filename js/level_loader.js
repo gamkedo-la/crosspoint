@@ -1,4 +1,18 @@
 
+// ===================== IMPORTANT =========================================
+
+// ----------------------
+//  Official Level Order
+// ----------------------
+
+// List of video objects
+var video_shape = document.getElementById('video_shape');
+linkVideoToCanvas(video_shape);
+
+// Level list
+var levelOrderArray = [ [video_shape, keyhole, japan_bridge, tangram_easy] ];
+
+// ==========================================================================
 
 
 
@@ -9,7 +23,7 @@ var clearCurrentLevel = function()
     //clear canvas
     canvas.clear();
     // Delete current level object
-    // delete currentLevel;
+    delete currentLevel;
 }
 
 var makePieceFromJSON = function(jpiece) 
@@ -98,11 +112,12 @@ var loadLevelFromJSON = function(jsonObject)
     var pieces = loadPiecesFromJSON(jsonObject.pieces);
 
     // Create new level
-    canvas.clear();
-    delete currentLevel;
+    clearCurrentLevel();
     currentLevel = Level.init(jsonObject.levelOptions, pieces);
 
 }
+
+
 
 // // Main function
 // var loadLevel = function(track, levelNumber) 
@@ -111,6 +126,98 @@ var loadLevelFromJSON = function(jsonObject)
 //         loadLevelFromJSON(levelFiles[track - 1][levelNumber - 1])
 //     } else {
 //         console.log("No record of level ", track, levelNumber );
-//         throw "Level Not Found.";
 //     }
 // }
+
+//-----------------------------------------------------------------------------//
+/*
+ *  Name:       LevelLoader
+ *  Abstract:   NO
+ *  Superclass: n/a
+ *  
+ *  Description: Level Loader object, keeps track of levels.
+ *     
+ //-----------------------------------------------------------------------------*/           
+
+function LevelLoader() 
+{
+    this.levels = [];
+    this.lastLevelLoaded = [0, -1];
+}
+
+/**
+ * CONSTRUCTOR
+ */
+LevelLoader.init = function()
+{
+
+    var instance = new LevelLoader();
+    instance.loadAllLevels();
+
+    return instance;
+}
+
+LevelLoader.prototype.loadAllLevels = function()
+{
+
+    this.levelsJSON = levelOrderArray;
+    
+}
+
+LevelLoader.prototype.loadLevel = function(track, levelNumber)
+{
+    // Check that level exists
+    if (!this.levelsJSON[track][levelNumber]) { console.log("No level at ", track, levelNumber); return; }
+
+    // Load level
+    if (this.levelsJSON[track][levelNumber].pieces){
+        // Load level from JSON file
+        loadLevelFromJSON(this.levelsJSON[track][levelNumber]);
+    } else if (this.levelsJSON[track][levelNumber].play) {
+        // Load video
+        var video = this.levelsJSON[track][levelNumber].play();
+    } else {
+        // Unrecognized type
+        console.log("Unrecognized level type");
+        return;
+    }
+    
+    // Update counter
+    this.lastLevelLoaded = [track, levelNumber];
+    
+}
+
+LevelLoader.prototype.loadNextLevel = function()
+{
+    // load the next level in track, if end of track return to level menu.
+    var track = this.lastLevelLoaded[0];
+    var levelNumber = this.lastLevelLoaded[1] + 1;
+
+    if (this.levelsJSON[track][levelNumber]) {
+        // Load next level
+        this.loadLevel(track, levelNumber);
+    } else {
+        // Return to menu
+        console.log("return to menu")
+    }
+}
+
+LevelLoader.prototype.reloadCurrentLevel = function()
+{
+    // reload level
+    var track = this.lastLevelLoaded[0];
+    var levelNumber = this.lastLevelLoaded[1];
+
+    this.loadLevel(track, levelNumber);
+}
+
+
+LevelLoader.prototype.clearAll = function() 
+{
+    clearCurrentLevel();
+}
+
+//-----------------------------------------------------------------------------//
+// Iinitialize level loader
+var currentLevelLoader = LevelLoader.init();
+//-----------------------------------------------------------------------------//

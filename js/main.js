@@ -1,5 +1,5 @@
 
-// TEMPORARY
+// TEMPORARY - Color scheme, should change by level track
 var color_main_LT = PURPLE_LT; // Light
 var color_main_MD = PURPLE_MD; // Medium
 var color_main_DK = PURPLE_DK; // Dark
@@ -10,25 +10,18 @@ var color_second_DK = GREEN_DK; // Dark
 // END TEMPORARY
 
 
-// // create line grid (TEMPORARY)
-// for (var i = -GRID_SIZE/2; i <= (GRID_SIZE/2); i++) {
-//     var gridPoints = [{x: i, y: i}];
-//     var coords = gridPointsToCoords(gridPoints);
-
-//     if (i === 0) {var color = '#000';} else {var color = '#ccc';} 
-
-//     canvas.add(new fabric.Line([ coords.x, gridTop, coords.x, gridBot], { stroke: color, selectable: false }));
-//     canvas.add(new fabric.Line([ gridLeft, coords.y, gridRight, coords.y], { stroke: color, selectable: false }));
-// }
-
 var currentLevel;
 var levels;
 var series;
 
 window.onload = function() {
-    loadImages();
+
+    // Switch to game canvas for start
+    switchCanvas("game");
+
+    
     loadGame();
-    loadSFX();
+    
 
     var framesPerSecond = 10;
     setInterval(function() {
@@ -39,33 +32,16 @@ window.onload = function() {
 
 function loadGame() {
 
-    // var box1a = new BoxLyne(1);
-    // var box1b = new BoxLyne(2);
-    // var box1c = new BoxLyne(3);
-    // var box1d = new BoxLyne(5);
-    // var box1e = new BoxLyne(1,5);
-
-    // var box2a = new BoxArea(1);
-    // var box2b = new BoxArea(3);
-    // var box2c = new BoxArea(4);
-    // var box2d = new BoxArea(9);
-    // var box2e = new BoxArea(12);
-
-    // var box3a = new BoxPoly([{x:-4, y:-4}, {x:-4, y:2}, {x:2, y:-4}]);
-    // var poly3a = new PolyGroup([{x:-4, y:-4}, {x:-4, y:2}, {x:2, y:-4}]);
-
-    // var ball1a = new NumberBall(1);
-    // var ball1b = new NumberBall(2);
-    // var ball1c = new NumberBall(3);
-    // var ball1d = new NumberBall(-1);
-    // var ball1e = new NumberBall(0);
+    loadSFX();
+    loadImages();
 
     var sol1 = new SolutionManager([])
 
     var pieces = [sol1];
     currentLevel = Level.init({crossButton: "none", lineAddition: "off"}, pieces);
 
-    // loadLevel(1,1);
+    console.log("levelOrderArray", levelOrderArray);
+    currentLevelLoader.loadLevel(0,0);
 }
 
     

@@ -1234,6 +1234,7 @@ Level.prototype.printLevelSolved = function()
                 {
                   duration: 3 * BOXLYNE_MOVE_TIME,
                   onChange: function () {currentLevel.renderCanvasRequired = true},
+                  onComplete: function () {currentLevelLoader.loadNextLevel()},
                 }
             );
           },

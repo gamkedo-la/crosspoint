@@ -53,7 +53,7 @@ function onMouseMove(ev) {
 }
 
 function onMouseDown(ev) {
-    console.log("temporary:", currentLevel.temporary);
+
 }
 
 function onMouseUp(ev) {

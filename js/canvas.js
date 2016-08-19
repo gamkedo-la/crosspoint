@@ -1,5 +1,6 @@
 
-var canvas = new fabric.Canvas('c', { selection: false, stateful: false });
+// var canvas_game = document.getElementById('canvas_game');
+var canvas = new fabric.Canvas('canvas_game', { selection: false, stateful: false });
 var ctx = canvas.getContext('2d');
 
 var canvasWidth = canvas.getWidth();
