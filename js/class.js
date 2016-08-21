@@ -415,7 +415,6 @@ var LyneEndControl = fabric.util.createClass(LevelPiece,
         },
 
         mouseOver: function() {
-            console.log('mouseOver: selectable', this.selectable);
             if (this.selectable) {
                 this.endCircle.set('stroke', color_main_DK);
 
@@ -443,7 +442,6 @@ var LyneEndControl = fabric.util.createClass(LevelPiece,
             this.set({left: point.x, 
                       top:  point.y});
             this.setCoords();
-            console.log('selectable', this.selectable);
         },
         
         onModified: function() {

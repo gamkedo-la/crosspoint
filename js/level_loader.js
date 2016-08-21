@@ -10,7 +10,33 @@ var video_shape = document.getElementById('video_shape');
 linkVideoToCanvas(video_shape);
 
 // Level list
-var levelOrderArray = [ [video_shape, keyhole, video_shape, japan_bridge, tangram_easy] ];
+var levelOrderArray = [ // Track 1
+                        [ {video: video_shape,  visible: true,  card: card_house}, 
+                          {level: keyhole,      visible: false,  card: card_house}, 
+                          {level: japan_bridge, visible: false, card: card_house}, 
+                        ],
+                        // Track 2
+                        [ {video: video_shape,  visible: true,  card: card_house}, 
+                          {level: keyhole,      visible: false,  card: card_house}, 
+                        ],
+                        // Track 3
+                        [ {video: video_shape,  visible: true,  card: card_house}, 
+                          {level: keyhole,      visible: false,  card: card_house}, 
+                        ],
+                        // Track 4
+                        [ {video: video_shape,  visible: true,  card: card_house}, 
+                          {level: keyhole,      visible: false,  card: card_house}, 
+                        ],
+                        // Track 5
+                        [ {video: video_shape,  visible: true,  card: card_house}, 
+                          {level: keyhole,      visible: false,  card: card_house}, 
+                        ],
+                        // Track 6
+                        [ {video: video_shape,  visible: true,  card: card_house}, 
+                          {level: keyhole,      visible: false,  card: card_house}, 
+                        ]
+                    ];
+
 
 // ==========================================================================
 
@@ -160,30 +186,34 @@ LevelLoader.init = function()
 LevelLoader.prototype.loadAllLevels = function()
 {
 
-    this.levelsJSON = levelOrderArray;
+    this.levels = levelOrderArray;
     
 }
 
 LevelLoader.prototype.loadLevel = function(track, levelNumber)
 {
+    var element = this.levels[track][levelNumber];
     // Check that level exists
-    if (!this.levelsJSON[track][levelNumber]) { console.log("No level at ", track, levelNumber); return; }
+    if (!element) { console.log("No level at ", track, levelNumber); return; }
+    
+    // Update counter
+    this.lastLevelLoaded = [track, levelNumber];
+    // Make array element visible in title screen
+    element.visible = true;
 
     // Load level
-    if (this.levelsJSON[track][levelNumber].pieces){
+    if (element.level){
+        switchCanvas("game");
         // Load level from JSON file
-        loadLevelFromJSON(this.levelsJSON[track][levelNumber]);
-    } else if (this.levelsJSON[track][levelNumber].play) {
+        loadLevelFromJSON(element.level);
+    } else if (element.video) {
         // Load video
-        var video = this.levelsJSON[track][levelNumber].play();
+        element.video.play();
     } else {
         // Unrecognized type
         console.log("Unrecognized level type");
         return;
     }
-    
-    // Update counter
-    this.lastLevelLoaded = [track, levelNumber];
     
 }
 
@@ -193,12 +223,14 @@ LevelLoader.prototype.loadNextLevel = function()
     var track = this.lastLevelLoaded[0];
     var levelNumber = this.lastLevelLoaded[1] + 1;
 
-    if (this.levelsJSON[track][levelNumber]) {
+    if (this.levels[track][levelNumber]) {
         // Load next level
         this.loadLevel(track, levelNumber);
+        this.levels[track][levelNumber].visible = true;
+        currentCardOrganizer.update();
     } else {
         // Return to menu
-        console.log("return to menu")
+        switchCanvas("level");
     }
 }
 
@@ -211,6 +243,14 @@ LevelLoader.prototype.reloadCurrentLevel = function()
     this.loadLevel(track, levelNumber);
 }
 
+LevelLoader.prototype.solvedCurrentLevel = function()
+{
+    // reload level
+    var track = this.lastLevelLoaded[0];
+    var levelNumber = this.lastLevelLoaded[1];
+
+    
+}
 
 LevelLoader.prototype.clearAll = function() 
 {

@@ -10,8 +10,7 @@ document.getElementById('file').addEventListener('change', function (evt) {
    var file = files[0];           
    var reader = new FileReader();
    reader.onload = function() {
-     currentEditor.loadLevel(this.result);
-     console.log("Loaded level from file");            
+     currentEditor.loadLevel(this.result);       
    }
    reader.readAsText(file);
 });

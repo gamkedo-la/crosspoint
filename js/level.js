@@ -1,4 +1,6 @@
 
+var currentLevel;
+
 //-----------------------------------------------------------------------------//
 /*
  *  Name:       Level
@@ -20,10 +22,13 @@ function Level()
     this.levelOptions = null;
     this.boardImg = null;
     this.bin = null;
-    this.crossButton = null;
     this.borders = [];
     this.levelImages = [];
     this.boardImage = null;
+
+    // Buttons
+    this.crossButton = null;
+    this.menuButtons = [];
 
     // Piece management
     this.allPieces = [];
@@ -62,7 +67,7 @@ function Level()
 
     // TEMPORARY WIN MESSAGE
     var textShadow = new fabric.Shadow({color: 'white', blur: 20});
-    this.levelSolvedMessage = new fabric.Text("You Win!", 
+    this.levelSolvedMessage = new fabric.Text("Level Complete!", 
                 {   
                     originX: 'center',
                     originY: 'center',
@@ -243,6 +248,10 @@ Level.prototype.loadBoard = function()
     if (this.levelOptions.crossButton !== "none") {
         canvas.add(this.crossButton);
     }
+
+    // TODO
+    // create menu buttons
+    // this.menuButtons.push();
 }
 
 /**
@@ -305,6 +314,11 @@ Level.prototype.updateBoard = function()
 
     // TEMP LEVEL WIN MESSAGE
     this.levelSolvedMessage.bringToFront();
+
+    // Menu Buttons
+    for (var i = 0; i < this.menuButtons.length; i++) {
+        this.menuButtons[i].bringToFront();
+    }
 
     // Call canvas.renderAll() through currentLevel.tick()
     this.renderCanvasRequired = true;
@@ -1267,6 +1281,4 @@ Level.prototype.isSolved = function()
 
     return this.solutionManager.levelSolved(gridPoints);
 }
-
-
 

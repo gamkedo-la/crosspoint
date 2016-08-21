@@ -78,6 +78,45 @@ const EDIT_LYNE_MAX = 10;
 const EDIT_AREA_MAX = 10;
 const EDIT_BALL_MAX = 10;
 
+
+// ------------------
+// Menu Constants
+// ------------------
+
+const MENU_LOGO_WIDTH = 540;
+const MENU_LOGO_HEIGHT = 500;
+const MENU_LOGO_OFFSET_Y = 0;
+
+const LEVEL_CARD_HEIGHT = 80;
+const LEVEL_CARD_WIDTH = 55;
+const LEVEL_CARD_BufferX = 5;
+const LEVEL_CARD_BufferY = 10;
+const LEVEL_CARD_PADDINGX = 130;
+const LEVEL_CARD_PADDINGY = 35;
+const LEVEL_CARD_SCALING_FACTOR = 1.2;
+
+// Buttons
+
+const MENU_BUTTON_OFFSET_Y = 150;
+
+const MENU_BACK_BUTTON_WIDTH = 55;
+const MENU_BACK_BUTTON_HEIGHT = 80;
+const MENU_BACK_BUTTON_SCALING_FACTOR = 1.2;
+
+const MENU_RELOAD_BUTTON_WIDTH = 80;
+const MENU_RELOAD_BUTTON_HEIGHT = 80;
+const MENU_RELOAD_BUTTON_SCALING_FACTOR = 1.2;
+
+const MENU_LEVELS_BUTTON_WIDTH = 200;
+const MENU_LEVELS_BUTTON_HEIGHT = 100;
+const MENU_LEVELS_BUTTON_SCALING_FACTOR = 1.2;
+
+
+const MENU_CREDITS_BUTTON_WIDTH = 80;
+const MENU_CREDITS_BUTTON_HEIGHT = 80;
+const MENU_CREDITS_BUTTON_SCALING_FACTOR = 1.2;
+
+
 // ------------------
 // Main Colors
 // ------------------

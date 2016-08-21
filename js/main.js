@@ -17,11 +17,14 @@ var series;
 window.onload = function() {
 
     // Switch to game canvas for start
-    switchCanvas("game");
+    switchCanvas("menu");
 
-    
+    loadImages();
+    loadSFX();
+
+    loadMenu();
     loadGame();
-    
+    loadMenuLevels();
 
     var framesPerSecond = 10;
     setInterval(function() {
@@ -30,10 +33,18 @@ window.onload = function() {
 }
 
 
-function loadGame() {
+function loadMenu() {
+    menuLoadElements();
+}
 
-    loadSFX();
-    loadImages();
+
+function loadMenuLevels() {
+    currentCardOrganizer.makeCards();
+    currentCardOrganizer.update();
+}
+
+
+function loadGame() {
 
     var sol1 = new SolutionManager([])
 
@@ -41,7 +52,7 @@ function loadGame() {
     currentLevel = Level.init({crossButton: "none", lineAddition: "off"}, pieces);
 
     console.log("levelOrderArray", levelOrderArray);
-    currentLevelLoader.loadLevel(0,0);
+    // currentLevelLoader.loadLevel(0,0);
 }
 
     

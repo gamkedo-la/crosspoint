@@ -173,7 +173,6 @@ var FollowCircle = fabric.util.createClass( fabric.Group,
             startGridPoint.x = Math.round(startGridPoint.x);
             startGridPoint.y = Math.round(startGridPoint.y);
 
-            console.log("startGridPoint",startGridPoint);
 
             // Make Circle
             var newCircle = new Circle(startGridPoint, this.radius);
@@ -212,8 +211,6 @@ var FollowPoly = fabric.util.createClass( fabric.Group,
             this.gridPoints = gridPoints;
             this.centerOffset = findCenterOffset(gridPoints); 
 
-            console.log("this.centerOffset", this.centerOffset);
-
             // ---- COPIED FROM POLY CLASS -------
             this.polygon = new fabric.Polygon(gridPointsToCoords(gridPoints),
                 {
@@ -243,8 +240,6 @@ var FollowPoly = fabric.util.createClass( fabric.Group,
             startGridPoint.y = Math.round(startGridPoint.y - this.centerOffset.y);
 
             var newGridPoints = translateGridpointsToPoint(this.gridPoints, startGridPoint);
-
-            console.log("newGridPoints", newGridPoints);
 
             // Make Lyne
             var newPoly = new PolyGroup(newGridPoints);
@@ -341,7 +336,6 @@ var FollowArea = fabric.util.createClass( fabric.Group,
 
             // Reset mode
             currentLevel.mode = '';
-            console.log("selectable", this.selectable);
             currentLevel.removePiece(this);
 
             // Play audio - Add to level

@@ -12,9 +12,8 @@
     <script src="js/lineclip.js"></script>
 </head>
 
+
 <body>
-    <!-- Images -->
-    <img hidden id="board-purple" src="img/grid_400_400_purple.png">
 
     <!-- Audio / SFX -->
     <audio id="grab">
@@ -72,8 +71,11 @@
 
     <!-- Canvas elements -->
     <div id="canvas_wrapper">
+        <canvas id="canvas_menu" width="800" height="600"></canvas> 
+        <canvas id="canvas_levels" width="800" height="600"></canvas>
         <canvas id="canvas_game" width="800" height="600"></canvas>
-        <canvas id="canvas_cutscene" width="800" height="600"></canvas>
+        <canvas id="canvas_cutscene" width="800" height="600"></canvas>   
+        <canvas id="canvas_credits" width="800" height="600"></canvas>   
     </div>
 
     <!-- Main JavsScript Code -->
@@ -82,6 +84,7 @@
     <script src="js/CONST.js"></script>
     <script src="js/geometry_helper.js"></script>
     <script src="js/class_helper.js"></script>
+    <script src="js/class_buttons.js"></script>
     <script src="js/class.js"></script>
     <script src="js/class_drop.js"></script>
     <script src="js/level.js"></script>
@@ -91,6 +94,9 @@
     <script src="js/level_loader.js"></script>
     <script src="js/jukebox.js"></script>
     <script src="js/SFX.js"></script>
+    <script src="js/menu.js"></script>
+    <script src="js/menu_levels.js"></script>
+    <script src="js/cards.js"></script>
     <script src="js/main.js"></script>
 
 

@@ -114,11 +114,9 @@ function onMouseUp(ev) {
     }
 
     // Check for win condition
-    if(currentLevel.isSolved()) {
-        console.log("YOU WIN!!!"); 
-        
+    if(currentLevel.isSolved()) {        
         currentLevel.printLevelSolved();
-
+        currentLevelLoader.solvedCurrentLevel();
     }
     
 }
@@ -145,7 +143,7 @@ function onObjectSelected(ev) {
     // LEVEL EDITOR - Keep track of pieces that are selected
     if(ev.target.pieceID) {
         currentLevel.selectedPiece = ev.target;
-        console.log("pieceID",ev.target.pieceID)
+        // console.log("pieceID",ev.target.pieceID)
 
         // Audio
         if(ev.target.type === "boxPoly" ||
