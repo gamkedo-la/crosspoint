@@ -30,7 +30,7 @@ function loadImages() {
         {varName: logo_CrossPoint, fileName: "logo_crosspoint.png"},
         {varName: board_purple, fileName: "grid_400_400_purple.png"},
 
-        {varName: menu_back, fileName: "card_house.png"},
+        {varName: menu_back, fileName: "menu_back.png"},
         {varName: menu_levels, fileName: "menu_toLevels.png"},
 
         {varName: card_house, fileName: "card_house.png"},

@@ -76,7 +76,7 @@ var MenuBackButton = fabric.util.createClass( fabric.Group,
             });
 
 
-            this.img = new fabric.Image(level.card, {
+            this.img = new fabric.Image(menu_back, {
                 originX: 'center', 
                 originY: 'center',
                 left: centerPoint.x,
@@ -159,8 +159,10 @@ var MenuLevelsButton = fabric.util.createClass( fabric.Group,
         },
 
         onSelected: function() {
-            // Go to previous menu
+            // Go to level menu
             switchCanvas("level")
+
+            console.log("TO LEVELS!")
         },
         
     }

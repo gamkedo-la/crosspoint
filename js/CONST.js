@@ -89,18 +89,20 @@ const MENU_LOGO_OFFSET_Y = 0;
 
 const LEVEL_CARD_HEIGHT = 80;
 const LEVEL_CARD_WIDTH = 55;
-const LEVEL_CARD_BufferX = 5;
-const LEVEL_CARD_BufferY = 10;
-const LEVEL_CARD_PADDINGX = 130;
+const LEVEL_CARD_BUFFERX = 5;
+const LEVEL_CARD_BUFFERY = 10;
+const LEVEL_CARD_PADDINGX = 200;
 const LEVEL_CARD_PADDINGY = 35;
 const LEVEL_CARD_SCALING_FACTOR = 1.2;
+
+const LEVEL_CARD_TRACK_LINEWIDTH = 2;
 
 // Buttons
 
 const MENU_BUTTON_OFFSET_Y = 150;
 
 const MENU_BACK_BUTTON_WIDTH = 55;
-const MENU_BACK_BUTTON_HEIGHT = 80;
+const MENU_BACK_BUTTON_HEIGHT = 35;
 const MENU_BACK_BUTTON_SCALING_FACTOR = 1.2;
 
 const MENU_RELOAD_BUTTON_WIDTH = 80;
@@ -118,7 +120,7 @@ const MENU_CREDITS_BUTTON_SCALING_FACTOR = 1.2;
 
 
 // ------------------
-// Main Colors
+// Color Schemes
 // ------------------
 
 // make 3xN grid of hex colors
@@ -135,12 +137,37 @@ const INVISIBLE_COLOR_MODIFIED = 'rgba(255,0,0,1.0)';
 const PURPLE_LT = '#CCB7E0';
 const PURPLE_MD = '#BCA9CF';
 const PURPLE_DK = '#64427A';
+const PURPLE_BRIGHT = '#9A00DB';
 
 const GREEN_LT = '#B7CE89';
 const GREEN_MD = '#ABC180';
 const GREEN_DK = '#64832E';
+const GREEN_BRIGHT = '#00DB00';
 
+const RED_LT = '#AB433F';
+const RED_MD = '#850503';
+const RED_DK = '#5E0302';
+const RED_BRIGHT = '#DB1600';
 
+const ORANGE_LT = '#CC5432';
+const ORANGE_MD = '#AB351D';
+const ORANGE_DK = '#381D14';
+const ORANGE_BRIGHT = '#DB7900';
+
+const BLUE_LT = '#3B79B7';
+const BLUE_MD = '#214369';
+const BLUE_DK = '#0C356E';
+const BLUE_BRIGHT = '#0500DB';
+
+const SKYBLUE_LT = '#4CA1B5';
+const SKYBLUE_MD = '#1E3A4A';
+const SKYBLUE_DK = '#162C38';
+const SKYBLUE_BRIGHT = '#00D7DB';
+
+const GRAY_LT = '#B8B8B8';
+const GRAY_MD = '#A8A9AB';
+const GRAY_DK = '#333333';
+const GRAY_BRIGHT = GRAY_MD;
 
 
 

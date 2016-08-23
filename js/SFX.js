@@ -13,6 +13,7 @@ function loadSFX() {
     sound_rotate_bing = document.getElementById("rotate_bing"); 
     sound_scale = document.getElementById("scale");
     sound_undo = document.getElementById("undoMove");
+    sound_win_level = document.getElementById("win_level");
 }
 
 function playSFX(sound_text) {
@@ -33,7 +34,9 @@ function playSFX(sound_text) {
     } else if (sound_text === "scale"){
         sound = sound_scale;
     } else if (sound_text === "undoMove"){
-        sound = sound_undo;    
+        sound = sound_undo;   
+    } else if (sound_text === "winLevel"){
+        sound = sound_win_level;    
     } else {
         return;
     }

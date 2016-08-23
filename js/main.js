@@ -1,15 +1,4 @@
 
-// TEMPORARY - Color scheme, should change by level track
-var color_main_LT = PURPLE_LT; // Light
-var color_main_MD = PURPLE_MD; // Medium
-var color_main_DK = PURPLE_DK; // Dark
-
-var color_second_LT = GREEN_LT; // Light
-var color_second_MD = GREEN_MD; // Medium
-var color_second_DK = GREEN_DK; // Dark
-// END TEMPORARY
-
-
 var currentLevel;
 var levels;
 var series;
@@ -39,6 +28,8 @@ function loadMenu() {
 
 
 function loadMenuLevels() {
+    levelsLoadElements();
+
     currentCardOrganizer.makeCards();
     currentCardOrganizer.update();
 }

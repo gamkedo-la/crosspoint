@@ -59,6 +59,7 @@ function menuObjectSelected(ev) {
     if(ev.target && ev.target.onSelected) {
         ev.target.onSelected();
     }
+    canvas_menu.discardActiveObject();
 }
 
 

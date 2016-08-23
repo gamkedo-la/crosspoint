@@ -1237,16 +1237,19 @@ Level.prototype.convertPiecesToPoints = function()
 
 Level.prototype.printLevelSolved = function()
 {
+    // Audio
+    playSFX("winLevel");
+
     this.levelSolvedMessage.animate(
         {opacity: 1} , 
         {
-          duration:  BOXLYNE_MOVE_TIME,
+          duration:  BOXLYNE_MOVE_TIME/2,
           onChange: function () {currentLevel.renderCanvasRequired = true},
           onComplete: function () {
             currentLevel.levelSolvedMessage.animate(
                 {opacity: 0} , 
                 {
-                  duration: 3 * BOXLYNE_MOVE_TIME,
+                  duration: 1.5 * BOXLYNE_MOVE_TIME,
                   onChange: function () {currentLevel.renderCanvasRequired = true},
                   onComplete: function () {currentLevelLoader.loadNextLevel()},
                 }

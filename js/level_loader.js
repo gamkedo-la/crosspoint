@@ -11,32 +11,106 @@ linkVideoToCanvas(video_shape);
 
 // Level list
 var levelOrderArray = [ // Track 1
-                        [ {video: video_shape,  visible: true,  card: card_house}, 
-                          {level: keyhole,      visible: false,  card: card_house}, 
-                          {level: japan_bridge, visible: false, card: card_house}, 
+                        [ {video: video_shape,          visible: true,  card: card_house}, 
+                          {level: level_keyhole,        visible: true,  card: card_house}, 
+                          {level: level_house1,         visible: true,  card: card_house}, 
+                          {level: level_japan_bridge,   visible: true,  card: card_house}, 
+                          {level: level_tangram_easy,   visible: true,  card: card_house}, 
                         ],
                         // Track 2
-                        [ {video: video_shape,  visible: true,  card: card_house}, 
-                          {level: keyhole,      visible: false,  card: card_house}, 
+                        [ {video: video_shape,          visible: true,  card: card_house}, 
+                          {level: level_eye,            visible: true,  card: card_house}, 
+                          {level: level_heart,          visible: true,  card: card_house}, 
+                          {level: level_hourglass,      visible: true,  card: card_house}, 
+                          {level: level_propellor,      visible: true,  card: card_house}, 
+                          {level: level_cropcircles,    visible: true,  card: card_house}, 
                         ],
                         // Track 3
                         [ {video: video_shape,  visible: true,  card: card_house}, 
-                          {level: keyhole,      visible: false,  card: card_house}, 
+                          {level: level_keyhole,      visible: true,  card: card_house}, 
                         ],
                         // Track 4
                         [ {video: video_shape,  visible: true,  card: card_house}, 
-                          {level: keyhole,      visible: false,  card: card_house}, 
+                          {level: level_keyhole,      visible: true,  card: card_house}, 
                         ],
                         // Track 5
                         [ {video: video_shape,  visible: true,  card: card_house}, 
-                          {level: keyhole,      visible: false,  card: card_house}, 
+                          {level: level_keyhole,      visible: true,  card: card_house}, 
                         ],
                         // Track 6
                         [ {video: video_shape,  visible: true,  card: card_house}, 
-                          {level: keyhole,      visible: false,  card: card_house}, 
+                          {level: level_keyhole,      visible: true,  card: card_house}, 
                         ]
                     ];
 
+
+// Level list
+var levelColorArray = [ // Track 1
+                        {color: "purple",   main_LT: PURPLE_LT,
+                                            main_MD: PURPLE_MD,
+                                            main_DK: PURPLE_DK,
+                                            second_LT: GREEN_LT,
+                                            second_MD: GREEN_MD,
+                                            second_DK: GREEN_DK,
+                                            line: PURPLE_BRIGHT
+                        },
+                        // Track 3
+                        {color: "red",      main_LT: RED_LT,
+                                            main_MD: RED_MD,
+                                            main_DK: RED_DK,
+                                            second_LT: GRAY_LT,
+                                            second_MD: GRAY_MD,
+                                            second_DK: GRAY_DK,
+                                            line: RED_BRIGHT
+                        },
+                        // Track 4
+                        {color: "skyblue",  main_LT: SKYBLUE_LT,
+                                            main_MD: SKYBLUE_MD,
+                                            main_DK: SKYBLUE_DK,
+                                            second_LT: GRAY_LT,
+                                            second_MD: GRAY_MD,
+                                            second_DK: GRAY_DK,
+                                            line: SKYBLUE_BRIGHT
+                        },
+                        // Track 5
+                        {color: "orange",   main_LT: ORANGE_LT,
+                                            main_MD: ORANGE_MD,
+                                            main_DK: ORANGE_DK,
+                                            second_LT: GRAY_LT,
+                                            second_MD: GRAY_MD,
+                                            second_DK: GRAY_DK,
+                                            line: ORANGE_BRIGHT
+                        },
+                        // Track 6
+                        {color: "green",    main_LT: GREEN_LT,
+                                            main_MD: GREEN_MD,
+                                            main_DK: GREEN_DK,
+                                            second_LT: GRAY_LT,
+                                            second_MD: GRAY_MD,
+                                            second_DK: GRAY_DK,
+                                            line: GREEN_BRIGHT
+                        },
+                        // Track 2
+                        {color: "blue",     main_LT: BLUE_LT,
+                                            main_MD: BLUE_MD,
+                                            main_DK: BLUE_DK,
+                                            second_LT: GRAY_LT,
+                                            second_MD: GRAY_MD,
+                                            second_DK: GRAY_DK,
+                                            line: BLUE_BRIGHT
+                        },
+
+                    ];
+
+
+// initialize color variables with default values
+var color_main_LT = PURPLE_LT; // Light
+var color_main_MD = PURPLE_MD; // Medium
+var color_main_DK = PURPLE_DK; // Dark
+
+var color_second_LT = GREEN_LT; // Light
+var color_second_MD = GREEN_MD; // Medium
+var color_second_DK = GREEN_DK; // Dark
 
 // ==========================================================================
 
@@ -167,8 +241,10 @@ var loadLevelFromJSON = function(jsonObject)
 
 function LevelLoader() 
 {
-    this.levels = [];
+    this.levels = null;
+    this.colors = null;
     this.lastLevelLoaded = [0, -1];
+
 }
 
 /**
@@ -187,12 +263,14 @@ LevelLoader.prototype.loadAllLevels = function()
 {
 
     this.levels = levelOrderArray;
+    this.colors = levelColorArray;
     
 }
 
 LevelLoader.prototype.loadLevel = function(track, levelNumber)
 {
     var element = this.levels[track][levelNumber];
+
     // Check that level exists
     if (!element) { console.log("No level at ", track, levelNumber); return; }
     
@@ -200,6 +278,9 @@ LevelLoader.prototype.loadLevel = function(track, levelNumber)
     this.lastLevelLoaded = [track, levelNumber];
     // Make array element visible in title screen
     element.visible = true;
+
+    // Change color scheme
+    this.changeColors(track);
 
     // Load level
     if (element.level){
@@ -250,6 +331,20 @@ LevelLoader.prototype.solvedCurrentLevel = function()
     var levelNumber = this.lastLevelLoaded[1];
 
     
+}
+
+LevelLoader.prototype.changeColors = function(track) 
+{
+    // Change color scheme for track
+    color_main_LT = this.colors[track].main_LT; // Light
+    color_main_MD = this.colors[track].main_MD; // Medium
+    color_main_DK = this.colors[track].main_DK; // Dark
+    color_second_LT = this.colors[track].second_LT; // Light
+    color_second_MD = this.colors[track].second_MD; // Medium
+    color_second_DK = this.colors[track].second_DK; // Dark
+
+    console.log("changed colors complete");
+
 }
 
 LevelLoader.prototype.clearAll = function() 

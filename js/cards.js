@@ -101,6 +101,7 @@ var CardOrganizer = fabric.util.createClass(
 
             this.levels = levels;
             this.cards = [];
+            this.lines = [];
 
         },
 
@@ -129,16 +130,34 @@ var CardOrganizer = fabric.util.createClass(
             // Calculate first card position
             var startY = LEVEL_CARD_PADDINGY + LEVEL_CARD_HEIGHT/2;
             var startX = LEVEL_CARD_PADDINGX + LEVEL_CARD_WIDTH/2;
+            var lineX = startX - LEVEL_CARD_WIDTH/2 - 2*LEVEL_CARD_BUFFERX;
 
-            // Create cards
+            // Create track cards
             for (var i = 0; i < this.levels.length; i++) {
-                var centerY = startY + i * (LEVEL_CARD_HEIGHT + LEVEL_CARD_BufferY);
+                var centerY = startY + i * (LEVEL_CARD_HEIGHT + LEVEL_CARD_BUFFERY);
+
+                // Create line
+
+                var line = new fabric.Line([lineX, centerY - LEVEL_CARD_HEIGHT/2, 
+                                             lineX, centerY + LEVEL_CARD_HEIGHT/2,], 
+                    {   stroke: levelColorArray[i].line,
+                        strokeWidth: LEVEL_CARD_TRACK_LINEWIDTH,
+                        originX: 'center', 
+                        originY: 'center', 
+                        selectable: false,
+                    }
+                );
+                canvas_levels.add(line);
+
+                // Create cards
                 for (var j = 0; j < this.levels[i].length; j++) {
-                    var centerX = startX + j * (LEVEL_CARD_WIDTH + LEVEL_CARD_BufferX);
+                    var centerX = startX + j * (LEVEL_CARD_WIDTH + LEVEL_CARD_BUFFERX);
                     var card = new LevelCard(this.levels[i][j], {x: centerX, y: centerY}, i, j);
                     this.cards.push(card);
                 }
             }
+
+            
         },
 
         update: function() {
