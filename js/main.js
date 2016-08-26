@@ -12,6 +12,7 @@ window.onload = function() {
     loadSFX();
 
     loadMenu();
+    loadCredits();
     loadGame();
     loadMenuLevels();
 
@@ -26,6 +27,9 @@ function loadMenu() {
     menuLoadElements();
 }
 
+function loadCredits() {
+    creditsLoadElements();
+}
 
 function loadMenuLevels() {
     levelsLoadElements();

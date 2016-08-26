@@ -837,7 +837,7 @@ var Box = fabric.util.createClass(LevelPiece,
         },
 
         onSelected: function(mouse_e) {
-            this.box.set('fill', color_main_LT);
+            this.box.set('fill', color_main_UL);
         },
         
         deselect: function() {
@@ -905,7 +905,7 @@ var BoxLyne = fabric.util.createClass(Box,
 
             // Mark box for removal
             currentLevel.droppingBox = this;
-            this.box.set('fill', color_main_LT);
+            this.box.set('fill', color_main_UL);
 
         },
 
@@ -975,7 +975,7 @@ var BoxPoly = fabric.util.createClass(Box,
 
             // Mark box for removal
             currentLevel.droppingBox = this;
-            this.box.set('fill', color_main_LT);
+            this.box.set('fill', color_main_UL);
 
         },
 
@@ -1038,7 +1038,7 @@ var BoxCircle = fabric.util.createClass(Box,
 
             // Mark box for removal
             currentLevel.droppingBox = this;
-            this.box.set('fill', color_main_LT);
+            this.box.set('fill', color_main_UL);
 
         },
 
@@ -1087,7 +1087,7 @@ var BoxArea = fabric.util.createClass(Box,
 
             // Mark box for removal
             currentLevel.droppingBox = this;
-            this.box.set('fill', color_main_LT);
+            this.box.set('fill', color_main_UL);
 
         },
 

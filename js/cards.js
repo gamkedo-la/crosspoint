@@ -25,69 +25,167 @@ var LevelCard = fabric.util.createClass( fabric.Group,
             this.centerPoint = centerPoint;
             this.track = track;
             this.levelNumber = levelNumber;
-            this.visible = false;
+            this.playable = false;
+            this.completed = false;
 
+            // Draw bounding box
+            this.box = new fabric.Rect({
+                    originX: 'center', 
+                    originY: 'center',
+                    top : centerPoint.y,
+                    left : centerPoint.x,
+                    width : 50,
+                    height : 80,
+                    rx: 10,
+                    ry: 10,
+                    fill: GRAY_VERY_LT,
+                    stroke: SHADOW_COLOR,
+                    strokeWidth: LEVEL_CARD_BOX_STROKEWIDTH,
+
+                });
+            this.addWithUpdate(this.box);
+
+            // Add level image
             this.img = new fabric.Image(level.card, {
                 originX: 'center', 
                 originY: 'center',
                 left: centerPoint.x,
                 top:  centerPoint.y,
-                width: LEVEL_CARD_WIDTH,
-                height: LEVEL_CARD_HEIGHT,
+                visible: false,
             });
             this.addWithUpdate(this.img);
 
             // Set position to center point
             this.set({left: centerPoint.x, top: centerPoint.y});
 
-            this.update();
-        
-        },
-
-        update: function(mouse_e) {
-            // If visibility has changed, update image
-            if (this.visible !== this.level.visible) {
-                
-                if(this.level.visible) {
-                    // Should be visible, add to canvas
-
-                    canvas_levels.add(this);
-                    this.visible = true;
-
-                } else {
-                    // Should be invisible, remove from canvas
-
-                    canvas_levels.remove(this);
-                    this.visible = false;
-                }
-            }
+            canvas_levels.add(this);
             
+            if(this.level.playable){
+                this.displayPlayable();
+            } else {
+                this.displayUnplayable();
+            }
         },
         
 
         mouseOver: function() {
-            // Make image larger
+            // Change background to track color
             if (this.selectable) {
-                this.img.set({width: LEVEL_CARD_WIDTH * LEVEL_CARD_SCALING_FACTOR, 
-                              height: LEVEL_CARD_HEIGHT * LEVEL_CARD_SCALING_FACTOR, });
+                this.box.set({fill: currentLevelLoader.colors[this.track].main_UL });
             }
         },
 
         mouseOut: function() {
-            // Make image smaller
-            this.img.set({width: LEVEL_CARD_WIDTH, 
-                          height: LEVEL_CARD_HEIGHT, });
-
+            // Change background to white
+            if (this.selectable) {
+                this.box.set({fill: BACKGROUND_COLOR });
+            }
         },
 
         onSelected: function() {
             // Go to level
             currentLevelLoader.loadLevel(this.track, this.levelNumber);
         },
+
+        displayUnplayable: function() {
+
+            this.selectable = false;
+
+            // Change appearance to visible card
+            this.img.visible = false;
+            this.box.set({fill: GRAY_VERY_LT,
+                          stroke: SHADOW_COLOR });
+
+        },
+
+        displayPlayable: function() {
+            this.playable = true;
+            this.selectable = true;
+
+            // Change appearance to visible card
+            this.img.visible = true;
+            // Image to gray
+            this.img.filters.length = 0;
+            this.img.filters.push(new fabric.Image.filters.Tint({
+                color: SHADOW_COLOR,
+                opacity: 1.0,
+            }));
+            this.img.applyFilters(canvas_levels.renderAll.bind(canvas_levels));
+            // Box to black and white
+            this.box.set({fill: BACKGROUND_COLOR,
+                          stroke: FOREGROUND_LINE_COLOR });
+        },
+
+        displayCompleted: function() {
+            this.completed = true;
+            this.playable = true;
+            this.selectable = true;
+
+            // Change appearance to completed card
+            this.img.visible = true;
+            // Image to black
+            this.img.filters.length = 0;
+            this.img.filters.push(new fabric.Image.filters.Tint({
+                color: FOREGROUND_LINE_COLOR,
+                opacity: 1.0,
+            }));
+            this.img.applyFilters(canvas_levels.renderAll.bind(canvas_levels));
+            // Box to black and white
+            this.box.set({fill: BACKGROUND_COLOR,
+                          stroke: FOREGROUND_LINE_COLOR });
+
+        },
         
     }
 );
 
+
+var VideoCard = fabric.util.createClass( LevelCard,
+    {
+        
+
+        mouseOver: function() {
+            // Change background to track color
+            if (this.selectable) {
+                this.box.set({fill: currentLevelLoader.colors[this.track].main_DK });
+            }
+        },
+
+        // mouseOut: function() {
+        //     if (this.selectable) {
+        //         this.box.set({fill: SHADOW_COLOR });
+        //     }
+        // },
+
+        displayUnplayable: function() {
+
+            this.selectable = false;
+
+            // Change appearance to visible card
+            this.img.visible = false;
+            this.box.set({fill: GRAY_VERY_LT,
+                          stroke: SHADOW_COLOR });
+
+        },
+
+        displayPlayable: function() {
+            this.playable = true;
+            this.selectable = true;
+
+            // Change appearance to visible card
+            this.img.visible = true;
+        
+            // Box to black
+            this.box.set({fill: BACKGROUND_COLOR,
+                          stroke: FOREGROUND_LINE_COLOR });
+        },
+
+        displayCompleted: function() {
+            this.displayPlayable();
+        },
+        
+    }
+);
 
 
 // ----------------------------------
@@ -106,18 +204,6 @@ var CardOrganizer = fabric.util.createClass(
         },
 
         makeCards: function() {
-
-            // LEVEL_CARD_HEIGHT
-            // LEVEL_CARD_WIDTH
-            // LEVEL_CARD_BufferX = 5;
-            // LEVEL_CARD_BufferY = 10;
-            // const LEVEL_CARD_PADDINGX = 15;
-            // const LEVEL_CARD_PADDINGY = 15;
-            // var canvasWidth = canvas.getWidth();
-            // var canvasHeight = canvas.getHeight();
-            // var canvasCenter = canvas.getCenter();
-            // var canvasCenterX = canvasCenter.left;
-            // var canvasCenterY = canvasCenter.top;
 
 
             // Calculate card positions
@@ -150,10 +236,19 @@ var CardOrganizer = fabric.util.createClass(
                 canvas_levels.add(line);
 
                 // Create cards
+                this.cards.push([]);
                 for (var j = 0; j < this.levels[i].length; j++) {
                     var centerX = startX + j * (LEVEL_CARD_WIDTH + LEVEL_CARD_BUFFERX);
-                    var card = new LevelCard(this.levels[i][j], {x: centerX, y: centerY}, i, j);
-                    this.cards.push(card);
+                    var card;
+                    if (this.levels[i][j].level) {
+                        // Create a level card
+                        card = new LevelCard(this.levels[i][j], {x: centerX, y: centerY}, i, j);
+                    } else if (this.levels[i][j].video) {
+                        // Create a video card
+                        card = new VideoCard(this.levels[i][j], {x: centerX, y: centerY}, i, j);
+                    }
+                    
+                    this.cards[i].push(card);
                 }
             }
 
@@ -161,15 +256,23 @@ var CardOrganizer = fabric.util.createClass(
         },
 
         update: function() {
-            for (var i = 0; i < this.cards.length; i++) {
-                this.cards[i].update();
-            }
+            canvas_levels.renderAll();
+        },
+
+        levelWasLoaded: function(track, levelNumber) {
+            this.cards[track][levelNumber].displayPlayable();
+
+            canvas_levels.renderAll();
+        },
+
+        levelWasCompleted: function(track, levelNumber) {
+            this.cards[track][levelNumber].displayCompleted();
+
             canvas_levels.renderAll();
         },
         
     }
 );
-
 
 //-----------------------------------------------------------------------------//
 // Iinitialize level loader

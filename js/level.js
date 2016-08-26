@@ -141,7 +141,7 @@ Level.prototype.loadBoard = function()
 
     // Load board image
 
-    this.boardImage = new fabric.Image(board_images[0], {
+    this.boardImage = new fabric.Image(color_board, {
         left: gridLeft,
         top:  gridTop,
         selectable: false,
@@ -249,9 +249,13 @@ Level.prototype.loadBoard = function()
         canvas.add(this.crossButton);
     }
 
-    // TODO
-    // create menu buttons
-    // this.menuButtons.push();
+    // Create menu buttons
+    var backButton = new MenuBackButton({x: BACK_BTN_POSX, y: BACK_BTN_POSY});
+    canvas.add(backButton);
+    this.menuButtons.push(backButton);
+    var reloadButton = new ReloadButton({x: RELOAD_BTN_POSX, y: RELOAD_BTN_POSY});
+    canvas.add(reloadButton);
+    this.menuButtons.push(reloadButton);
 }
 
 /**
@@ -1239,6 +1243,8 @@ Level.prototype.printLevelSolved = function()
 {
     // Audio
     playSFX("winLevel");
+
+    currentLevelLoader.solvedCurrentLevel();
 
     this.levelSolvedMessage.animate(
         {opacity: 1} , 

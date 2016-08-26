@@ -4,13 +4,12 @@
 // Instantiate menu and credits canvases as Fabric canvases
 var canvas_menu = new fabric.Canvas('canvas_menu');
 canvas_menu.hoverCursor = 'pointer';
-
-var canvas_credits = new fabric.Canvas('canvas_credits');
-canvas_credits.hoverCursor = 'pointer';
+canvas_menu.backgroundColor = 'white';
 
 
 var mainLogo_MENU;
 var levels_MENU;
+var credits_MENU;
 function menuLoadElements() {
     
     // CrossPoint Logo
@@ -25,9 +24,11 @@ function menuLoadElements() {
     });
     canvas_menu.add(mainLogo_MENU);
 
-    // Levels button
+    // Buttons
     levels_MENU = new MenuLevelsButton({x: canvasCenterX, y: canvasCenterY + MENU_BUTTON_OFFSET_Y});
     canvas_menu.add(levels_MENU);
+    credits_MENU = new MenuCreditsButton({x: canvasCenterX, y: canvasCenterY + 1.5*MENU_BUTTON_OFFSET_Y});
+    canvas_menu.add(credits_MENU);
 }   
 
 canvas_menu.on({

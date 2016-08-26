@@ -27,12 +27,6 @@ const POLY_MOVING_OPACITY = 0.5;
 const DROP_AREA_STROKEWIDTH = POLY_STROKEWIDTH;
 const DROP_AREA_HOVER_GROWTH = 2;
 
-// Buttons
-const CROSS_BTN_WIDTH = 40;
-const CROSS_BTN_HEIGHT = 20;
-const CROSS_BTN_LINELENGTH = 8;
-const CROSS_BTN_STROKEWIDTH = 3;
-
 // Boxes
 const BOX_STROKEWIDTH = 3;
 const BOX_HOVER_STROKEWIDTH = 5;
@@ -70,6 +64,16 @@ const SHADOW_OPACITY = 1;
 const SHADOW_STROKE_WIDTH = 1;
 const SHADOW_LINE_STROKE_WIDTH = LYNE_STROKEWIDTH;
 
+// Buttons
+const CROSS_BTN_WIDTH = 40;
+const CROSS_BTN_HEIGHT = 20;
+const CROSS_BTN_LINELENGTH = 8;
+const CROSS_BTN_STROKEWIDTH = 3;
+const BACK_BTN_POSX = 60;
+const BACK_BTN_POSY = 40;
+const RELOAD_BTN_POSX = BACK_BTN_POSX + 60;
+const RELOAD_BTN_POSY = BACK_BTN_POSY;
+
 
 // Level Editor
 const EDIT_ARROW_WIDTH = BOXLYNE_WIDTH; //pixels
@@ -91,11 +95,12 @@ const LEVEL_CARD_HEIGHT = 80;
 const LEVEL_CARD_WIDTH = 55;
 const LEVEL_CARD_BUFFERX = 5;
 const LEVEL_CARD_BUFFERY = 10;
-const LEVEL_CARD_PADDINGX = 200;
+const LEVEL_CARD_PADDINGX = 45;
 const LEVEL_CARD_PADDINGY = 35;
 const LEVEL_CARD_SCALING_FACTOR = 1.2;
 
 const LEVEL_CARD_TRACK_LINEWIDTH = 2;
+const LEVEL_CARD_BOX_STROKEWIDTH = 2;
 
 // Buttons
 
@@ -104,6 +109,8 @@ const MENU_BUTTON_OFFSET_Y = 150;
 const MENU_BACK_BUTTON_WIDTH = 55;
 const MENU_BACK_BUTTON_HEIGHT = 35;
 const MENU_BACK_BUTTON_SCALING_FACTOR = 1.2;
+const MENU_BACK_BUTTON_PADDINGX = 35;
+const MENU_BACK_BUTTON_PADDINGY = LEVEL_CARD_PADDINGY;
 
 const MENU_RELOAD_BUTTON_WIDTH = 80;
 const MENU_RELOAD_BUTTON_HEIGHT = 80;
@@ -112,6 +119,7 @@ const MENU_RELOAD_BUTTON_SCALING_FACTOR = 1.2;
 const MENU_LEVELS_BUTTON_WIDTH = 200;
 const MENU_LEVELS_BUTTON_HEIGHT = 100;
 const MENU_LEVELS_BUTTON_SCALING_FACTOR = 1.2;
+
 
 
 const MENU_CREDITS_BUTTON_WIDTH = 80;
@@ -133,41 +141,63 @@ const BUTTON_COLOR = "black";
 const NUMBER_BALL_COLOR = "black";
 const INVISIBLE_COLOR = 'rgba(255,0,0,0.01)';
 const INVISIBLE_COLOR_MODIFIED = 'rgba(255,0,0,1.0)';
+const GRAY_VERY_LT = '#EEEEEE';
+
 
 const PURPLE_LT = '#CCB7E0';
 const PURPLE_MD = '#BCA9CF';
 const PURPLE_DK = '#64427A';
 const PURPLE_BRIGHT = '#9A00DB';
+const PURPLE_ULTRALIGHT = '#f1e8fa';
+
+const DARK_GREEN_LT = '#66b368';
+const DARK_GREEN_MD = '#62a663';
+const DARK_GREEN_DK = '#3b643c';
+const DARK_GREEN_BRIGHT = '#2bc32e';
+const DARK_GREEN_ULTRALIGHT = '#dcfbdd';
+
+const RED_LT = '#e5787d';
+const RED_MD = '#df6a6f';
+const RED_DK = '#b41018';
+const RED_BRIGHT = '#DB1600';
+const RED_ULTRALIGHT = '#fce7e6';
+
+const ORANGE_LT = '#fb9e5a'; // '#ebb27f';
+const ORANGE_MD = '#fd9344';
+const ORANGE_DK = '#d85c0a';
+const ORANGE_BRIGHT = '#DB7900';
+const ORANGE_ULTRALIGHT = '#f8e4d2';
+
+const BLUE_LT = '#a8b1e9';
+const BLUE_MD = '#838ed3';
+const BLUE_DK = '#39479e';
+const BLUE_BRIGHT = '#0500DB';
+const BLUE_ULTRALIGHT = '#d3e6f8';
+
+const AQUA_LT = '#86ccdd';
+const AQUA_MD = '#70b3c3';
+const AQUA_DK = '#0f7c96';
+const AQUA_BRIGHT = '#00D7DB';
+const AQUA_ULTRALIGHT = '#dff7fc';
+
+// Secondaries
+const GRAY_LT = '#B8B8B8';
+const GRAY_MD = '#A8A9AB';
+const GRAY_DK = '#333333';
 
 const GREEN_LT = '#B7CE89';
 const GREEN_MD = '#ABC180';
 const GREEN_DK = '#64832E';
-const GREEN_BRIGHT = '#00DB00';
 
-const RED_LT = '#AB433F';
-const RED_MD = '#850503';
-const RED_DK = '#5E0302';
-const RED_BRIGHT = '#DB1600';
+const BROWN_LT = '#C7A58B';
+const BROWN_MD = '#a68a75';
+const BROWN_DK = '#4A3A2B';
 
-const ORANGE_LT = '#CC5432';
-const ORANGE_MD = '#AB351D';
-const ORANGE_DK = '#381D14';
-const ORANGE_BRIGHT = '#DB7900';
+const GOLD_LT = '#fbf69f';
+const GOLD_MD = '#f8f17b';
+const GOLD_DK = '#e2d504';
 
-const BLUE_LT = '#3B79B7';
-const BLUE_MD = '#214369';
-const BLUE_DK = '#0C356E';
-const BLUE_BRIGHT = '#0500DB';
 
-const SKYBLUE_LT = '#4CA1B5';
-const SKYBLUE_MD = '#1E3A4A';
-const SKYBLUE_DK = '#162C38';
-const SKYBLUE_BRIGHT = '#00D7DB';
-
-const GRAY_LT = '#B8B8B8';
-const GRAY_MD = '#A8A9AB';
-const GRAY_DK = '#333333';
-const GRAY_BRIGHT = GRAY_MD;
 
 
 
