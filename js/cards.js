@@ -87,7 +87,7 @@ var LevelCard = fabric.util.createClass( fabric.Group,
         mouseOver: function() {
             // Change background to track color
             if (this.selectable) {
-                this.box.set({fill: currentLevelLoader.colors[this.track].main_UL });
+                this.box.set({fill: currentLevelLoader.colors[this.track].main_LT });
             }
         },
 
@@ -108,7 +108,15 @@ var LevelCard = fabric.util.createClass( fabric.Group,
             this.selectable = false;
 
             // Change appearance to visible card
-            this.img.visible = false;
+            this.img.visible = true;
+            // Image to gray
+            this.img.filters.length = 0;
+            this.img.filters.push(new fabric.Image.filters.Tint({
+                color: GRAY_LT_LEVELCARDS,
+                opacity: 1.0,
+            }));
+            this.img.applyFilters(canvas_levels.renderAll.bind(canvas_levels));
+            // Box to gray
             this.box.set({fill: GRAY_VERY_LT,
                           stroke: SHADOW_COLOR });
 
@@ -123,7 +131,7 @@ var LevelCard = fabric.util.createClass( fabric.Group,
             // Image to gray
             this.img.filters.length = 0;
             this.img.filters.push(new fabric.Image.filters.Tint({
-                color: SHADOW_COLOR,
+                color: FOREGROUND_LINE_COLOR,
                 opacity: 1.0,
             }));
             this.img.applyFilters(canvas_levels.renderAll.bind(canvas_levels));
@@ -142,7 +150,7 @@ var LevelCard = fabric.util.createClass( fabric.Group,
             // Image to black
             this.img.filters.length = 0;
             this.img.filters.push(new fabric.Image.filters.Tint({
-                color: FOREGROUND_LINE_COLOR,
+                color: currentLevelLoader.colors[this.track].main_DK,
                 opacity: 1.0,
             }));
             this.img.applyFilters(canvas_levels.renderAll.bind(canvas_levels));
@@ -163,7 +171,7 @@ var VideoCard = fabric.util.createClass( LevelCard,
         mouseOver: function() {
             // Change background to track color
             if (this.selectable) {
-                this.box.set({fill: currentLevelLoader.colors[this.track].main_DK });
+                this.box.set({fill: currentLevelLoader.colors[this.track].line });
             }
         },
 

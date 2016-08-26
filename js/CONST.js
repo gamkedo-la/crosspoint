@@ -99,7 +99,7 @@ const LEVEL_CARD_PADDINGX = 45;
 const LEVEL_CARD_PADDINGY = 35;
 const LEVEL_CARD_SCALING_FACTOR = 1.2;
 
-const LEVEL_CARD_TRACK_LINEWIDTH = 2;
+const LEVEL_CARD_TRACK_LINEWIDTH = 3;
 const LEVEL_CARD_BOX_STROKEWIDTH = 2;
 
 // Buttons
@@ -142,30 +142,31 @@ const NUMBER_BALL_COLOR = "black";
 const INVISIBLE_COLOR = 'rgba(255,0,0,0.01)';
 const INVISIBLE_COLOR_MODIFIED = 'rgba(255,0,0,1.0)';
 const GRAY_VERY_LT = '#EEEEEE';
+const GRAY_LT_LEVELCARDS = '#B8B8B8';
 
 
-const PURPLE_LT = '#CCB7E0';
-const PURPLE_MD = '#BCA9CF';
-const PURPLE_DK = '#64427A';
+const PURPLE_LT = '#d2a2f1';
+const PURPLE_MD = '#ca7dfc';
+const PURPLE_DK = '#5f1a8c';//'#64427A';
 const PURPLE_BRIGHT = '#9A00DB';
 const PURPLE_ULTRALIGHT = '#f1e8fa';
 
-const DARK_GREEN_LT = '#66b368';
-const DARK_GREEN_MD = '#62a663';
-const DARK_GREEN_DK = '#3b643c';
+const DARK_GREEN_LT = '#81da7d';
+const DARK_GREEN_MD = '#56cd50';
+const DARK_GREEN_DK = '#0b6a07';
 const DARK_GREEN_BRIGHT = '#2bc32e';
 const DARK_GREEN_ULTRALIGHT = '#dcfbdd';
 
 const RED_LT = '#e5787d';
 const RED_MD = '#df6a6f';
-const RED_DK = '#b41018';
+const RED_DK = '#b12020';
 const RED_BRIGHT = '#DB1600';
 const RED_ULTRALIGHT = '#fce7e6';
 
 const ORANGE_LT = '#fb9e5a'; // '#ebb27f';
 const ORANGE_MD = '#fd9344';
 const ORANGE_DK = '#d85c0a';
-const ORANGE_BRIGHT = '#DB7900';
+const ORANGE_BRIGHT = '#f86b03'; //fe8f07
 const ORANGE_ULTRALIGHT = '#f8e4d2';
 
 const BLUE_LT = '#a8b1e9';
@@ -174,8 +175,8 @@ const BLUE_DK = '#39479e';
 const BLUE_BRIGHT = '#0500DB';
 const BLUE_ULTRALIGHT = '#d3e6f8';
 
-const AQUA_LT = '#86ccdd';
-const AQUA_MD = '#70b3c3';
+const AQUA_LT = '#9fe7f8';
+const AQUA_MD = '#63d6f2';
 const AQUA_DK = '#0f7c96';
 const AQUA_BRIGHT = '#00D7DB';
 const AQUA_ULTRALIGHT = '#dff7fc';
@@ -185,9 +186,14 @@ const GRAY_LT = '#B8B8B8';
 const GRAY_MD = '#A8A9AB';
 const GRAY_DK = '#333333';
 
-const GREEN_LT = '#B7CE89';
-const GREEN_MD = '#ABC180';
+const GREEN_LT = '#d2f19b';
+const GREEN_MD = '#c2f171';
 const GREEN_DK = '#64832E';
+
+const MARINE_GREEN_LT = '#a4ecb1';
+const MARINE_GREEN_MD = '#7de891';
+const MARINE_GREEN_DK = '#27a23e';
+
 
 const BROWN_LT = '#C7A58B';
 const BROWN_MD = '#a68a75';
@@ -197,7 +203,14 @@ const GOLD_LT = '#fbf69f';
 const GOLD_MD = '#f8f17b';
 const GOLD_DK = '#e2d504';
 
+const PINK_LT = '#f2bef3';
+const PINK_MD = '#efa1f0';
+const PINK_DK = '#a42fa5';
 
+
+const SKY_BLUE_LT = '#a4f2f4';
+const SKY_BLUE_MD = '#57f2f5';
+const SKY_BLUE_DK = '#05abad';
 
 
 
