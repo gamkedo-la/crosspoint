@@ -1,7 +1,6 @@
 
 // var canvas_game = document.getElementById('canvas_game');
 var canvas = new fabric.Canvas('canvas_game', { selection: false, stateful: false });
-canvas.backgroundColor = 'white';
 
 var canvasWidth = canvas.getWidth();
 var canvasHeight = canvas.getHeight();

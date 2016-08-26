@@ -255,13 +255,15 @@ Level.prototype.loadBoard = function()
         canvas.add(this.crossButton);
     }
 
-    // Create menu buttons
-    var backButton = new MenuBackButton({x: BACK_BTN_POSX, y: BACK_BTN_POSY});
-    canvas.add(backButton);
-    this.menuButtons.push(backButton);
-    var reloadButton = new ReloadButton({x: RELOAD_BTN_POSX, y: RELOAD_BTN_POSY});
-    canvas.add(reloadButton);
-    this.menuButtons.push(reloadButton);
+    if(rendLevelCardsMode==false) {
+        // Create menu buttons
+        var backButton = new MenuBackButton({x: BACK_BTN_POSX, y: BACK_BTN_POSY});
+        canvas.add(backButton);
+        this.menuButtons.push(backButton);
+        var reloadButton = new ReloadButton({x: RELOAD_BTN_POSX, y: RELOAD_BTN_POSY});
+        canvas.add(reloadButton);
+        this.menuButtons.push(reloadButton);
+    }
 }
 
 /**
@@ -272,6 +274,7 @@ Level.prototype.loadBoard = function()
  */
 Level.prototype.updateBoard = function()
 {
+    console.trace();
     // Board image
     if(rendLevelCardsMode == false) {
         this.boardImage.sendToBack();

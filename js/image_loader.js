@@ -24,15 +24,24 @@ var menu_levels = document.createElement("img");
 var card_house = document.createElement("img");
 var card_video_play = document.createElement("img");
 
+var card_sheet = document.createElement("img");
 
+var imgCountToLoad;
 
 
 // ------------------------------------
 
 function loadImageForLevel(imgVar, fileName) {
+    imgVar.onload = loadedAnotherImgStartGameIfLast;
     imgVar.src = "img/" + fileName;
 }
 
+function loadedAnotherImgStartGameIfLast() {
+    imgCountToLoad--;
+    if(imgCountToLoad==0) {
+        imagesLoadedSoStartGame();
+    }
+}
 
 function loadImages() {
 
@@ -51,7 +60,11 @@ function loadImages() {
 
         {varName: card_house, fileName: "cards/sample_card.png"},
         {varName: card_video_play, fileName: "cards/sample_video.png"},
+
+        {varName: card_sheet, fileName: "card-img.png"}
     ];
+
+    imgCountToLoad = imageList.length;
 
     for(var i=0; i < imageList.length; i++) {
         if(imageList[i].varName != undefined) {

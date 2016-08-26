@@ -146,7 +146,7 @@ LevelEditor.prototype.clearAll = function()
 }
 
 //-----------------------------------------------------------------------------//
-// Iinitialize level editor
-var currentEditor = LevelEditor.init();
+// Iinitialize level editor -- moved to after images load
+var currentEditor;
 //-----------------------------------------------------------------------------//
 

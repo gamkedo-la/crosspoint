@@ -7,6 +7,9 @@
 // Cards
 // ----------------------------------
 
+var whichLevIdx = 0; // increments for each non-video card set up
+var isNonVideoCardSoGrabImage = false; // hack to skip video cards
+
 var LevelCard = fabric.util.createClass( fabric.Group,
     {
         initialize: function(level, centerPoint, track, levelNumber) {
@@ -46,6 +49,19 @@ var LevelCard = fabric.util.createClass( fabric.Group,
             this.addWithUpdate(this.box);
 
             // Add level image
+            if(isNonVideoCardSoGrabImage) {
+                level.card = document.createElement("canvas");
+                level.card.width=40;
+                level.card.height=40;
+                var cardCtx = level.card.getContext("2d");
+                //cardCtx.fillRect(0,0,20,20);
+                cardCtx.drawImage(card_sheet,whichLevIdx*renderCardDimJump, 0,
+                                            renderCardDimJump,renderCardDimJump,
+                                            0,0,
+                                            renderCardDimJump,renderCardDimJump);
+                whichLevIdx++; // for next non-video card show next image from strip
+            }
+
             this.img = new fabric.Image(level.card, {
                 originX: 'center', 
                 originY: 'center',
@@ -242,9 +258,11 @@ var CardOrganizer = fabric.util.createClass(
                     var card;
                     if (this.levels[i][j].level) {
                         // Create a level card
+                        isNonVideoCardSoGrabImage = true;
                         card = new LevelCard(this.levels[i][j], {x: centerX, y: centerY}, i, j);
                     } else if (this.levels[i][j].video) {
                         // Create a video card
+                        isNonVideoCardSoGrabImage = false;
                         card = new VideoCard(this.levels[i][j], {x: centerX, y: centerY}, i, j);
                     }
                     
