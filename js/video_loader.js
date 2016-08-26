@@ -7,9 +7,13 @@ var ctx_video = canvas_video.getContext('2d');
 function drawVideo(v,c,w,h) {
     if(v.paused || v.ended) {
 
+        // Call "solved level" to show video was watched
+        currentLevelLoader.solvedCurrentLevel();
+
         // Load next level
         switchCanvas("game");
         currentLevelLoader.loadNextLevel();
+
 
         return false;
     }

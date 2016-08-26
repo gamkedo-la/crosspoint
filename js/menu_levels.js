@@ -10,10 +10,14 @@ canvas_levels.backgroundColor = 'white';
 var back_MENU_LEVELS;
 function levelsLoadElements() {
 
+    var startX = canvasWidth - BUTTON_LONG_PADDINGX - BUTTON_LONG_WIDTH/2;
+    var startY = BUTTON_LONG_PADDINGY + BUTTON_LONG_HEIGHT/2;
+
     // Levels button
-    back_MENU_LEVELS = new MenuBackButton({x: canvasWidth - MENU_BACK_BUTTON_PADDINGX - MENU_BACK_BUTTON_WIDTH/2, 
-                                           y: MENU_BACK_BUTTON_PADDINGY + MENU_BACK_BUTTON_HEIGHT/2});
+    back_MENU_LEVELS = new MenuLongButtonXP({x: startX, y: startY}, logo_xp);
     canvas_levels.add(back_MENU_LEVELS);
+
+    //BUTTON_LONG_BUFFERY
 } 
 
 

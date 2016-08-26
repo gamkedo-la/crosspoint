@@ -115,6 +115,7 @@ var color_main_LT = PURPLE_LT; // Light
 var color_main_MD = PURPLE_MD; // Medium
 var color_main_DK = PURPLE_DK; // Dark
 var color_main_UL = PURPLE_ULTRALIGHT;
+var color_main_BR = PURPLE_BRIGHT;
 
 var color_second_LT = GREEN_LT; // Light
 var color_second_MD = GREEN_MD; // Medium
@@ -349,7 +350,8 @@ LevelLoader.prototype.changeColors = function(track)
     color_main_LT = this.colors[track].main_LT; // Light
     color_main_MD = this.colors[track].main_MD; // Medium
     color_main_DK = this.colors[track].main_DK; // Dark
-    color_main_UL = this.colors[track].main_UL;
+    color_main_UL = this.colors[track].main_UL; // Ultralight
+    color_main_BR = this.colors[track].line; // Bright
     color_second_LT = this.colors[track].second_LT; // Light
     color_second_MD = this.colors[track].second_MD; // Medium
     color_second_DK = this.colors[track].second_DK; // Dark

@@ -37,8 +37,8 @@ var LevelCard = fabric.util.createClass( fabric.Group,
                     originY: 'center',
                     top : centerPoint.y,
                     left : centerPoint.x,
-                    width : 50,
-                    height : 80,
+                    width : LEVEL_CARD_WIDTH,
+                    height : LEVEL_CARD_HEIGHT,
                     rx: 10,
                     ry: 10,
                     fill: GRAY_VERY_LT,
@@ -92,9 +92,15 @@ var LevelCard = fabric.util.createClass( fabric.Group,
         },
 
         mouseOut: function() {
-            // Change background to white
+            // Change background to white (or ultralight color)
             if (this.selectable) {
-                this.box.set({fill: BACKGROUND_COLOR });
+                if (this.completed) {
+                    // Box to black and ultralight
+                    this.box.set({fill: currentLevelLoader.colors[this.track].main_UL,
+                                    stroke: FOREGROUND_LINE_COLOR });
+                } else {
+                    this.box.set({fill: BACKGROUND_COLOR });
+                }
             }
         },
 
@@ -104,6 +110,8 @@ var LevelCard = fabric.util.createClass( fabric.Group,
         },
 
         displayUnplayable: function() {
+
+            if(this.completed) {return;}
 
             this.selectable = false;
 
@@ -123,6 +131,9 @@ var LevelCard = fabric.util.createClass( fabric.Group,
         },
 
         displayPlayable: function() {
+
+            if(this.completed) {return;}
+
             this.playable = true;
             this.selectable = true;
 
@@ -154,8 +165,8 @@ var LevelCard = fabric.util.createClass( fabric.Group,
                 opacity: 1.0,
             }));
             this.img.applyFilters(canvas_levels.renderAll.bind(canvas_levels));
-            // Box to black and white
-            this.box.set({fill: BACKGROUND_COLOR,
+            // Box to black and ultralight
+            this.box.set({fill: currentLevelLoader.colors[this.track].main_UL,
                           stroke: FOREGROUND_LINE_COLOR });
 
         },
@@ -175,11 +186,18 @@ var VideoCard = fabric.util.createClass( LevelCard,
             }
         },
 
-        // mouseOut: function() {
-        //     if (this.selectable) {
-        //         this.box.set({fill: SHADOW_COLOR });
-        //     }
-        // },
+        mouseOut: function() {
+            // Change background to white (or ultralight color)
+            if (this.selectable) {
+                if (this.completed) {
+                    // Box to black and ultralight
+                    this.box.set({fill: currentLevelLoader.colors[this.track].main_LT,
+                                    stroke: FOREGROUND_LINE_COLOR });
+                } else {
+                    this.box.set({fill: BACKGROUND_COLOR });
+                }
+            }
+        },
 
         displayUnplayable: function() {
 
@@ -205,7 +223,17 @@ var VideoCard = fabric.util.createClass( LevelCard,
         },
 
         displayCompleted: function() {
-            this.displayPlayable();
+            this.completed = true;
+            this.playable = true;
+            this.selectable = true;
+
+            // Change appearance to visible card
+            this.img.visible = true;
+        
+            // Box to black
+            this.box.set({fill: currentLevelLoader.colors[this.track].main_LT,
+                          stroke: FOREGROUND_LINE_COLOR });
+
         },
         
     }
@@ -295,6 +323,8 @@ var CardOrganizer = fabric.util.createClass(
             this.cards[track][levelNumber].displayCompleted();
 
             canvas_levels.renderAll();
+
+            console.log("levelWasCompleted");
         },
         
     }

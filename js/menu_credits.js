@@ -14,7 +14,7 @@ function creditsLoadElements() {
 
     
     // Buttons
-    back_MENU_CREDITS = new MenuBackButton({x: LEVEL_CARD_PADDINGX/2, y: MENU_BACK_BUTTON_HEIGHT/2 + LEVEL_CARD_PADDINGY});
+    back_MENU_CREDITS = new MenuHomeButton({x: BTN_PADDINGX + BTN_WIDTH/2 , y: BTN_PADDINGY + BTN_HEIGHT/2});
     canvas_credits.add(back_MENU_CREDITS);
 }   
 

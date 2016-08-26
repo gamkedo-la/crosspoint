@@ -8,10 +8,21 @@ canvas_menu.backgroundColor = 'white';
 
 
 var mainLogo_MENU;
+var mainLogoGrid_MENU;
 var levels_MENU;
 var credits_MENU;
 function menuLoadElements() {
     
+    // CrossPoint Logo Grid
+    mainLogoGrid_MENU = new fabric.Image(logo_grid, {
+        originX: 'center', 
+        originY: 'center',
+        left: canvasCenterX,
+        top:  canvasCenterY,
+        selectable: false,
+    });
+    canvas_menu.add(mainLogoGrid_MENU);
+
     // CrossPoint Logo
     mainLogo_MENU = new fabric.Image(logo_CrossPoint, {
         originX: 'center', 
@@ -25,9 +36,10 @@ function menuLoadElements() {
     canvas_menu.add(mainLogo_MENU);
 
     // Buttons
-    levels_MENU = new MenuLevelsButton({x: canvasCenterX, y: canvasCenterY + MENU_BUTTON_OFFSET_Y});
+    levels_MENU = new MainMenuLevelsButton({x: canvasCenterX, y: canvasCenterY + MAIN_MENU_BUTTON_OFFSET_Y});
     canvas_menu.add(levels_MENU);
-    credits_MENU = new MenuCreditsButton({x: canvasCenterX, y: canvasCenterY + 1.5*MENU_BUTTON_OFFSET_Y});
+    credits_MENU = new MainMenuCreditsButton({x: canvasCenterX, y: canvasCenterY +  
+                                                MAIN_MENU_BUTTON_OFFSET_Y + MAIN_MENU_BUTTON_BUFFER_Y + MAIN_MENU_LEVELS_BUTTON_HEIGHT/2});
     canvas_menu.add(credits_MENU);
 }   
 

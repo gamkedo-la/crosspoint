@@ -75,7 +75,7 @@ function Level()
                     top: 60,
                     stroke: 'gray',
                     strokeWidth: 1,
-                    fontSize: 60,
+                    fontSize: 50,
                     opacity: 0,
                     shadow: textShadow,
                 });
@@ -257,12 +257,20 @@ Level.prototype.loadBoard = function()
 
     if(rendLevelCardsMode==false) {
         // Create menu buttons
-        var backButton = new MenuBackButton({x: BACK_BTN_POSX, y: BACK_BTN_POSY});
-        canvas.add(backButton);
-        this.menuButtons.push(backButton);
-        var reloadButton = new ReloadButton({x: RELOAD_BTN_POSX, y: RELOAD_BTN_POSY});
+        var startX = BTN_PADDINGX + BTN_WIDTH/2;
+        var startY = BTN_PADDINGY + BTN_HEIGHT/2;
+
+        var homeButton = new MenuHomeButton({x: startX , y: startY});
+        canvas.add(homeButton);
+        this.menuButtons.push(homeButton);
+
+        var reloadButton = new ReloadButton({x: startX + BTN_BUFFERX + BTN_WIDTH , y: startY});
         canvas.add(reloadButton);
         this.menuButtons.push(reloadButton);
+
+        var levelNumberButton = new MenuButtonLevelNumber({x: canvasWidth - startX, y: startY});
+        canvas.add(levelNumberButton);
+        this.menuButtons.push(levelNumberButton);
     }
 }
 

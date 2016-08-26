@@ -1,6 +1,8 @@
 
 // ----------- Logo -----------------
 var logo_CrossPoint = document.createElement("img");
+var logo_grid = document.createElement("img");
+var logo_xp = document.createElement("img");
 
 // ----------- Boards -----------------
 var board_purple = document.createElement("img");
@@ -18,7 +20,10 @@ var board_images = {purple: board_purple,
 
 // ----------- Buttons -----------------
 var menu_back = document.createElement("img");
-var menu_levels = document.createElement("img");
+var menu_home = document.createElement("img");
+var menu_reload = document.createElement("img");
+var menu_to_levels = document.createElement("img");
+var menu_to_credits = document.createElement("img");
 
 // ----------- Cards -----------------
 var card_house = document.createElement("img");
@@ -48,6 +53,9 @@ function loadImages() {
     // LIST ALL IMAGES HERE (don't forget to create the variable)
     var imageList = [
         {varName: logo_CrossPoint, fileName: "logo_crosspoint.png"},
+        {varName: logo_xp, fileName: "logo_xp.png"},
+        {varName: logo_grid, fileName: "grid_400_400_purple_bright.png"},
+
         {varName: board_purple, fileName: "grid_400_400_purple.png"},
         {varName: board_red, fileName: "grid_400_400_red.png"},
         {varName: board_aqua, fileName: "grid_400_400_aqua.png"},
@@ -56,7 +64,10 @@ function loadImages() {
         {varName: board_blue, fileName: "grid_400_400_blue.png"},
 
         {varName: menu_back, fileName: "menu_back.png"},
-        {varName: menu_levels, fileName: "menu_toLevels.png"},
+        {varName: menu_home, fileName: "menu_home.png"},
+        {varName: menu_reload, fileName: "menu_reload.png"},
+        {varName: menu_to_levels, fileName: "menu_toLevels.png"},
+        {varName: menu_to_credits, fileName: "menu_toCredits.png"},
 
         {varName: card_house, fileName: "cards/sample_card.png"},
         {varName: card_video_play, fileName: "cards/sample_video.png"},
