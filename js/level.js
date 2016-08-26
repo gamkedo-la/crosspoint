@@ -98,7 +98,9 @@ Level.init = function(levelOptions, _pieces)
     instance.levelOptions = levelOptions;
     instance.loadBoard();
     instance.addPieces(_pieces);
-    instance.updateBoard();
+    if(rendLevelCardsMode==false) {
+        instance.updateBoard();
+    }
     return instance;
 }
 
@@ -141,20 +143,24 @@ Level.prototype.loadBoard = function()
 
     // Load board image
 
-    this.boardImage = new fabric.Image(color_board, {
-        left: gridLeft,
-        top:  gridTop,
-        selectable: false,
-    });
-    canvas.add(this.boardImage);
-
-    // DOESN'T WORK
-    // fabric.Image.fromURL('img/grid_400_400_purple.png', function (img) {
-    //     canvas.add( img.set({ left: gridLeft, top: gridTop }) ); //.scale(0.25)
-    // }, {crossOrigin: ''});
+    if(rendLevelCardsMode === false) { // For Chris Deleon's JSON->image script
+        this.boardImage = new fabric.Image(color_board, {
+            left: gridLeft,
+            top:  gridTop,
+            selectable: false,
+        });
+        canvas.add(this.boardImage);
+    }
 
 
     // Create grid borders 
+
+    var borderGradStart = BACKGROUND_COLOR;
+    var borderGradEnd = "rgba(255,255,255,0)";
+    if(rendLevelCardsMode) {
+        borderGradStart = "rgba(255,255,255,0)";
+        borderGradEnd = "rgba(255,255,255,0)";
+    }
 
     // North
     this.gridBorderNorth = new fabric.Rect({
@@ -172,8 +178,8 @@ Level.prototype.loadBoard = function()
         x2: this.gridBorderNorth.width / 2,
         y2: this.gridBorderNorth.height,
         colorStops: {
-            0: BACKGROUND_COLOR,
-            0.9: "rgba(255,255,255,0)",
+            0: borderGradStart,
+            0.9: borderGradEnd,
         }
     });
     // South
@@ -192,8 +198,8 @@ Level.prototype.loadBoard = function()
         x2: this.gridBorderSouth.width / 2,
         y2: 0,
         colorStops: {
-            0: BACKGROUND_COLOR,
-            0.9: "rgba(255,255,255,0)",
+            0: borderGradStart,
+            0.9: borderGradEnd,
         }
     });
     // East
@@ -212,8 +218,8 @@ Level.prototype.loadBoard = function()
         x2: 0,
         y2: this.gridBorderEast.height / 2,
         colorStops: {
-            0: BACKGROUND_COLOR,
-            0.9: "rgba(255,255,255,0)",
+            0: borderGradStart,
+            0.9: borderGradEnd,
         }
     });
     // West
@@ -232,15 +238,15 @@ Level.prototype.loadBoard = function()
         x2: this.gridBorderWest.width,
         y2: this.gridBorderWest.height / 2,
         colorStops: {
-            0: BACKGROUND_COLOR,
-            0.9: "rgba(255,255,255,0)",
+            0: borderGradStart,
+            0.9: borderGradEnd,
         }
     });
+    
     canvas.add(this.gridBorderNorth, 
                 this.gridBorderWest, 
                 this.gridBorderEast, 
                 this.gridBorderSouth );
-
 
     // Create cross button
     this.crossButton = new ControlButton("cross", {x: canvasCenterX, 
@@ -267,7 +273,9 @@ Level.prototype.loadBoard = function()
 Level.prototype.updateBoard = function()
 {
     // Board image
-    this.boardImage.sendToBack();
+    if(rendLevelCardsMode == false) {
+        this.boardImage.sendToBack();
+    }
 
     // Shadows
     for (var i = 0; i < this.shadows.length; i++) {
@@ -324,8 +332,10 @@ Level.prototype.updateBoard = function()
         this.menuButtons[i].bringToFront();
     }
 
-    // Call canvas.renderAll() through currentLevel.tick()
-    this.renderCanvasRequired = true;
+    if(rendLevelCardsMode == false) {
+        // Call canvas.renderAll() through currentLevel.tick()
+        this.renderCanvasRequired = true;
+    }
 
     console.log("updateBoard");
 }
@@ -382,11 +392,18 @@ Level.prototype.addPieces = function(_pieces)
  */
 Level.prototype.addPiece = function(_piece)
 {
-    if (_piece.type === "solution") 
+    if (_piece.type === "shadow" || _piece.type === "shadowCircle")
+    {
+        this.shadows.push(_piece);
+    }
+    else if(rendLevelCardsMode) {
+        return; // shadow only for level card render
+    }
+    else if (_piece.type === "solution") 
     {
         this.solutionManager = _piece;
         return;
-    } 
+    }
     else if (_piece.type === "lyne") 
     {
         this.lynes.push(_piece);
@@ -434,10 +451,6 @@ Level.prototype.addPiece = function(_piece)
     {
         this.addBox(_piece);
     }
-    else if (_piece.type === "shadow" || _piece.type === "shadowCircle")
-    {
-        this.shadows.push(_piece);
-    }
     else if (_piece.type === "temporary" || 
              _piece.type === "followLyne" || 
              _piece.type === "followCircle" || 
@@ -454,7 +467,9 @@ Level.prototype.addPiece = function(_piece)
 
     canvas.add(_piece);
     this.allPieces.push(_piece);
-    this.updateBoard();
+    if(rendLevelCardsMode==false) {
+        this.updateBoard();
+    }
 }
 
 /**
