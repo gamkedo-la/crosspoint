@@ -27,8 +27,10 @@ LevelEditor.init = function()
 
 LevelEditor.prototype.addStartPiece = function(_piece)
 {
-    this.startingPieces.push(_piece);
-    currentLevel.addPiece(_piece);
+    if(rendLevelCardsMode==false) {
+        this.startingPieces.push(_piece);
+        currentLevel.addPiece(_piece);
+    }
 
 }
 

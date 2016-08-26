@@ -713,7 +713,9 @@ var Circle = fabric.util.createClass(LevelPiece,
                 }
             );
 
-            currentLevel.updateBoard();
+            if(rendLevelCardsMode==false) {
+                currentLevel.updateBoard();
+            }
 
             // TODO: Update position tracker
             this.startPoint = {x: newX, y: newY}; 
