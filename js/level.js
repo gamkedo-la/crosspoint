@@ -274,7 +274,8 @@ Level.prototype.loadBoard = function()
  */
 Level.prototype.updateBoard = function()
 {
-    console.trace();
+    // console.trace(); // non-standard, so removing, but sure is handy for debugging things like this :)
+
     // Board image
     if(rendLevelCardsMode == false) {
         this.boardImage.sendToBack();
