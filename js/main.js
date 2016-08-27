@@ -79,10 +79,6 @@ function imagesLoadedSoStartGame() {
                     //cardCtx.stroke();
                     cardCtx.drawImage(gamectx.canvas,cx-4, cy);
                     renderCardCol++;
-                    if((renderCardCol+1)*renderCardDimJump >= canvas.width) {
-                        renderCardCol = 0;
-                        renderCardRow++;
-                    }
                 }
             }
         }
