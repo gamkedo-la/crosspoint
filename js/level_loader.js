@@ -19,7 +19,7 @@ var levelOrderArray = [ // Track 1
                           {level: level_heart,          playable: true,  card: card_house}, 
                         ],
                         // Track 2
-                        [ {video: video_shape,          playable: true,  card: card_video_play}, 
+                        [ {video: video_shape,          playable: true,  card: card_video_lines}, 
                           {level: level_candlelight,    playable: true,  card: card_house}, 
                           {level: level_eye,            playable: true,  card: card_house}, 
                           {level: level_hourglass,      playable: false,  card: card_house}, 
@@ -27,7 +27,7 @@ var levelOrderArray = [ // Track 1
                           {level: level_cropcircles,    playable: false,  card: card_house}, 
                         ],
                         // Track 3
-                        [ {video: video_shape,          playable: true,  card: card_video_play}, 
+                        [ {video: video_shape,          playable: true,  card: card_video_area}, 
                           {level: level_0_0,            playable: true,  card: card_house}, 
                           {level: level_airplane1,      playable: true,  card: card_house}, 
                           {level: level_goblet,         playable: true,  card: card_house}, 
@@ -36,12 +36,12 @@ var levelOrderArray = [ // Track 1
                         ],
                         // Track 4
 
-                        [ {video: video_shape,          playable: true,  card: card_video_play}, 
+                        [ {video: video_shape,          playable: true,  card: card_video_plus}, 
                           {level: level_controller,     playable: true,  card: card_house}, 
                           {level: level_cat_face,       playable: true,  card: card_house}, 
                         ],
                         // Track 5
-                        [ {video: video_shape,          playable: true,  card: card_video_play}, 
+                        [ {video: video_shape,          playable: true,  card: card_video_cross}, 
                           {level: level_Diamond345,     playable: true,  card: card_house}, 
                           {level: level_house2,         playable: true,  card: card_house}, 
                           {level: level_DiamondFive,    playable: true,  card: card_house}, 
@@ -54,7 +54,7 @@ var levelOrderArray = [ // Track 1
                           {level: level_stealth,        playable: true,  card: card_house}, 
                         ],
                         // Track 6
-                        [ {video: video_shape,              playable: true,  card: card_video_play}, 
+                        [ {video: video_shape,              playable: true,  card: card_video_many}, 
                           {level: level_BaseBallDiamond,    playable: true,  card: card_house}, 
                           {level: level_bomberplane,        playable: true,  card: card_house}, 
                           {level: level_glider,             playable: true,  card: card_house}, 

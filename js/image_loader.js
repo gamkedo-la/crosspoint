@@ -28,6 +28,12 @@ var menu_to_credits = document.createElement("img");
 // ----------- Cards -----------------
 var card_house = document.createElement("img");
 var card_video_play = document.createElement("img");
+var card_video_plus = document.createElement("img");
+var card_video_cross = document.createElement("img");
+var card_video_area = document.createElement("img");
+var card_video_lines = document.createElement("img");
+var card_video_many = document.createElement("img");
+
 
 var card_sheet = document.createElement("img");
 
@@ -70,7 +76,13 @@ function loadImages() {
         {varName: menu_to_credits, fileName: "menu_toCredits.png"},
 
         {varName: card_house, fileName: "cards/sample_card.png"},
-        {varName: card_video_play, fileName: "cards/sample_video.png"},
+        {varName: card_video_play, fileName: "cards/video_play.png"},
+        {varName: card_video_plus, fileName: "cards/video_plus.png"},
+        {varName: card_video_cross, fileName: "cards/video_cross.png"},
+        {varName: card_video_area, fileName: "cards/video_area.png"},
+        {varName: card_video_lines, fileName: "cards/video_lines.png"},
+        {varName: card_video_many, fileName: "cards/video_many.png"},
+
 
         {varName: card_sheet, fileName: "card-img.png"}
     ];
