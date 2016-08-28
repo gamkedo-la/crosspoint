@@ -255,7 +255,7 @@ Level.prototype.loadBoard = function()
         canvas.add(this.crossButton);
     }
 
-    if(rendLevelCardsMode==false) {
+    if(rendLevelCardsMode==false && clearAllBool === false) {
         // Create menu buttons
         var startX = BTN_PADDINGX + BTN_WIDTH/2;
         var startY = BTN_PADDINGY + BTN_HEIGHT/2;

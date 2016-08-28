@@ -6,12 +6,22 @@
 // ----------------------
 
 // List of video objects
-var video_shape = document.getElementById('video_shape');
-linkVideoToCanvas(video_shape);
+var video_purple = document.getElementById('video_purple');
+var video_red = document.getElementById('video_red');
+var video_aqua = document.getElementById('video_aqua');
+var video_orange = document.getElementById('video_orange');
+var video_green = document.getElementById('video_green');
+var video_blue = document.getElementById('video_blue');
+linkVideoToCanvas(video_purple);
+linkVideoToCanvas(video_red);
+linkVideoToCanvas(video_aqua);
+linkVideoToCanvas(video_orange);
+linkVideoToCanvas(video_green);
+linkVideoToCanvas(video_blue);
 
 // Level list
 var levelOrderArray = [ // Track 1
-                        [ {video: video_shape,          playable: true,  card: card_video_play}, 
+                        [ {video: video_purple,          playable: true,  card: card_video_play}, 
                           {level: level_keyhole,        playable: true,  card: card_house}, 
                           {level: level_house1,         playable: false,  card: card_house}, 
                           {level: level_japan_bridge,   playable: false,  card: card_house}, 
@@ -19,7 +29,7 @@ var levelOrderArray = [ // Track 1
                           {level: level_heart,          playable: true,  card: card_house}, 
                         ],
                         // Track 2
-                        [ {video: video_shape,          playable: true,  card: card_video_lines}, 
+                        [ {video: video_red,          playable: true,  card: card_video_lines}, 
                           {level: level_candlelight,    playable: true,  card: card_house}, 
                           {level: level_eye,            playable: true,  card: card_house}, 
                           {level: level_hourglass,      playable: false,  card: card_house}, 
@@ -27,7 +37,7 @@ var levelOrderArray = [ // Track 1
                           {level: level_cropcircles,    playable: false,  card: card_house}, 
                         ],
                         // Track 3
-                        [ {video: video_shape,          playable: true,  card: card_video_area}, 
+                        [ {video: video_aqua,          playable: true,  card: card_video_area}, 
                           {level: level_0_0,            playable: true,  card: card_house}, 
                           {level: level_airplane1,      playable: true,  card: card_house}, 
                           {level: level_goblet,         playable: true,  card: card_house}, 
@@ -36,12 +46,12 @@ var levelOrderArray = [ // Track 1
                         ],
                         // Track 4
 
-                        [ {video: video_shape,          playable: true,  card: card_video_plus}, 
+                        [ {video: video_orange,          playable: true,  card: card_video_plus}, 
                           {level: level_controller,     playable: true,  card: card_house}, 
                           {level: level_cat_face,       playable: true,  card: card_house}, 
                         ],
                         // Track 5
-                        [ {video: video_shape,          playable: true,  card: card_video_cross}, 
+                        [ {video: video_green,          playable: true,  card: card_video_cross}, 
                           {level: level_Diamond345,     playable: true,  card: card_house}, 
                           {level: level_house2,         playable: true,  card: card_house}, 
                           {level: level_DiamondFive,    playable: true,  card: card_house}, 
@@ -54,7 +64,7 @@ var levelOrderArray = [ // Track 1
                           {level: level_stealth,        playable: true,  card: card_house}, 
                         ],
                         // Track 6
-                        [ {video: video_shape,              playable: true,  card: card_video_many}, 
+                        [ {video: video_blue,              playable: true,  card: card_video_many}, 
                           {level: level_BaseBallDiamond,    playable: true,  card: card_house}, 
                           {level: level_bomberplane,        playable: true,  card: card_house}, 
                           {level: level_glider,             playable: true,  card: card_house}, 

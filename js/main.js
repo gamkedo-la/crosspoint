@@ -7,6 +7,9 @@ var renderCardCol = 0; // only relevant if rendLevelCardsMode is true, for draw 
 var renderCardRow = 0;
 var renderCardDimJump = 40;
 
+// Erik Temp
+var clearAllBool = false;
+
 window.onload = function() {
     loadImages();
 }
