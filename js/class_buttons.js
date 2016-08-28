@@ -227,6 +227,7 @@ var MenuLongButtonXP = fabric.util.createClass( MenuLongButton,
         onSelected: function() {
             // Go to previous menu
             goToPreviousMenuCanvas();
+            changeToTitleSong();
         },
         
     }

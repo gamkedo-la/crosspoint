@@ -107,6 +107,9 @@ var LevelCard = fabric.util.createClass( fabric.Group,
         onSelected: function() {
             // Go to level
             currentLevelLoader.loadLevel(this.track, this.levelNumber);
+
+            // Change from title song to in game songs
+            changeToInGameSongs();
         },
 
         displayUnplayable: function() {
@@ -198,6 +201,15 @@ var VideoCard = fabric.util.createClass( LevelCard,
                 }
             }
         },
+
+        onSelected: function() {
+            // Go to level
+            currentLevelLoader.loadLevel(this.track, this.levelNumber);
+
+            // Stop songs
+            stopMusic();
+        },
+
 
         displayUnplayable: function() {
 

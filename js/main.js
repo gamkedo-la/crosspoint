@@ -26,12 +26,14 @@ function imagesLoadedSoStartGame() {
     loadCredits();
     loadGame();
     loadMenuLevels();
+    prepSongs();
 
     if(rendLevelCardsMode==false) {
         canvas.backgroundColor = 'white';
         var framesPerSecond = 10;
         setInterval(function() {
             currentLevel.tick();  
+            songTick();
         }, 1000/framesPerSecond);
     } else {
         var cardCanvas = document.createElement("canvas");
