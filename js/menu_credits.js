@@ -13,34 +13,42 @@ function creditsLoadElements() {
     // Credits Images
 
     // Credits Text
-    credits_string.projectlead = "Project Lead:\n     Erik Verlage";
-    credits_string.coding = "Game Design:\n     Erik Verlage\n     Chris Deleon";
-    credits_string.levels = "Level Design:\n     Erik Verlage\n     Chris Deleon\n     Tim Waskett\n     Jeremy Kenyon\n     Chris Markle\n     Micky Turner\n     Paul Diaz";
-    credits_string.sounds = "Sound and Music:\n     Micky Turner\n     Erik Verlage"
-    credits_string.special = "Special Thanks:\n     Sasha Reneau (color consultant)\n     Listvetra (http://subtlepatterns.com/)\n\nLevel Testers:\n     Alex Verlage\n     Midori Shibuya\n     Sarah Haney";
+    credits_string.projectlead = "Project Lead, Programming, UX/UI:\n     Erik Verlage";
+    credits_string.sounds = "Sound and Music:\n     Micky Turner";
+    credits_string.colors = "Color Consultant:\n     Sasha Reneau";
+    credits_string.levels = "Puzzle Design:\n     Erik Verlage\n     Tim Waskett\n     Chris Deleon\n     Jeremy Kenyon\n     Chris Markle\n     Micky Turner\n     Paul Diaz";
+    credits_string.icons = "Level Card Icon Generator:\n     Chris Deleon";
+    credits_string.special = "Level Testers:\n     Alex Verlage\n     Midori Shibuya\n     Sarah Haney\n\nSpecial Thanks:\n     Listvetra\n     http://subtlepatterns.com/";
+    
 
     // Make credits objects
     var startX = 170;
     var startY = 65;
-    var bufferX = 230;
+    var bufferX = 280;
     var bufferY = 20;
     var newX = startX;
     var newY = startY;
+
     // Project Lead
     credits_obj.c1 = new CredtisText(credits_string.projectlead, {x: newX, y: newY}, levelColorArray[0].line);
-    // Coding
+    // Sounds
     newY = credits_obj.c1.top + credits_obj.c1.height + bufferY;
-    credits_obj.c2 = new CredtisText(credits_string.coding, {x: newX, y: newY}, levelColorArray[4].line);
-    // Project Lead
+    credits_obj.c2 = new CredtisText(credits_string.sounds, {x: newX, y: newY}, levelColorArray[4].line);
+    // Colors
     newY = credits_obj.c2.top + credits_obj.c2.height + bufferY;
-    credits_obj.c3 = new CredtisText(credits_string.levels, {x: newX, y: newY}, levelColorArray[1].line);
-    // Project Lead
+    credits_obj.c3 = new CredtisText(credits_string.colors, {x: newX, y: newY}, levelColorArray[2].line);
+    // Levels
     newY = credits_obj.c3.top + credits_obj.c3.height + bufferY;
-    credits_obj.c4 = new CredtisText(credits_string.sounds, {x: newX, y: newY}, levelColorArray[5].line);
-    // Special
+    credits_obj.c4 = new CredtisText(credits_string.levels, {x: newX, y: newY}, levelColorArray[1].line);
+
     newX += bufferX;
-    newY = startY;
-    credits_obj.c5 = new CredtisText(credits_string.special, {x: newX, y: newY}, levelColorArray[2].line);
+
+    // Icons
+    newY = credits_obj.c1.top + credits_obj.c1.height + bufferY;
+    credits_obj.c5 = new CredtisText(credits_string.icons, {x: newX, y: newY}, levelColorArray[3].line);
+    // Special
+    newY = credits_obj.c5.top + credits_obj.c5.height + bufferY;
+    credits_obj.c6 = new CredtisText(credits_string.special, {x: newX, y: newY}, levelColorArray[5].line);
 
     
     // Buttons

@@ -248,11 +248,13 @@ Level.prototype.loadBoard = function()
                 this.gridBorderEast, 
                 this.gridBorderSouth );
 
-    // Create cross button
-    this.crossButton = new ControlButton("cross", {x: canvasCenterX, 
-                                               y: canvasHeight - (canvasHeight - gridBot)/2});
-    if (this.levelOptions.crossButton !== "none") {
-        canvas.add(this.crossButton);
+    if(rendLevelCardsMode==false && clearAllBool === false) {
+        // Create cross button
+        this.crossButton = new ControlButton("cross", {x: canvasCenterX, 
+                                                   y: canvasHeight - (canvasHeight - gridBot)/2});
+        if (this.levelOptions.crossButton !== "none") {
+            canvas.add(this.crossButton);
+        }
     }
 
     if(rendLevelCardsMode==false && clearAllBool === false) {

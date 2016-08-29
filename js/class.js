@@ -1137,23 +1137,19 @@ var ControlButton = fabric.util.createClass(fabric.Group,
 
             this.type = type;
 
-            var buttonCoords = [
-                { x: centerPoint.x - CROSS_BTN_WIDTH,
-                  y: centerPoint.y - CROSS_BTN_HEIGHT},
-                { x: centerPoint.x + CROSS_BTN_WIDTH,
-                  y: centerPoint.y - CROSS_BTN_HEIGHT},
-                { x: centerPoint.x + CROSS_BTN_WIDTH,
-                  y: centerPoint.y + CROSS_BTN_HEIGHT},
-                { x: centerPoint.x - CROSS_BTN_WIDTH,
-                  y: centerPoint.y + CROSS_BTN_HEIGHT}   
-            ];
-
-            this.button = new fabric.Polygon(buttonCoords,
-                {
-                 fill: BUTTON_COLOR, 
-                }
-            );
-            this.addWithUpdate(this.button);
+            // Draw bounding box
+            this.box = new fabric.Rect({
+                    originX: 'center', 
+                    originY: 'center',
+                    top : centerPoint.y,
+                    left : centerPoint.x,
+                    width : 2 * CROSS_BTN_WIDTH,
+                    height : 2 * CROSS_BTN_HEIGHT,
+                    rx: 10,
+                    ry: 10,
+                    fill: BUTTON_COLOR,
+                });
+            this.addWithUpdate(this.box);
 
             var line1_coords = [centerPoint.x - CROSS_BTN_LINELENGTH, centerPoint.y - CROSS_BTN_LINELENGTH,
                                 centerPoint.x + CROSS_BTN_LINELENGTH, centerPoint.y + CROSS_BTN_LINELENGTH];
@@ -1186,11 +1182,13 @@ var ControlButton = fabric.util.createClass(fabric.Group,
         },
 
         mouseOver: function() {
-            this.set({'strokeWidth': (POLY_STROKEWIDTH + POLY_HOVER_GROWTH)});
+            this.box.set({  width : 2 * CROSS_BTN_WIDTH * CROSS_BTN_HOVER_SCALING_FACTOR,
+                            height : 2 * CROSS_BTN_HEIGHT * CROSS_BTN_HOVER_SCALING_FACTOR,});
         },
 
         mouseOut: function() {
-            this.set({'strokeWidth': POLY_STROKEWIDTH});
+            this.box.set({  width : 2 * CROSS_BTN_WIDTH,
+                            height : 2 * CROSS_BTN_HEIGHT,});
         },
 
         onSelected: function(mouse_e) {
