@@ -416,7 +416,14 @@ var LyneEndControl = fabric.util.createClass(LevelPiece,
 
         mouseOver: function() {
             if (this.selectable) {
-                this.endCircle.set('stroke', color_main_DK);
+
+                if (currentLevel.levelOptions.lineAddition === "on") {
+                    this.endCircle.set('stroke', color_main_MD);
+                } else {
+                    this.endCircle.set('stroke', color_main_DK);
+                    this.endCircle.set('fill', color_main_MD);
+                }
+                
 
                 // Audio
                 playSFX("rotateHover");
@@ -425,6 +432,7 @@ var LyneEndControl = fabric.util.createClass(LevelPiece,
 
         mouseOut: function() {
             this.endCircle.set('stroke', INVISIBLE_COLOR);
+            this.endCircle.set('fill', INVISIBLE_COLOR);
         },
 
         onSelected: function(mouse_e) {
