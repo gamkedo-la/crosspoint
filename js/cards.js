@@ -202,14 +202,6 @@ var VideoCard = fabric.util.createClass( LevelCard,
             }
         },
 
-        onSelected: function() {
-            // Go to level
-            currentLevelLoader.loadLevel(this.track, this.levelNumber);
-
-            // Stop songs
-            stopMusic();
-        },
-
 
         displayUnplayable: function() {
 
