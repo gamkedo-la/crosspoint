@@ -82,7 +82,7 @@ function imagesLoadedSoStartGame() {
                     var cy = renderCardRow * renderCardDimJump;
                     //cardCtx.rect(cx,cy,renderCardDimJump,renderCardDimJump);
                     //cardCtx.stroke();
-                    cardCtx.drawImage(gamectx.canvas,cx-4, cy);
+                    cardCtx.drawImage(gamectx.canvas,cx-5, cy);
                     renderCardCol++;
                 }
             }
