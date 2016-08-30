@@ -329,20 +329,15 @@ var Lyne = fabric.util.createClass(LevelPiece,
         
         onModified: function() {
             // Lyne Addition - Add Lynes if certain points overlap
-            var join_bool = currentLevel.joinLynes(this);
+            // var join_bool = currentLevel.joinLynes(this);
             var mark_bool = currentLevel.markCrossLynes();
 
             // Deselect this object
             canvas.discardActiveObject();
 
             // Audio
-            if (join_bool) {
-                playSFX("snapToGrid");
-            } else if (mark_bool) {
-                playSFX("snapToGrid");
-            } else {
-                playSFX("snapToGrid");
-            }
+            playSFX("snapToGrid");
+            
         },
 
         encloses: function(gridPoint) {
@@ -1131,7 +1126,7 @@ var BoxShape = fabric.util.createClass(Box,
 
 var ControlButton = fabric.util.createClass(fabric.Group, 
     {
-        initialize: function(type, centerPoint) {
+        initialize: function(type, centerPoint, buttonWidth) {
 
             // Initialize Polygon
             this.callSuper('initialize');
@@ -1145,14 +1140,17 @@ var ControlButton = fabric.util.createClass(fabric.Group,
 
             this.type = type;
 
+            // Check for multiple conotrol buttons
+            this.buttonWidth = buttonWidth;
+
             // Draw bounding box
             this.box = new fabric.Rect({
                     originX: 'center', 
                     originY: 'center',
                     top : centerPoint.y,
                     left : centerPoint.x,
-                    width : 2 * CROSS_BTN_WIDTH,
-                    height : 2 * CROSS_BTN_HEIGHT,
+                    width : this.buttonWidth,
+                    height : CROSS_BTN_HEIGHT,
                     rx: 10,
                     ry: 10,
                     fill: BUTTON_COLOR,
@@ -1190,13 +1188,13 @@ var ControlButton = fabric.util.createClass(fabric.Group,
         },
 
         mouseOver: function() {
-            this.box.set({  width : 2 * CROSS_BTN_WIDTH * CROSS_BTN_HOVER_SCALING_FACTOR,
-                            height : 2 * CROSS_BTN_HEIGHT * CROSS_BTN_HOVER_SCALING_FACTOR,});
+            this.box.set({  width : this.buttonWidth * CROSS_BTN_HOVER_SCALING_FACTOR,
+                            height : CROSS_BTN_HEIGHT * CROSS_BTN_HOVER_SCALING_FACTOR,});
         },
 
         mouseOut: function() {
-            this.box.set({  width : 2 * CROSS_BTN_WIDTH,
-                            height : 2 * CROSS_BTN_HEIGHT,});
+            this.box.set({  width : this.buttonWidth,
+                            height : CROSS_BTN_HEIGHT,});
         },
 
         onSelected: function(mouse_e) {
@@ -1208,6 +1206,88 @@ var ControlButton = fabric.util.createClass(fabric.Group,
     }
 );
 
+
+var AddButton = fabric.util.createClass(fabric.Group, 
+    {
+        initialize: function(centerPoint, buttonWidth) {
+
+            // Initialize Polygon
+            this.callSuper('initialize');
+            this.set( 
+                {originX: 'center', 
+                 originY: 'center',
+                 lockMovementX: true,
+                 lockMovementY: true,
+                }
+            );
+
+            this.type = "addButton";
+
+            // Check for multiple conotrol buttons
+            this.buttonWidth = buttonWidth;
+
+            // Draw bounding box
+            this.box = new fabric.Rect({
+                    originX: 'center', 
+                    originY: 'center',
+                    top : centerPoint.y,
+                    left : centerPoint.x,
+                    width : this.buttonWidth,
+                    height : CROSS_BTN_HEIGHT,
+                    rx: 10,
+                    ry: 10,
+                    fill: BUTTON_COLOR,
+                });
+            this.addWithUpdate(this.box);
+
+            var line1_coords = [centerPoint.x , centerPoint.y - CROSS_BTN_LINELENGTH,
+                                centerPoint.x , centerPoint.y + CROSS_BTN_LINELENGTH];
+            this.line1 = new fabric.Line(line1_coords,
+                {
+                 stroke: BACKGROUND_COLOR, 
+                 strokeWidth: CROSS_BTN_STROKEWIDTH, 
+                 strokeLineCap: 'round',
+                 originX: 'center', 
+                 originY: 'center', 
+
+                }
+            );
+            this.addWithUpdate(this.line1);
+
+            var line2_coords = [centerPoint.x + CROSS_BTN_LINELENGTH, centerPoint.y ,
+                                centerPoint.x - CROSS_BTN_LINELENGTH, centerPoint.y ];
+            this.line2 = new fabric.Line(line2_coords,
+                {
+                 stroke: BACKGROUND_COLOR, 
+                 strokeWidth: CROSS_BTN_STROKEWIDTH, 
+                 strokeLineCap: 'round',
+                 originX: 'center', 
+                 originY: 'center', 
+                }
+            );
+            this.addWithUpdate(this.line2);
+
+            
+        },
+
+        mouseOver: function() {
+            this.box.set({  width : this.buttonWidth * CROSS_BTN_HOVER_SCALING_FACTOR,
+                            height : CROSS_BTN_HEIGHT * CROSS_BTN_HOVER_SCALING_FACTOR,});
+        },
+
+        mouseOut: function() {
+            this.box.set({  width : this.buttonWidth,
+                            height : CROSS_BTN_HEIGHT,});
+        },
+
+        onSelected: function(mouse_e) {
+            // Button action
+            currentLevel.joinAllLynes();
+            
+            canvas.discardActiveObject();
+        },
+    }
+);
 
 // -----------------------------------
 // Shadows

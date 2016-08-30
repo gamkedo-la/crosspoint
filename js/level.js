@@ -28,6 +28,7 @@ function Level()
 
     // Buttons
     this.crossButton = null;
+    this.addButton = null;
     this.menuButtons = [];
 
     // Piece management
@@ -248,13 +249,34 @@ Level.prototype.loadBoard = function()
                 this.gridBorderEast, 
                 this.gridBorderSouth );
 
+
+    // Create Level buttons (add, cross, etc.)
     if(rendLevelCardsMode==false && clearAllBool === false) {
-        // Create cross button
-        this.crossButton = new ControlButton("cross", {x: canvasCenterX, 
-                                                   y: canvasHeight - (canvasHeight - gridBot)/2});
-        if (this.levelOptions.crossButton !== "none") {
+
+       
+        if (this.levelOptions.lineAddition === "on" && this.levelOptions.crossButton !== "none") {
+             // Create add button
+             this.addButton = new AddButton({x: canvasCenterX - CROSS_BTN_WIDTH/2, 
+                                            y: canvasHeight - (canvasHeight - gridBot)/2} , CROSS_BTN_WIDTH);
+             // Create cross button
+            this.crossButton = new ControlButton("cross", {x: canvasCenterX + CROSS_BTN_WIDTH/2, 
+                                            y: canvasHeight - (canvasHeight - gridBot)/2} , CROSS_BTN_WIDTH);
+            canvas.add(this.addButton);
+            canvas.add(this.crossButton);
+
+        } else if (this.levelOptions.lineAddition === "on") {
+            // Create add button only
+            this.addButton = new AddButton({x: canvasCenterX, 
+                                            y: canvasHeight - (canvasHeight - gridBot)/2}, 2*CROSS_BTN_WIDTH);
+            canvas.add(this.addButton);
+
+        } else if (this.levelOptions.crossButton !== "none") {
+             // Create cross button only
+            this.crossButton = new ControlButton("cross", {x: canvasCenterX, 
+                                                       y: canvasHeight - (canvasHeight - gridBot)/2}, 2*CROSS_BTN_WIDTH);
             canvas.add(this.crossButton);
         }
+            
     }
 
     if(rendLevelCardsMode==false && clearAllBool === false) {
@@ -337,6 +359,8 @@ Level.prototype.updateBoard = function()
 
     // buttons
     if(this.levelOptions.crossButton !== "none") {this.crossButton.bringToFront();}
+    if(this.levelOptions.lineAddition === "on") {this.addButton.bringToFront();}
+    
 
     // TEMP LEVEL WIN MESSAGE
     this.levelSolvedMessage.bringToFront();
@@ -812,9 +836,11 @@ Level.prototype.addCircleToGrid = function(gridPoint, radius)
 
 Level.prototype.addBall = function(_piece)
 {   
+    var crossButtonLeft = canvasCenterX - CROSS_BTN_WIDTH;
+    var crossButtonTop = canvasHeight - (canvasHeight - gridBot)/2;
 
-    var startX = this.crossButton.left - (CROSS_BTN_WIDTH + NUMBER_BALL_RAD + NUMBER_BALL_PADDING);
-    var startY = this.crossButton.top;
+    var startX = crossButtonLeft - (CROSS_BTN_WIDTH + NUMBER_BALL_RAD + NUMBER_BALL_PADDING);
+    var startY = crossButtonTop;
 
     // Move piece to "new piece location" and set opacity to zero,
     _piece.set({left: startX, 
@@ -852,8 +878,11 @@ Level.prototype.addBall = function(_piece)
 
 Level.prototype.updateBalls = function()
 {
-    var startX = this.crossButton.left - (CROSS_BTN_WIDTH + NUMBER_BALL_RAD + NUMBER_BALL_PADDING);
-    var startY = this.crossButton.top;
+    var crossButtonLeft = canvasCenterX - CROSS_BTN_WIDTH;
+    var crossButtonTop = canvasHeight - (canvasHeight - gridBot)/2;
+    
+    var startX = crossButtonLeft - (CROSS_BTN_WIDTH + NUMBER_BALL_RAD + NUMBER_BALL_PADDING);
+    var startY = crossButtonTop;
 
     // Set up animation for all balls to move to new position
     for (var i = 0; i < this.balls.length; i++) {
@@ -936,7 +965,7 @@ Level.prototype.ballDropped = function(ball)
 Level.prototype.joinLynes = function(lyne)
 {
 
-    // Courtesy check, return if there are only two lines on board
+    // Courtesy check
     if (this.levelOptions.lineAddition !== "on") {return;}
 
 
@@ -998,6 +1027,24 @@ Level.prototype.joinLynes = function(lyne)
     }
 
     return result_bool;
+}
+
+Level.prototype.joinAllLynes = function()
+{
+    var lineJoinedBool = true;
+
+    while (lineJoinedBool) {
+        lineJoinedBool = false;
+
+        for (var i = 0; i < this.lynes.length; i++) {
+            lineJoinedBool = this.joinLynes(this.lynes[i]);
+            if (lineJoinedBool) {
+                break;
+            }
+        }
+
+    }
+
 }
 
 

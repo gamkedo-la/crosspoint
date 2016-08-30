@@ -110,7 +110,7 @@ var FollowLyne = fabric.util.createClass( fabric.Group,
             currentLevel.addPiece(newLyne);
 
             // Call level updates for Lyne
-            currentLevel.joinLynes(newLyne);
+            // currentLevel.joinLynes(newLyne); // Commented out 2016-08-30, add button implemented
 
             // Remove temporary oject from level
             currentLevel.removePiece(this);
@@ -547,7 +547,9 @@ var DropLyne = fabric.util.createClass(
         addToLevel: function() {
             // canvas.remove(this.lyne); 
             // currentLevel.addPiece(this.lyne);
-            currentLevel.joinLynes(this.lyne);
+
+            // currentLevel.joinLynes(this.lyne); // Commented out 2016-08-30, add button implemented
+            
             currentLevel.markCrossLynes();
         },
         
