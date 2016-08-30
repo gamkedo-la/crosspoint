@@ -14,7 +14,7 @@ function creditsLoadElements() {
 
     // Credits Text
     credits_string.projectlead = "Project Lead, Programming, UX/UI:\n     Erik Verlage";
-    credits_string.sounds = "Sound and Music:\n     Micky Turner";
+    credits_string.sounds = "Sound and Music:\n     Micky Turner\n     Lily Pixie";
     credits_string.colors = "Color Consultant:\n     Sasha Reneau";
     credits_string.levels = "Puzzle Design:\n     Erik Verlage\n     Tim Waskett\n     Chris Deleon\n     Jeremy Kenyon\n     Chris Markle\n     Micky Turner\n     Paul Diaz";
     credits_string.icons = "Level Card Icon Generator:\n     Chris Deleon";
