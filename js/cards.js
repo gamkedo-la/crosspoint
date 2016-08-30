@@ -205,6 +205,8 @@ var VideoCard = fabric.util.createClass( LevelCard,
 
         displayUnplayable: function() {
 
+            if(this.completed) {return;}
+
             this.selectable = false;
 
             // Change appearance to visible card
@@ -215,6 +217,9 @@ var VideoCard = fabric.util.createClass( LevelCard,
         },
 
         displayPlayable: function() {
+
+            if(this.completed) {return;}
+
             this.playable = true;
             this.selectable = true;
 
@@ -319,6 +324,15 @@ var CardOrganizer = fabric.util.createClass(
 
         levelWasLoaded: function(track, levelNumber) {
             this.cards[track][levelNumber].displayPlayable();
+
+            canvas_levels.renderAll();
+        },
+
+        displayAllFromTrack: function(track) {
+            for(var i=0; i < this.cards[track].length; i++){
+                this.cards[track][i].displayPlayable();
+            }
+            
 
             canvas_levels.renderAll();
         },

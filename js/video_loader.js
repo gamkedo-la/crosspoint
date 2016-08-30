@@ -15,6 +15,10 @@ function drawVideo(v,c,w,h) {
         currentLevelLoader.loadNextLevel();
 
 
+        // CURRENT LEVEL SETTINGS
+        currentLevelLoader.activateAllLevelsInCurrentTrack();
+
+
         return false;
     }
     c.drawImage(v,0,0,w,h);

@@ -22,35 +22,35 @@ linkVideoToCanvas(video_blue);
 // Level list
 var levelOrderArray = [ // Track 1
                         [ {video: video_purple,         playable: true,  card: card_video_play}, 
-                          {level: level_keyhole,        playable: true,  card: card_house}, 
-                          {level: level_heart,          playable: true,  card: card_house}, 
-                          {level: level_house1,         playable: true,  card: card_house}, 
-                          {level: level_japan_bridge,   playable: true,  card: card_house}, 
-                          {level: level_tangram_easy,   playable: true,  card: card_house}, 
+                          {level: level_keyhole,        playable: false,  card: card_house}, 
+                          {level: level_heart,          playable: false,  card: card_house}, 
+                          {level: level_house1,         playable: false,  card: card_house}, 
+                          {level: level_japan_bridge,   playable: false,  card: card_house}, 
+                          {level: level_tangram_easy,   playable: false,  card: card_house}, 
                         ],
                         // Track 2
                         [ {video: video_red,            playable: true,  card: card_video_lines}, 
-                          {level: level_candlelight,    playable: true,  card: card_house}, 
-                          {level: level_hourglass,      playable: true,  card: card_house},
-                          {level: level_boxFace,        playable: true,  card: card_house},
-                          {level: level_propellor,      playable: true,  card: card_house}, 
-                          {level: level_eye,            playable: true,  card: card_house}, 
+                          {level: level_candlelight,    playable: false,  card: card_house}, 
+                          {level: level_hourglass,      playable: false,  card: card_house},
+                          {level: level_boxFace,        playable: false,  card: card_house},
+                          {level: level_propellor,      playable: false,  card: card_house}, 
+                          {level: level_eye,            playable: false,  card: card_house}, 
                         ],
                         // Track 3
                         [ {video: video_aqua,           playable: true,  card: card_video_area}, 
-                          {level: level_0_0,            playable: true,  card: card_house}, 
-                          {level: level_airplane1,      playable: true,  card: card_house}, 
-                          {level: level_goblet,         playable: true,  card: card_house}, 
-                          {level: level_SwordShield,    playable: true,  card: card_house}, 
-                          {level: level_helicopter,     playable: true,  card: card_house}, 
+                          {level: level_0_0,            playable: false,  card: card_house}, 
+                          {level: level_airplane1,      playable: false,  card: card_house}, 
+                          {level: level_goblet,         playable: false,  card: card_house}, 
+                          {level: level_SwordShield,    playable: false,  card: card_house}, 
+                          {level: level_helicopter,     playable: false,  card: card_house}, 
                         ],
                         // Track 4
                         [ {video: video_orange,         playable: true,  card: card_video_plus}, 
-                          {level: level_percent,        playable: true,  card: card_house}, 
-                          {level: level_wizard,         playable: true,  card: card_house},
-                          {level: level_controller,     playable: true,  card: card_house}, 
-                          {level: level_cat_face,       playable: true,  card: card_house},
-                          {level: level_cropcircles,    playable: true,  card: card_house},  
+                          {level: level_percent,        playable: false,  card: card_house}, 
+                          {level: level_wizard,         playable: false,  card: card_house},
+                          {level: level_controller,     playable: false,  card: card_house}, 
+                          {level: level_cat_face,       playable: false,  card: card_house},
+                          {level: level_cropcircles,    playable: false,  card: card_house},  
                         ],
                         // Track 5
                         [ {video: video_green,          playable: true,  card: card_video_cross}, 
@@ -357,6 +357,14 @@ LevelLoader.prototype.loadNextLevel = function()
         // Return to menu
         switchCanvas("level");
     }
+}
+
+LevelLoader.prototype.activateAllLevelsInCurrentTrack = function()
+{
+    // load the next level in track, if end of track return to level menu.
+    var track = this.lastLevelLoaded[0];
+
+    currentCardOrganizer.displayAllFromTrack(track);
 }
 
 LevelLoader.prototype.reloadCurrentLevel = function()
