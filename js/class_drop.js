@@ -32,14 +32,15 @@ var FollowLyne = fabric.util.createClass( fabric.Group,
                       originY: 'center',});
 
             // ---- COPIED FROM LYNE CLASS -------
-
             if (currentLevel.levelOptions.lineAddition === "on") 
             {
                 // calculate line coordinates
                 distance_along_line_reverse(coords, LYNE_END_RAD);
             }
 
-            
+            // create circles and line and add them to canvas
+
+            // Line
             this.line = new fabric.Line(coords, 
                 {   stroke: color_main_DK,
                     strokeWidth: LYNE_STROKEWIDTH,
@@ -47,17 +48,28 @@ var FollowLyne = fabric.util.createClass( fabric.Group,
                     originY: 'center', 
                 }
             );
+            this.addWithUpdate(this.line);
 
-            this.startCircle = new fabric.Circle(
-                {   left: this.startPoint.x, 
-                    top:  this.startPoint.y, 
-                    radius: LYNE_START_RAD, 
-                    fill: color_main_DK, 
-                    originX: 'center', 
-                    originY: 'center',
-                }
-            );
+            if(currentLevel.levelOptions.lineAddition !== "on") {
+                this.line.set({strokeLineCap: 'round'});
+            }
 
+            // Start Cirlce
+            if (currentLevel.levelOptions.lineAddition === "on" || currentLevel.levelOptions.crossButton !== "none") 
+            {
+                this.startCircle = new fabric.Circle(
+                    {   left: this.startPoint.x, 
+                        top:  this.startPoint.y, 
+                        radius: LYNE_START_RAD, 
+                        fill: color_main_DK, //BUTTON_COLOR
+                        originX: 'center', 
+                        originY: 'center',
+                    }
+                );
+                this.addWithUpdate(this.startCircle);
+            }
+
+            // End Circle
             if (currentLevel.levelOptions.lineAddition === "on") 
             {
                 this.endCircle = new fabric.Circle(
@@ -82,10 +94,30 @@ var FollowLyne = fabric.util.createClass( fabric.Group,
                     }
                 );
             }
+            this.addWithUpdate(this.endCircle);  
 
-            this.addWithUpdate(this.startCircle);
-            this.addWithUpdate(this.line);
-            this.addWithUpdate(this.endCircle);
+            // Create End Circle Control for changing orientation of vector
+            this.lyneEndControl = new LyneEndControl(this, this.endPoint, this.endCircle.radius);
+
+
+            // Cross product visual
+            if (currentLevel.levelOptions.crossButton !== "none") 
+            {
+                this.startSquare = new fabric.Rect(
+                    {   originX: 'center', 
+                        originY: 'center',
+                        left: this.startPoint.x, 
+                        top:  this.startPoint.y, 
+                        width: LYNE_START_SQUARE_WIDTH, 
+                        height: LYNE_START_SQUARE_WIDTH, 
+                        fill: BACKGROUND_COLOR, 
+                        stroke: BACKGROUND_COLOR, 
+                        strokeWidth: 0, 
+                    }
+                );
+                this.addWithUpdate(this.startSquare);
+            }
+
 
 
         },
@@ -549,7 +581,7 @@ var DropLyne = fabric.util.createClass(
             // currentLevel.addPiece(this.lyne);
 
             // currentLevel.joinLynes(this.lyne); // Commented out 2016-08-30, add button implemented
-            
+
             currentLevel.markCrossLynes();
         },
         

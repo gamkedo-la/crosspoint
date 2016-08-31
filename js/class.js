@@ -166,6 +166,7 @@ var Lyne = fabric.util.createClass(LevelPiece,
 
             // create circles and line and add them to canvas
 
+            // Line
             this.line = new fabric.Line(coords, 
                 {   stroke: color_main_DK,
                     strokeWidth: LYNE_STROKEWIDTH,
@@ -173,20 +174,28 @@ var Lyne = fabric.util.createClass(LevelPiece,
                     originY: 'center', 
                 }
             );
-
-            this.startCircle = new fabric.Circle(
-                {   left: this.startPoint.x, 
-                    top:  this.startPoint.y, 
-                    radius: LYNE_START_RAD, 
-                    fill: color_main_DK, //BUTTON_COLOR
-                    originX: 'center', 
-                    originY: 'center',
-                }
-            );
-
             this.addWithUpdate(this.line);
-            this.addWithUpdate(this.startCircle);
 
+            if(currentLevel.levelOptions.lineAddition !== "on") {
+                this.line.set({strokeLineCap: 'round'});
+            }
+
+            // Start Cirlce
+            if (currentLevel.levelOptions.lineAddition === "on" || currentLevel.levelOptions.crossButton !== "none") 
+            {
+                this.startCircle = new fabric.Circle(
+                    {   left: this.startPoint.x, 
+                        top:  this.startPoint.y, 
+                        radius: LYNE_START_RAD, 
+                        fill: color_main_DK, //BUTTON_COLOR
+                        originX: 'center', 
+                        originY: 'center',
+                    }
+                );
+                this.addWithUpdate(this.startCircle);
+            }
+
+            // End Circle
             if (currentLevel.levelOptions.lineAddition === "on") 
             {
                 this.endCircle = new fabric.Circle(
@@ -217,6 +226,7 @@ var Lyne = fabric.util.createClass(LevelPiece,
             this.lyneEndControl = new LyneEndControl(this, this.endPoint, this.endCircle.radius);
 
 
+            // Cross product visual
             if (currentLevel.levelOptions.crossButton !== "none") 
             {
                 this.startSquare = new fabric.Rect(
@@ -245,8 +255,13 @@ var Lyne = fabric.util.createClass(LevelPiece,
 
         mouseOver: function() {
             if (this.selectable) {
+                // Line
                 this.line.set('strokeWidth', LYNE_STROKEWIDTH + LYNE_HOVER_GROWTH);
-                this.startCircle.set('radius', LYNE_START_RAD + LYNE_HOVER_GROWTH);
+                // Start Circle
+                if (this.startCircle) {
+                    this.startCircle.set('radius', LYNE_START_RAD + LYNE_HOVER_GROWTH);
+                }
+                // End Cirlce
                 if (currentLevel.levelOptions.lineAddition === "on") {
                     this.endCircle.set('strokeWidth', LYNE_END_STROKEWIDTH + LYNE_HOVER_GROWTH); 
                 } else {
@@ -260,8 +275,13 @@ var Lyne = fabric.util.createClass(LevelPiece,
         },
 
         mouseOut: function() {
+            // Line
             this.line.set('strokeWidth', LYNE_STROKEWIDTH);
-            this.startCircle.set('radius', LYNE_START_RAD);
+            // Start Cirlce
+            if (this.startCircle) {
+                this.startCircle.set('radius', LYNE_START_RAD);
+            }
+            // End Circle
             if (currentLevel.levelOptions.lineAddition === "on") {
                 this.endCircle.set('strokeWidth', LYNE_END_STROKEWIDTH);
             } else {

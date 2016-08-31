@@ -18,7 +18,7 @@ function creditsLoadElements() {
     credits_string.colors = "Color Consultant:\n     Sasha Reneau";
     credits_string.levels = "Puzzle Design:\n     Erik Verlage\n     Tim Waskett\n     Chris Deleon\n     Jeremy Kenyon\n     Chris Markle\n     Micky Turner\n     Paul Diaz";
     credits_string.icons = "Level Card Icon Generator:\n     Chris Deleon";
-    credits_string.special = "Level Testers:\n     Alex Verlage\n     Midori Shibuya\n     Sarah Haney\n\nSpecial Thanks:\n     Listvetra\n     http://subtlepatterns.com/";
+    credits_string.special = "Level Testers:\n     Alex Verlage\n     Sunita Darbe\n     Midori Shibuya\n     Sarah Haney\n\nSpecial Thanks:\n     Listvetra\n     http://subtlepatterns.com/";
     
 
     // Make credits objects
