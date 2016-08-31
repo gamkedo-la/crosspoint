@@ -251,7 +251,7 @@ Level.prototype.loadBoard = function()
 
 
     // Create Level buttons (add, cross, etc.)
-    if(rendLevelCardsMode==false && clearAllBool === false) {
+    if(rendLevelCardsMode==false) {
 
        
         if (this.levelOptions.lineAddition === "on" && this.levelOptions.crossButton !== "none") {
@@ -358,8 +358,8 @@ Level.prototype.updateBoard = function()
     }
 
     // buttons
-    if(this.levelOptions.crossButton !== "none") {this.crossButton.bringToFront();}
-    if(this.levelOptions.lineAddition === "on") {this.addButton.bringToFront();}
+    if(this.crossButton) {this.crossButton.bringToFront();}
+    if(this.addButton) {this.addButton.bringToFront();}
     
 
     // TEMP LEVEL WIN MESSAGE
@@ -880,7 +880,7 @@ Level.prototype.updateBalls = function()
 {
     var crossButtonLeft = canvasCenterX - CROSS_BTN_WIDTH;
     var crossButtonTop = canvasHeight - (canvasHeight - gridBot)/2;
-    
+
     var startX = crossButtonLeft - (CROSS_BTN_WIDTH + NUMBER_BALL_RAD + NUMBER_BALL_PADDING);
     var startY = crossButtonTop;
 

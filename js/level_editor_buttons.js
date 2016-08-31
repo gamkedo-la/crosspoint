@@ -15,6 +15,7 @@ var editorDiv = document.getElementById("editor");
 // Option buttons and text fields
 var deleteBtn = document.getElementById("deleteButton");
 var clearBtn = document.getElementById("clearAllButton");
+var stopMusicBtn = document.getElementById("StopMusicButton");
 var levelName = document.getElementById("levelNameField");
 var levelCreator = document.getElementById("levelCreatorField");
 var saveBtn = document.getElementById("saveButton");
@@ -42,6 +43,11 @@ clearBtn.onclick = function(){
     currentEditor.clearAll();
 }
 
+// Stop Music
+stopMusicBtn.onclick = function(){
+    console.log("Stop music");
+    stopMusic();
+}
 
 // Save Level
 saveBtn.onclick = function(){

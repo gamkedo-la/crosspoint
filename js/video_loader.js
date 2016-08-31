@@ -11,12 +11,13 @@ function drawVideo(v,c,w,h) {
         currentLevelLoader.solvedCurrentLevel();
 
         // Load next level
-        switchCanvas("game");
-        currentLevelLoader.loadNextLevel();
+        // switchCanvas("game");
+        // currentLevelLoader.loadNextLevel();
 
 
         // CURRENT LEVEL SETTINGS
         currentLevelLoader.activateAllLevelsInCurrentTrack();
+        switchCanvas("level");
 
 
         return false;
