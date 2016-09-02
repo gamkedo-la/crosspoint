@@ -8,16 +8,45 @@ canvas_levels.backgroundColor = 'white';
 
 
 var back_MENU_LEVELS;
+var youtube_MENU_LEVELS;
+var math_MENU_LEVELS;
+var khan_MENU_LEVELS;
+var phet_MENU_LEVELS;
 function levelsLoadElements() {
 
     var startX = canvasWidth - BUTTON_LONG_PADDINGX - BUTTON_LONG_WIDTH/2;
     var startY = BUTTON_LONG_PADDINGY + BUTTON_LONG_HEIGHT/2;
 
-    // Levels button
-    back_MENU_LEVELS = new MenuLongButtonXP({x: startX, y: startY}, logo_xp);
+    var leftX = (startX - BUTTON_LONG_WIDTH/4 - BUTTON_LONG_BUFFERY/2)
+    var rightX = (startX + BUTTON_LONG_WIDTH/4 + BUTTON_LONG_BUFFERY/2)
+
+    // Buttons
+    var newY = startY;
+    back_MENU_LEVELS = new MenuLongButtonXP({x: startX, y: newY}, logo_xp);
     canvas_levels.add(back_MENU_LEVELS);
 
-    //BUTTON_LONG_BUFFERY
+    // Youtube
+    newY = newY + BUTTON_LONG_HEIGHT + BUTTON_LONG_BUFFERY;
+    youtube_MENU_LEVELS = new MenuLongButtonWebsite({x: startX, y: newY}, logo_math, "http://www.google.com");
+    canvas_levels.add(youtube_MENU_LEVELS);
+
+    // OUTSIDE RESOURCES
+
+    // Learn the Math!
+    newY = newY + BUTTON_LONG_HEIGHT + BUTTON_LONG_BUFFERY;
+    math_MENU_LEVELS = new MenuLongButtonWebsite({x: startX, y: newY}, logo_LearnTheMath, "http://www.google.com");
+    canvas_levels.add(math_MENU_LEVELS);
+
+
+
+    // newY = newY + BUTTON_LONG_HEIGHT + BUTTON_LONG_BUFFERY;
+    // // Phet (left)
+    // phet_MENU_LEVELS= new MenuButtonWebsiteSmall({x: leftX, y: newY}, logo_PhET, "https://phet.colorado.edu/en/simulation/vector-addition");
+    // canvas_levels.add(phet_MENU_LEVELS);
+    // // Khan (right)
+    // khan_MENU_LEVELS = new MenuButtonWebsiteSmall({x: rightX, y: newY}, logo_KA, "https://www.khanacademy.org/math/precalculus/vectors-precalc");
+    // canvas_levels.add(khan_MENU_LEVELS);
+    
 } 
 
 

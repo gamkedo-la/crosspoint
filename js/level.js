@@ -334,8 +334,10 @@ Level.prototype.updateBoard = function()
     }
 
     // Grid borders E/W
-    this.gridBorderEast.bringToFront();
-    this.gridBorderWest.bringToFront();
+    if (clearAllBool === false) {
+        this.gridBorderEast.bringToFront();
+        this.gridBorderWest.bringToFront();
+    }
     // Boxes
     for (var i = 0; i < this.boxes.length; i++) {
         this.boxes[i].bringToFront();
@@ -344,9 +346,10 @@ Level.prototype.updateBoard = function()
         this.boxLynes[i].bringToFront();
     }
     // Grid borders N/S
-    this.gridBorderNorth.bringToFront();
-    this.gridBorderSouth.bringToFront();
-
+    if (clearAllBool === false) {
+        this.gridBorderNorth.bringToFront();
+        this.gridBorderSouth.bringToFront();
+    }
     // Temporary objects
     for (var i = 0; i < this.temporary.length; i++) {
         this.temporary[i].bringToFront();

@@ -11,6 +11,60 @@ window.onload = function() {
     loadImages();
 }
 
+function keyPressed(e) {
+
+    if (!clearAllBool) {return;}
+
+    console.log('keydown:' + e.keyCode);
+    if(e.keyCode === 192){
+        // clear
+        currentEditor.clearAll();
+    } else if(e.keyCode === 49){
+        // 1
+        var lineBox = new BoxLyne(1,0);
+        currentLevel.addPiece(lineBox);
+    } else if (e.keyCode === 50) {
+        // 2
+        var lineBox = new BoxLyne(2,0);
+        currentLevel.addPiece(lineBox);
+    } else if (e.keyCode === 51) {
+        // 3
+        var lineBox = new BoxLyne(3,0);
+        currentLevel.addPiece(lineBox);
+    } else if (e.keyCode === 52) {
+        // 4
+        var lineBox = new BoxLyne(4,0);
+        currentLevel.addPiece(lineBox);
+    } else if (e.keyCode === 53) {
+        // 5
+        var lineBox = new BoxLyne(5,0);
+        currentLevel.addPiece(lineBox);
+    } else if (e.keyCode === 81) {
+        // q
+        var lineBox = new BoxLyne(1,1);
+        currentLevel.addPiece(lineBox);
+    } else if (e.keyCode === 87) {
+        // w
+        var lineBox = new BoxLyne(2,2);
+        currentLevel.addPiece(lineBox);
+    } else if (e.keyCode === 69) {
+        // e
+        var lineBox = new BoxLyne(3,4);
+        currentLevel.addPiece(lineBox);
+    } else if (e.keyCode === 82) {
+        // r
+        var lineBox = new BoxLyne(1,2);
+        currentLevel.addPiece(lineBox);
+    } else if (e.keyCode === 84) {
+        // t
+        var lineBox = new BoxLyne(3,1);
+        currentLevel.addPiece(lineBox);
+    } else if (e.keyCode === 76) {
+        // l (lowercase L)
+        editorBtn.hidden = !editorBtn.hidden;
+    }
+}
+
 function imagesLoadedSoStartGame() {
     currentEditor = LevelEditor.init();
 
@@ -86,6 +140,8 @@ function imagesLoadedSoStartGame() {
         }
         canvasParent.style.display = "none";
     }
+
+    document.addEventListener("keydown", keyPressed);
 }
 
 
@@ -115,6 +171,9 @@ function loadGame() {
     console.log("levelOrderArray", levelOrderArray);
     // currentLevelLoader.loadLevel(0,0);
 }
+
+
+
 
     
 

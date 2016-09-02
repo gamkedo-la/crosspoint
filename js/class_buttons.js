@@ -233,6 +233,57 @@ var MenuLongButtonXP = fabric.util.createClass( MenuLongButton,
     }
 );
 
+var MenuLongButtonWebsite = fabric.util.createClass( MenuLongButton,
+    {
+        initialize: function(centerPoint, new_img, weblink) {
+            // Receives centerpoint for button
+
+            this.callSuper('initialize', centerPoint, new_img);
+
+            this.weblink = weblink;
+        },
+
+        onSelected: function() {
+            // Go to Website
+            window.open(this.weblink);
+            stopMusic();
+        },
+        
+    }
+);
+
+var MenuButtonWebsiteSmall = fabric.util.createClass( MenuLongButtonWebsite,
+    {
+        initialize: function(centerPoint, new_img, weblink) {
+            // Receives centerpoint for button
+
+            this.callSuper('initialize', centerPoint, new_img, weblink);
+
+            // Fix box dimensions
+            this.smallWidth = BUTTON_LONG_WIDTH/2 - BUTTON_LONG_BUFFERY/2;
+            this.box.set({width : this.smallWidth}); 
+
+        },
+
+        mouseOver: function() {
+            // Change color
+            if (this.selectable) {
+                this.box.set({fill: GRAY_MENU_DK, 
+                              width: this.smallWidth * BTN_SCALING_FACTOR,
+                              height: BUTTON_LONG_HEIGHT * BTN_SCALING_FACTOR  });
+            }
+        },
+
+        mouseOut: function() {
+            // Change color
+            this.box.set({fill: GRAY_MENU_LT, 
+                          width: this.smallWidth,
+                          height: BUTTON_LONG_HEIGHT });
+
+        },
+        
+    }
+);
 
 // Main Menu Buttons
 
@@ -339,5 +390,7 @@ var MainMenuCreditsButton = fabric.util.createClass( fabric.Group,
         
     }
 );
+
+
 
 // MainMenuCreditsButton.prototype.perPixelTargetFind = false;
