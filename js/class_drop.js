@@ -510,6 +510,13 @@ var DropLyne = fabric.util.createClass(
             this.startPoint = gridPointsToCoords(this.startGridPoint);    
             this.endPoint = null;
 
+            // TEMP FOR ROTATION 2016-09-01, TO REMOVE -------------
+            // this.endGridPoint = {x: gridPoint.x + gridWidth, y: gridPoint.y + gridHeight};
+            // this.lyneLength = Math.sqrt(gridWidth*gridWidth + gridHeight*gridHeight);
+            // var newLyne = new Lyne([this.startGridPoint, this.endGridPoint]);
+            // this.lyne = newLyne;
+            //------------------------------------------------------
+
             // REMOVED BY ERIK 2016-07-22
             // this.startCircle = new fabric.Circle(
             //     { left: this.startPoint.x, 
@@ -545,8 +552,10 @@ var DropLyne = fabric.util.createClass(
 
             // Calculate new angle
             var angle = getAngleFromPoints(this.startPoint, {x: mouse_e.offsetX, y: mouse_e.offsetY});
-            var newIndx = 0;
+            // var newIndx = 0;
 
+
+            
             // If angle falls in new category, create new line
             for (var i = 0; i < this.angles.length; i++) {
                 if ( angleInRange(angle, this.angles[i], this.angles[(i+1)%(this.angles.length)]) ) {
@@ -566,8 +575,24 @@ var DropLyne = fabric.util.createClass(
             this.indx = newIndx;
             this.endGridPoint = {x: (this.startGridPoint.x + this.points[newIndx].x),
                              y: (this.startGridPoint.y + this.points[newIndx].y)};
+            
 
-            // Add new Lyne to group
+
+            // TEMP FOR ROTATION 2016-09-01, TO REMOVE -------------
+            // console.log("angle", angle);
+            // console.log("angle rad", angle * Math.PI/180);
+            // var plusX = this.lyneLength * Math.cos(angle * Math.PI/180);
+            // var plusY = this.lyneLength * Math.sin(angle * Math.PI/180);
+            // this.endGridPoint = {x: (this.startGridPoint.x + plusX),
+            //                  y: (this.startGridPoint.y - plusY)};
+            // // Remove old line from canvas
+            // if (this.lyne) {currentLevel.removePiece(this.lyne);}
+            //------------------------------------------------------
+
+
+            
+
+            // // Add new Lyne to group
             var newLyne = new Lyne([this.startGridPoint, this.endGridPoint]);
             this.lyne = newLyne;
             currentLevel.addPiece(this.lyne);

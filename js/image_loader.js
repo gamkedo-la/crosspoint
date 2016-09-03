@@ -4,9 +4,13 @@ var logo_CrossPoint = document.createElement("img");
 var logo_grid = document.createElement("img");
 var logo_xp = document.createElement("img");
 var logo_math = document.createElement("img");
-var logo_PhET = document.createElement("img");
-var logo_KA = document.createElement("img");
+var logo_xyz = document.createElement("img");
+// var logo_PhET = document.createElement("img");
+// var logo_KA = document.createElement("img");
 var logo_LearnTheMath = document.createElement("img");
+var logo_lineRotation = document.createElement("img");
+var logo_units = document.createElement("img");
+var logo_mywebsite = document.createElement("img");
 
 // ----------- Boards -----------------
 var board_purple = document.createElement("img");
@@ -66,9 +70,13 @@ function loadImages() {
         {varName: logo_xp, fileName: "logo_xp.png"},
         {varName: logo_grid, fileName: "grid_400_400_purple_bright.png"},
         {varName: logo_math, fileName: "mathEquationABC.png"},
-        {varName: logo_PhET, fileName: "logo_PhET.png"},
-        {varName: logo_KA, fileName: "logo_Khan.png"},
+        {varName: logo_xyz, fileName: "logo_xyz.png"},
+        // {varName: logo_PhET, fileName: "logo_PhET.png"},
+        // {varName: logo_KA, fileName: "logo_Khan.png"},
         {varName: logo_LearnTheMath, fileName: "logo_LearnTheMath.png"},
+        {varName: logo_lineRotation, fileName: "logo_lineRotation.png"},
+        {varName: logo_units, fileName: "logo_units.png"},
+        {varName: logo_mywebsite, fileName: "logo_mywebsite.png"},
 
         {varName: board_purple, fileName: "grid_400_400_purple.png"},
         {varName: board_red, fileName: "grid_400_400_red.png"},

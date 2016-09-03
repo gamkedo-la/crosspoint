@@ -6,6 +6,7 @@ canvas_credits.hoverCursor = 'pointer';
 canvas_credits.backgroundColor = 'white';
 
 var back_MENU_CREDITS;
+var myWebsite_MENU_LEVELS;
 var credits_string = {};
 var credits_obj = {};
 function creditsLoadElements() {
@@ -18,7 +19,7 @@ function creditsLoadElements() {
     credits_string.colors = "Color Consultant:\n     Sasha Reneau";
     credits_string.levels = "Puzzle Design:\n     Erik Verlage\n     Tim Waskett\n     Chris Deleon\n     Jeremy Kenyon\n     Chris Markle\n     Micky Turner\n     Paul Diaz";
     credits_string.icons = "Level Card Icon Generator:\n     Chris Deleon";
-    credits_string.special = "Level Testers:\n     Alex Verlage\n     Sunita Darbe\n     Midori Shibuya\n     Sarah Haney\n\nSpecial Thanks:\n     Listvetra\n     http://subtlepatterns.com/";
+    credits_string.special = "Level Testers:\n     Alex Verlage\n     Sunita Darbe\n     Midori Shibuya\n     Sarah Haney\n     Kelsey Murphy\n\nSpecial Thanks:\n     Listvetra\n     http://subtlepatterns.com/";
     
 
     // Make credits objects
@@ -54,6 +55,11 @@ function creditsLoadElements() {
     // Buttons
     back_MENU_CREDITS = new MenuHomeButton({x: BTN_PADDINGX + BTN_WIDTH/2 , y: BTN_PADDINGY + BTN_HEIGHT/2});
     canvas_credits.add(back_MENU_CREDITS);
+
+    newX = canvasWidth - startX - 40;
+    newY = startY + BUTTON_LONG_HEIGHT/2;
+    myWebsite_MENU_LEVELS = new MenuLongButtonImageWebsite({x: newX, y: newY}, logo_mywebsite, "http://everlage.wixsite.com/mysite");
+    canvas_credits.add(myWebsite_MENU_LEVELS);
 }   
 
 canvas_credits.on({

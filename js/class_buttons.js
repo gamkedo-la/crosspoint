@@ -222,6 +222,27 @@ var MenuLongButtonXP = fabric.util.createClass( MenuLongButton,
             // Receives centerpoint for button
 
             this.callSuper('initialize', centerPoint, new_img);
+
+            this.box.set({fill: PURPLE_ULTRALIGHT , 
+                          stroke: FOREGROUND_LINE_COLOR ,
+                          strokeWidth: 3});
+        },
+
+        mouseOver: function() {
+            // Change color
+            if (this.selectable) {
+                this.box.set({ fill: PURPLE_LT , 
+                              width: BUTTON_LONG_WIDTH * BTN_SCALING_FACTOR,
+                              height: BUTTON_LONG_HEIGHT * BTN_SCALING_FACTOR  });
+            }
+        },
+
+        mouseOut: function() {
+            // Change color
+            this.box.set({ fill: PURPLE_ULTRALIGHT , 
+                          width: BUTTON_LONG_WIDTH,
+                          height: BUTTON_LONG_HEIGHT });
+
         },
 
         onSelected: function() {
@@ -247,6 +268,35 @@ var MenuLongButtonWebsite = fabric.util.createClass( MenuLongButton,
             // Go to Website
             window.open(this.weblink);
             stopMusic();
+        },
+        
+    }
+);
+
+var MenuLongButtonImageWebsite = fabric.util.createClass( MenuLongButtonWebsite,
+    {
+        initialize: function(centerPoint, new_img, weblink) {
+            // Receives centerpoint for button
+
+            this.callSuper('initialize', centerPoint, new_img, weblink);
+
+            // Erase box
+            this.box.set({visible: false}); 
+
+            // Store img info
+            this.imageHeight = this.img.height;
+            this.imageWidth = this.img.width;
+
+        },
+
+        mouseOver: function() {
+            this.img.set({width: this.imageWidth * BTN_SCALING_FACTOR,
+                            height: this.imageHeight * BTN_SCALING_FACTOR,});
+        },
+
+        mouseOut: function() {
+            this.img.set({width: this.imageWidth,
+                            height: this.imageHeight,});
         },
         
     }
