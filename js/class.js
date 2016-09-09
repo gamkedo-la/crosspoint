@@ -1449,7 +1449,7 @@ var SolutionManager = fabric.util.createClass(
 
                     if (element) {
                         // Current element not found in this solution, move to next solution set
-                        continue;
+                        break;
                     }
 
                     if(j === (gridPoints.length -1) && solutionClone.length === 0) {
